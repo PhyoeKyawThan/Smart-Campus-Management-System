@@ -47,7 +47,7 @@ def valid_datas(datas: dict) -> list:
     """
     validated_data = []
     for data in list(datas.values()):
-        if data is not None:
+        if data is not None and type(data) != type(int()):
             validated_data.append(data.strip())
         else:
             validated_data.append(data)
