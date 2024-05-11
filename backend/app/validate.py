@@ -40,3 +40,19 @@ def check_admin_in_session()->bool:
     except Exception as err:
         print(err)
         return False
+
+def valid_datas(datas: dict) -> list:
+    """
+    summery: this function will take dict as arg and remove space before and after of each data and return validated list
+    """
+    validated_data = []
+    for data in list(datas.values()):
+        if data is not None:
+            validated_data.append(data.strip())
+        else:
+            validated_data.append(data)
+    if "" in validated_data:
+        return False
+    if None in validated_data:
+            return False
+    return True

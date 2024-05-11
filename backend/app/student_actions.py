@@ -1,7 +1,7 @@
 from flask import Blueprint, request, render_template, redirect, jsonify, abort
 from .models import Student
 from . import db
-from .validate import student_exists, check_admin_in_session
+from .validate import student_exists, check_admin_in_session, valid_datas
 student = Blueprint("student", __name__)
 
 @student.route("/register", methods=["POST"])
@@ -72,6 +72,11 @@ def edit_student_info(student_id):
         if not check_admin_in_session():
             abort(401)
         edit_data = request.get_json()
+        if not valid_datas(edit_data):
+            return jsonify({
+                "status": 403,
+                "message": "Be sure your update datas all set"
+            }), 403
         try:
             edit_student = Student.query.get(student_id)
             if edit_student:
