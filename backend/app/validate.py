@@ -1,12 +1,12 @@
 from .models import Student, Admin
 from flask import session
 
-def student_exists(name: str, roll_no: str)->bool:
+def student_exists(roll_no: str)->bool:
     """
-    parems: name, roll_no
+    parems: roll_no
     summery: check the student is already exists or not by name and roll_no and return boolean result
     """
-    student = Student.query.filter_by(name=name, roll_no=roll_no).first()
+    student = Student.query.filter_by(roll_no=roll_no).first()
     if student:
         return True
     return False
@@ -28,7 +28,6 @@ def check_admin_in_session()->bool:
             try:
                 admin = session["current_admin"]
                 admin = Admin.query.filter_by(username=admin["username"], password=admin["password"]).first()
-                print(admin)
                 if admin:
                     return True
                 return False

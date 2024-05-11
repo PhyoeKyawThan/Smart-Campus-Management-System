@@ -1,5 +1,5 @@
 from . import db
-from datetime import datetime
+from datetime import datetime, timedelta
 
 class Admin(db.Model):
     __tablename__ = "admin"
@@ -15,36 +15,42 @@ class Student(db.Model):
     __tablename__ = "student"
 
     student_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.String(20), nullable=False)
-    picture = db.Column(db.String(100), nullable=False)
+    name = db.Column(db.String(50), nullable=False)
+    picture_uri = db.Column(db.String(255), nullable=False)
     roll_no = db.Column(db.String(10), nullable=False)
     current_semester = db.Column(db.Integer, nullable=False)
     nrc = db.Column(db.String(100), nullable=False)
-    father = db.Column(db.String(20), nullable=False)
+    father_name = db.Column(db.String(50), nullable=False)
     address = db.Column(db.String(255), nullable=False)
     phone_no = db.Column(db.String(15), nullable=False)
     email = db.Column(db.String(200), nullable=True)
+    register_date = db.Column(db.DateTime, default=datetime.utcnow)
 
-    def __init__(self,
-                  name: str,
-                  picture_uri: str,
-                  roll_no: str,
-                  current_semester: str,
-                  nrc: str,
-                  father: str,
-                  address: str,
-                  phone_no: str,
-                  email: str
-                    ) -> None:
-        self.name = name
-        self.picture_uri = picture_uri
-        self.roll_no = roll_no
-        self.current_semester = current_semester
-        self.nrc = nrc
-        self.father = father
-        self.address = address
-        self.phone_no = phone_no
-        self.email = email        
-
+    def is_new_student(self) -> bool:
+        """
+        summery: this function will check student is new or not by their current_semester
+        return_type: boolean
+        """
+        return True if self.current_semester == 1 else False
+    
     def __str__(self) -> str:
         return f"name - {self.name}, roll_no - {self.roll_no}"
+    
+class Teacher(db.Model):
+    __tablename__ = "teacher"
+
+    teacher_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(50), nullable=False)
+    picture_uri = db.Column(db.String(255), nullable=False)
+    department = db.Column(db.String(150), nullable=False)
+    position = db.Column(db.String(100), nullable=False)
+    nrc = db.Column(db.String(100), nullable=False)
+    father_name = db.Column(db.String(50), nullable=False)
+    address = db.Column(db.String(255), nullable=False)
+    phone_no = db.Column(db.String(15), nullable=False)
+    email = db.Column(db.String(200), nullable=True)
+    register_date = db.Column(db.DateTime, default=datetime.now())
+
+    def __str__(self) -> str:
+        return f"<teacher_id: {self.teacher_id}, name: {self.name}"
+    

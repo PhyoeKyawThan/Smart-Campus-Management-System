@@ -1,7 +1,8 @@
-from flask import Blueprint, request, session, render_template, redirect, jsonify
+from flask import Blueprint, request, render_template, redirect, jsonify
 from .models import Student
 from . import db
-from .validate import student_exists
+from datetime import datetime
+from .validate import student_exists, check_admin_in_session
 register = Blueprint("register", __name__)
 
 @register.route("/register", methods=["GET", "POST"])
@@ -13,28 +14,33 @@ def register_student():
     summery: take student register data (json) and add to Student table
     """
     if request.method == "POST":
+        if not check_admin_in_session():
+            return jsonify({
+                "status": 401,
+                "message": "Unauthorized - Login First"
+            })
         student_data = request.get_json()
         try:
-            if student_exists(student_data["name"],
-                              student_data["roll_no"]):
+            if student_exists(student_data["roll_no"]):
                 return jsonify({
                     "status": 403,
-                    "message": f"Student exists with name - {student_data["name"]} and roll_no - {student_data["roll_no"]}"
-
+                    "message": f"Student exists with roll_no - {student_data["roll_no"]}",
                 })
-            # create student object with new data 
-            new_student = Student(
-            student_data["name"],
-            student_data["picture_uri"],
-            student_data["roll_no"],
-            student_data["current_semester"],
-            student_data["nrc"],
-            student_data["father"],
-            student_data["address"],
-            student_data["phone_no"],
-            student_data["email"]
-        )
+            # create student object
+            new_student = Student()
+            # add incoming data to respective field
+            new_student.name = student_data["name"]
+            new_student.picture_uri = student_data["picture_uri"]
+            new_student.roll_no = student_data["roll_no"]
+            new_student.current_semester = student_data["current_semester"]
+            new_student.nrc = student_data["nrc"]
+            new_student.father_name = student_data["father_name"]
+            new_student.address = student_data["address"]
+            new_student.phone_no = student_data["phone_no"]
+            new_student.email = student_data["email"]
+
             db.session.add(new_student)
+            # commit to database
             db.session.commit()
             db.session.close()
             return jsonify({

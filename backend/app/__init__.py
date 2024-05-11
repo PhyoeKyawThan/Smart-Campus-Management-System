@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 
 # create db object
 db = SQLAlchemy()
@@ -29,3 +30,4 @@ def app():
     return app
 
 app = app()
+migrate = Migrate(app, db)
