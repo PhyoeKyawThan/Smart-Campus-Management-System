@@ -52,7 +52,7 @@ def register_student():
             }), 500
 
 @student.route("/edit_student/<int:student_id>", methods=["POST"])
-def edit_student_info(student_id):
+def edit_student_info(student_id: int):
     """
     request_data: json 
                     keys - name
@@ -106,7 +106,7 @@ def edit_student_info(student_id):
     
 
 @student.route("/get_student/<int:student_id>")
-def get_student_info(student_id):
+def get_student_info(student_id: int):
     """
     summery: get student all info by student_id
     """
