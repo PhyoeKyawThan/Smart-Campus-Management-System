@@ -24,7 +24,7 @@ class Student(db.Model):
     address = db.Column(db.String(255), nullable=False)
     phone_no = db.Column(db.String(15), nullable=False)
     email = db.Column(db.String(200), nullable=True)
-    register_date = db.Column(db.DateTime, default=datetime.utcnow)
+    register_date = db.Column(db.DateTime, default=datetime.now())
 
     def is_new_student(self) -> bool:
         """
@@ -54,3 +54,23 @@ class Teacher(db.Model):
     def __str__(self) -> str:
         return f"<teacher_id: {self.teacher_id}, name: {self.name}"
     
+# class Contact(db.Model):
+#     __tablename__ = "contact"
+
+#     contact_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+#     phone_no = db.Column
+
+def get_student_info() -> list:
+    try:
+        students = db.session.execute(
+                db.select(
+                    Student.student_id,
+                    Student.name,
+                    Student.roll_no,
+                    Student.current_semester,   
+                    Student.register_date
+                )).all()
+        return students
+    except Exception as err:
+        print(err)
+        return list()
