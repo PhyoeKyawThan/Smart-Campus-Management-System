@@ -1,11 +1,11 @@
-from flask import Blueprint, request, render_template, redirect, jsonify
+from flask import Blueprint, request, render_template, redirect, jsonify, abort
 from .models import Student
 from . import db
 from datetime import datetime
 from .validate import student_exists, check_admin_in_session
 register = Blueprint("register", __name__)
 
-@register.route("/register", methods=["GET", "POST"])
+@register.route("/register", methods=["POST"])
 def register_student():
     """
     allow_data_type: json
@@ -14,11 +14,9 @@ def register_student():
     summery: take student register data (json) and add to Student table
     """
     if request.method == "POST":
+        # check admin have already logged in or not 
         if not check_admin_in_session():
-            return jsonify({
-                "status": 401,
-                "message": "Unauthorized - Login First"
-            })
+            abort(401)
         student_data = request.get_json()
         try:
             if student_exists(student_data["roll_no"]):
@@ -53,4 +51,3 @@ def register_student():
                 "status": 500, 
                 "message": "Error while inserting to database"
             })
-    return render_template("errors/method_not_allowed.html")

@@ -17,8 +17,10 @@ def app():
     from .views import views
     from .auth import auth
     from .student_register import register
+    from .errors import errors
     # register_blueprint
     app.register_blueprint(views, url_prefix="/")
+    app.register_blueprint(errors)
     app.register_blueprint(auth, url_prefix="/auth/admin")
     app.register_blueprint(register, url_prefix="/student")
     

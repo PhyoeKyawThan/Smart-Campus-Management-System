@@ -23,6 +23,9 @@ def is_admin(username: str, password: str)->bool:
 
 
 def check_admin_in_session()->bool:
+    """
+    summey: check "current_admin" key in session and check again with database return true if admin is found and false if not
+    """
     try:
         if "current_admin" in session:
             try:
