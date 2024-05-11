@@ -61,6 +61,10 @@ class Teacher(db.Model):
 #     phone_no = db.Column
 
 def get_student_info() -> list:
+    """
+    get all student data( student_id,
+    name, roll_no, current_semester, register_date )
+    """
     try:
         students = db.session.execute(
                 db.select(

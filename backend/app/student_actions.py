@@ -39,7 +39,7 @@ def register_student():
             db.session.add(new_student)
             # commit to database
             db.session.commit()
-            db.session.close()
+            
             return jsonify({
                 'status': 200,
                 'message': "New Student Added"
@@ -51,6 +51,55 @@ def register_student():
                 "message": "Error while inserting to database"
             }), 500
 
+@student.route("/edit_student/<int:student_id>", methods=["POST"])
+def edit_student_info(student_id):
+    """
+    request_data: json 
+                    keys - name
+                           picture_uri
+                           roll_no
+                           current_semester
+                           nrc
+                           father_name
+                           address
+                           phone_no
+                           email
+    method: "POST"
+    summery: request json data 
+    - update student table with getting specified Student object by student_id, 
+    """
+    if request.method == "POST":
+        if not check_admin_in_session():
+            abort(401)
+        edit_data = request.get_json()
+        try:
+            edit_student = Student.query.get(student_id)
+            if edit_student:
+                edit_student.name = edit_data["name"]
+                edit_student.picture_uri = edit_data["picture_uri"]
+                edit_student.roll_no = edit_data["roll_no"]
+                edit_student.current_semester = edit_data["current_semester"]
+                edit_student.nrc = edit_data["nrc"]
+                edit_student.father_name = edit_data["father_name"]
+                edit_student.address = edit_data["address"]
+                edit_student.phone_no = edit_data["phone_no"]
+                edit_student.email = edit_data["email"]
+                
+                # final commit to db
+                db.session.commit()
+                
+                return jsonify({
+                    "status": 200,
+                    "message": f"Student {edit_student.name}'s info updated"
+                }), 200
+        except Exception as err:
+            print(err)
+            return jsonify({
+                "status": 500,
+                "message": "There's problem while updating student datas"
+            }), 500
+    
+
 @student.route("/get_student/<int:student_id>")
 def get_student_info(student_id):
     """
@@ -59,7 +108,7 @@ def get_student_info(student_id):
     if not check_admin_in_session():
         abort(401)
     try: 
-        student = Student.query.filter_by(student_id = student_id).first()
+        student = Student.query.get(student_id)
         if student:
             # format student data as dict to return json
             student_data = {
@@ -105,7 +154,7 @@ def delete_student(student_id):
             if student:
                 db.session.delete(student)
                 db.session.commit()
-                db.session.close()
+                
                 return jsonify({
                     "status": 200,
                     "message": f"Successfully deleted <name - {student.name}>"

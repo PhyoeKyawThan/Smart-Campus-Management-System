@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, jsonify
 
 errors = Blueprint("erorrs", __name__)
 
@@ -13,3 +13,10 @@ def page_not_found(e):
 @errors.app_errorhandler(401)
 def page_not_found(e):
     return render_template("errors/unauthorized.html"), 401
+
+@errors.app_errorhandler(415)
+def page_not_found(e):
+    return jsonify({
+        "status": 415,
+        "message" : "Unsupported Media Type"
+    }), 415
