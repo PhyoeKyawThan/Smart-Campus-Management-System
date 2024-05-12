@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, abort
 from . import db
-from .validate import check_admin_in_session
+from .assets.validate import check_admin_in_session
 
 views = Blueprint("views", __name__)
 

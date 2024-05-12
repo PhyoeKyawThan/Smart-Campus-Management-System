@@ -1,7 +1,7 @@
 from flask import Blueprint, request, render_template, redirect, jsonify, abort
 from .models import Student
 from . import db
-from .validate import student_exists, check_admin_in_session, valid_datas
+from .assets.validate import student_exists, check_admin_in_session, valid_datas
 student = Blueprint("student", __name__)
 
 @student.route("/register", methods=["POST"])

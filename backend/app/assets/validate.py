@@ -1,4 +1,4 @@
-from .models import Student, Admin
+from ..models import Student, Admin
 from flask import session
 
 def student_exists(roll_no: str)->bool:

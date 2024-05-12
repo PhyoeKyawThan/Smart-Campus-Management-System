@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify, session, render_template, redirect, url_for
-from .validate import check_admin_in_session, is_admin
+from .assets.validate import check_admin_in_session, is_admin
 auth = Blueprint("auth", __name__)
 
 @auth.route("/login", methods=["POST"])
