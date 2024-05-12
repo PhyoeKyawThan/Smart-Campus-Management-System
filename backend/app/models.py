@@ -25,6 +25,7 @@ class Student(db.Model):
     phone_no = db.Column(db.String(15), nullable=False)
     email = db.Column(db.String(200), nullable=True)
     register_date = db.Column(db.DateTime, default=datetime.now())
+    track_passes = db.relationship("TrackPass", backref="student", lazy=True, cascade="all, delete")
 
     def is_new_student(self) -> bool:
         """
@@ -50,15 +51,27 @@ class Teacher(db.Model):
     phone_no = db.Column(db.String(15), nullable=False)
     email = db.Column(db.String(200), nullable=True)
     register_date = db.Column(db.DateTime, default=datetime.now())
-
+    track_passes = db.relationship("TrackPass", backref="teacher", lazy=True, cascade="all, delete")
+    
     def __str__(self) -> str:
         return f"<teacher_id: {self.teacher_id}, name: {self.name}"
     
-# class Contact(db.Model):
-#     __tablename__ = "contact"
 
-#     contact_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-#     phone_no = db.Column
+class TrackPass(db.Model):
+    __tablename__ = "trackpass"
+    
+    pass_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    in_time = db.Column(db.DateTime, nullable=True)
+    out_time = db.Column(db.DateTime, nullable=True)
+    student_id = db.Column(db.Integer, db.ForeignKey("student.student_id"))
+    teacher_id = db.Column(db.Integer, db.ForeignKey("teacher.teacher_id"))
+    
+    def __str__(self) -> str:
+        if self.student_id:
+            return f"< student_id: {self.student_id}, pass_id: {self.pass_id} >"
+        if self.teacher_id:
+            return f"< teacher_id: {self.teacher_id}, pass_id: {self.pass_id} >"
+        return "<>"
 
 def get_student_info() -> list:
     """
