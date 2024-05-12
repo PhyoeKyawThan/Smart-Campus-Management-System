@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request, render_template, abort
 from .models import Teacher
 from . import db
-from .assets.validate import is_admin_in_session, teacher_exists
+from .assets.validate import is_admin_in_session, teacher_exists, valid_datas
 teacher = Blueprint("teacher", __name__)
 
 
@@ -19,6 +19,11 @@ def register_teacher():
             abort(401)
         # get teacher info
         teacher_data = request.get_json()
+        if not valid_datas(teacher_data):
+            return jsonify({
+                "status": 403,
+                "message": "Be sure your datas all set"
+            }), 403
         try:
             if teacher_exists(teacher_data["name"],
                               teacher_data["department"],
@@ -55,6 +60,94 @@ def register_teacher():
                 "message": "There is something wrong with the server."
             }), 500
             
+@teacher.route("/edit_teacher/<int:teacher_id>", methods=["POST"])
+def edit_teacher_info(teacher_id: int):
+    """
+    request_data: json 
+                    keys - name
+                           picture_uri
+                           department
+                           position
+                           nrc
+                           father_name
+                           address
+                           phone_no
+                           email
+    method: "POST"
+    summery: request json data 
+    - update student table with getting specified Teacher object by teacher_id, 
+    """
+    if not is_admin_in_session():
+        abort(401)
+    # get updated data
+    edit_data = request.get_json()
+    if not valid_datas(edit_data):
+        return jsonify({
+                "status": 403,
+                "message": "Be sure your update datas all set"
+         }), 403
+    try: 
+        teacher = Teacher.query.get(teacher_id)
+        teacher.name = edit_data["name"]
+        teacher.picture_uri = edit_data["picture_uri"]
+        teacher.department = edit_data["department"]
+        teacher.position = edit_data["position"]
+        teacher.nrc = edit_data["nrc"]
+        teacher.father_name = edit_data["father_name"]
+        teacher.address = edit_data["address"]
+        teacher.phone_no = edit_data["phone_no"]
+        teacher.email = edit_data["email"]
+        
+        # after set edited data and commit to db
+        db.session.commit()
+        return jsonify({
+            "status": 200,
+            "message": f"Succefully Updated - < teacher_id = {teacher.teacher_id}, name = {teacher.name} >"
+        }), 200
+    except Exception as err:
+        print(err)
+        return jsonify({
+            "status": 500,
+            "message": "Error while updating info"
+        }), 500
+
+@teacher.route("/get_teacher/<int:teacher_id>", methods=["GET"])
+def get_teacher_info(teacher_id: int):
+    """ get teacher info their id"""
+    if not is_admin_in_session():
+        abort(401)
+    try: 
+        teacher = Teacher.query.get(teacher_id)
+        if teacher:
+            # format teacher data as dict to return json
+            teacher_data = {
+                "teacher_id": teacher.teacher_id,
+                "name": teacher.name,
+                "picture_uri": teacher.picture_uri,
+                "department": teacher.department,
+                "position": teacher.position,
+                "nrc": teacher.nrc,
+                "father_name": teacher.father_name,
+                "address": teacher.address,
+                "phone_no": teacher.phone_no,
+                "email": teacher.email,
+                "register_date": teacher.register_date
+            }
+            return jsonify({
+                "status": 200,
+                "teacher_info": teacher_data
+            }), 200
+    except Exception as err:
+        print(err)
+        return jsonify({
+            "status": 500,
+            "message": "Error while looking for Teacher"
+        })
+    return jsonify({
+        "status": 404,
+        "message": f"Student ID: {teacher_id} not found or exists"
+    }), 404
+
 @teacher.route("/delete/<int:teacher_id>", methods=["GET"])
 def delete_teacher(teacher_id: int):
     """

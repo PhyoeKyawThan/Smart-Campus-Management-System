@@ -132,7 +132,7 @@ def get_student_info(student_id: int):
             return jsonify({
                 "status": 200,
                 "student_info": student_data
-            }), 202
+            }), 200
     except Exception as err:
         print(err)
         return jsonify({
