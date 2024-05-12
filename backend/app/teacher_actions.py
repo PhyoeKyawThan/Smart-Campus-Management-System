@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request, render_template, abort
 from .models import Teacher
 from . import db
-from .assets.validate import check_admin_in_session, teacher_exists
+from .assets.validate import is_admin_in_session, teacher_exists
 teacher = Blueprint("teacher", __name__)
 
 
@@ -15,7 +15,7 @@ def register_teacher():
     """
     if request.method == "POST":
         # check admin already exist or not
-        if not check_admin_in_session():
+        if not is_admin_in_session():
             abort(401)
         # get teacher info
         teacher_data = request.get_json()
@@ -54,3 +54,29 @@ def register_teacher():
                 "status": 500,
                 "message": "There is something wrong with the server."
             }), 500
+            
+@teacher.route("/delete/<int:teacher_id>", methods=["GET"])
+def delete_teacher(teacher_id: int):
+    """
+    summery: will take student_id as arg and delete if exists
+    """
+    if not is_admin_in_session():
+        abort(401)
+    try:
+        teacher = Teacher.query.get(teacher_id)
+        if teacher:
+            db.session.delete(teacher)
+            db.session.commit()
+            return jsonify({
+                "status": 200,
+                "message": f"Teacher {teacher.name} deleted"
+            })
+        return jsonify({
+            "status": 404,
+            "message": f"Teacher with id: {teacher_id} doesn't exists"
+        }), 404
+    except Exception as err:
+        return jsonify({
+            "status": 500,
+            "message": "Error while deleting"
+        })

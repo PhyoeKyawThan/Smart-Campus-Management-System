@@ -1,7 +1,7 @@
 from flask import Blueprint, request, render_template, redirect, jsonify, abort
 from .models import Student
 from . import db
-from .assets.validate import student_exists, check_admin_in_session, valid_datas
+from .assets.validate import student_exists, is_admin_in_session, valid_datas
 student = Blueprint("student", __name__)
 
 @student.route("/register", methods=["POST"])
@@ -14,7 +14,7 @@ def register_student():
     """
     if request.method == "POST":
         # check admin have already logged in or not 
-        if not check_admin_in_session():
+        if not is_admin_in_session():
             abort(401)
         student_data = request.get_json()
         try:
@@ -69,7 +69,7 @@ def edit_student_info(student_id: int):
     - update student table with getting specified Student object by student_id, 
     """
     if request.method == "POST":
-        if not check_admin_in_session():
+        if not is_admin_in_session():
             abort(401)
         edit_data = request.get_json()
         if not valid_datas(edit_data):
@@ -110,7 +110,7 @@ def get_student_info(student_id: int):
     """
     summery: get student all info by student_id
     """
-    if not check_admin_in_session():
+    if not is_admin_in_session():
         abort(401)
     try: 
         student = Student.query.get(student_id)
@@ -152,7 +152,7 @@ def delete_student(student_id):
     summery: will take student_id as arg and delete if exists
     """
     if request.method == 'GET':
-        if not check_admin_in_session():
+        if not is_admin_in_session():
             abort(401)
         try:
             student = Student.query.get(student_id)
