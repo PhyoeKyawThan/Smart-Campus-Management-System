@@ -17,12 +17,14 @@ def app():
     from .views import views
     from .auth import auth
     from .student_actions import student
+    from .teacher_actions import teacher
     from .errors import errors
     # register_blueprint
     app.register_blueprint(views, url_prefix="/")
     app.register_blueprint(errors)
     app.register_blueprint(auth, url_prefix="/auth/admin")
     app.register_blueprint(student, url_prefix="/student")
+    app.register_blueprint(teacher, url_prefix="/teacher")
     
 
     # database create after app 

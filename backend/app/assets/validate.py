@@ -1,4 +1,4 @@
-from ..models import Student, Admin
+from ..models import Student, Admin, Teacher
 from flask import session
 
 def student_exists(roll_no: str)->bool:
@@ -8,6 +8,14 @@ def student_exists(roll_no: str)->bool:
     """
     student = Student.query.filter_by(roll_no=roll_no).first()
     if student:
+        return True
+    return False
+
+def teacher_exists(name: str, department: str, position: str) -> bool:
+    teacher = Teacher.query.filter_by(name=name,
+                                      department=department,
+                                      position=position).first()
+    if teacher:
         return True
     return False
 
