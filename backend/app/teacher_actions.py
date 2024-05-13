@@ -97,6 +97,7 @@ def edit_teacher_info(teacher_id: int):
         teacher.address = edit_data["address"]
         teacher.phone_no = edit_data["phone_no"]
         teacher.email = edit_data["email"]
+        teacher.birth_date = edit_data["birth_date"]
         
         # after set edited data and commit to db
         db.session.commit()
@@ -131,6 +132,7 @@ def get_teacher_info(teacher_id: int):
                 "address": teacher.address,
                 "phone_no": teacher.phone_no,
                 "email": teacher.email,
+                "birth_date": teacher.birth_date,
                 "register_date": teacher.register_date
             }
             return jsonify({

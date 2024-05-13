@@ -1,0 +1,183 @@
+        /* nav */
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+            width: 100%;
+            /* overflow: hidden; */
+            font-family: "Lato", sans-serif;
+        }
+
+
+        /* for search */
+        .search {
+            position: relative;
+            /* right: 10px; */
+            left: 140px;
+            background-color: white;
+
+        }
+
+
+        /* Style the tab */
+        .tab {
+            float: left;
+            border: 0px solid #ccc;
+            background-color: #f1f1f1;
+            width: 20%;
+            height: 100%;
+            overflow: scroll;
+
+        }
+
+        /* Style the buttons inside the tab */
+        .tab button {
+            display: block;
+            background-color: inherit;
+            color: black;
+            padding: 22px 16px;
+            width: 100%;
+            border: none;
+            outline: none;
+            text-align: left;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 17px;
+            text-align: center;
+        }
+
+        /* Change background color of buttons on hover */
+        .tab button:hover {
+            background-color: #01F9C6;
+            color: white;
+            border-radius: 40px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Create an active/current "tab button" class */
+        .tab button.active {
+            background-color: #01F9C6;
+            color: white;
+
+        }
+
+
+        /* Style the tab content */
+        .tabcontent {
+            float: left;
+            padding: 0px 12px;
+            border: 1px solid #ccc;
+            height: 100%;
+            width: 80%;
+            overflow: scroll;
+            border-left: none;
+            /* height: 2000px; */
+        }
+
+
+
+        /* campus in campus out */
+
+        .button {
+            border: none;
+            color: white;
+            padding: 28px 35px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            transition-duration: 0.4s;
+            cursor: pointer;
+
+        }
+
+        .button1 {
+            background-color: white;
+            color: black;
+            border: 2px solid Turquoise;
+            border-radius: 28px;
+
+
+        }
+
+        .button1:hover {
+            background-color: #01F9C6;
+            color: white;
+        }
+
+        .button1:active {
+            background-color: #01F9C6;
+            color: white;
+        }
+
+        .button2 {
+            background-color: white;
+            color: black;
+            border: 2px solid #01F9C6;
+            border-radius: 28px;
+
+
+        }
+
+        .button2:hover {
+            background-color: #008CBA;
+            color: white;
+        }
+
+        .button2:active {
+            background-color: #01F9C6;
+            color: white;
+        }
+
+        .container {
+            height: 100px;
+            position: relative;
+            border: 3px solid white;
+        }
+
+
+        .center {
+            margin: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+        }
+
+
+
+        .search {
+            margin-left: 60%;
+        }
+
+        /* table */
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th,
+        td {
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        th {
+            background-color: #01F9C6;
+            color: white;
+        }
+
+        img {
+            border-radius: 50%;
+        }

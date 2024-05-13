@@ -6,9 +6,10 @@ views = Blueprint("views", __name__)
 
 @views.route("/")
 def home():
-    if not is_admin_in_session():
-        return render_template("admin_login.html")
-    return render_template("base.html")
+    # if not is_admin_in_session():
+    #     return render_template("admin_login.html")
+    from .models import get_student_info, get_teacher_info
+    return render_template("index.html", students=get_student_info(), teachers=get_teacher_info())
 
 @views.route("/students")
 def student_views():

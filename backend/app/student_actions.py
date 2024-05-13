@@ -35,6 +35,7 @@ def register_student():
             new_student.address = student_data["address"]
             new_student.phone_no = student_data["phone_no"]
             new_student.email = student_data["email"]
+            new_student.birth_date = student_data["birth_date"]
 
             db.session.add(new_student)
             # commit to database
@@ -51,7 +52,7 @@ def register_student():
                 "message": "Error while inserting to database"
             }), 500
 
-@student.route("/edit_student/<int:student_id>", methods=["POST"])
+@student.route("/edit_student/<int:student_id>", methods=["PUT"])
 def edit_student_info(student_id: int):
     """
     request_data: json 
@@ -68,7 +69,7 @@ def edit_student_info(student_id: int):
     summery: request json data 
     - update student table with getting specified Student object by student_id, 
     """
-    if request.method == "POST":
+    if request.method == "PUT":
         if not is_admin_in_session():
             abort(401)
         edit_data = request.get_json()
@@ -89,7 +90,7 @@ def edit_student_info(student_id: int):
                 edit_student.address = edit_data["address"]
                 edit_student.phone_no = edit_data["phone_no"]
                 edit_student.email = edit_data["email"]
-                
+                edit_student.birth_date = edit_data["birth_date"]
                 # final commit to db
                 db.session.commit()
                 
@@ -127,6 +128,7 @@ def get_student_info(student_id: int):
                 "address": student.address,
                 "phone_no": student.phone_no,
                 "email": student.email,
+                "birth_date": student.birth_date,
                 "register_date": student.register_date
             }
             return jsonify({
@@ -146,12 +148,12 @@ def get_student_info(student_id: int):
     
 
 
-@student.route("/delete/<int:student_id>", methods=["GET"])
+@student.route("/delete/<int:student_id>", methods=["DELETE"])
 def delete_student(student_id):
     """
     summery: will take student_id as arg and delete if exists
     """
-    if request.method == 'GET':
+    if request.method == 'DELETE':
         if not is_admin_in_session():
             abort(401)
         try:

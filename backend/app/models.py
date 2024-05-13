@@ -24,6 +24,7 @@ class Student(db.Model):
     address = db.Column(db.String(255), nullable=False)
     phone_no = db.Column(db.String(15), nullable=False)
     email = db.Column(db.String(200), nullable=True)
+    birth_date = db.Column(db.DateTime, nullable=False)
     register_date = db.Column(db.DateTime, default=datetime.now())
     track_passes = db.relationship("TrackPass", backref="student", lazy=True, cascade="all, delete")
 
@@ -50,6 +51,7 @@ class Teacher(db.Model):
     address = db.Column(db.String(255), nullable=False)
     phone_no = db.Column(db.String(15), nullable=False)
     email = db.Column(db.String(200), nullable=True)
+    birth_date = db.Column(db.DateTime, nullable=False)
     register_date = db.Column(db.DateTime, default=datetime.now())
     track_passes = db.relationship("TrackPass", backref="teacher", lazy=True, cascade="all, delete")
     
@@ -82,12 +84,34 @@ def get_student_info() -> list:
         students = db.session.execute(
                 db.select(
                     Student.student_id,
+                    Student.picture_uri,
                     Student.name,
                     Student.roll_no,
                     Student.current_semester,   
                     Student.register_date
                 )).all()
+        print(students)
         return students
+    except Exception as err:
+        print(err)
+        return list()
+
+def get_teacher_info() -> list:
+    """
+    get all teacher data( teacher_id,
+    name, department, position, register_date )
+    """
+    try:
+        teachers = db.session.execute(
+                db.select(
+                    Teacher.teacher_id,
+                    Teacher.picture_uri,
+                    Teacher.name,
+                    Teacher.department,
+                    Teacher.position,   
+                    Teacher.register_date
+                )).all()
+        return teachers
     except Exception as err:
         print(err)
         return list()
