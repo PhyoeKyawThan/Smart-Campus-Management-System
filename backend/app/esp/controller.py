@@ -6,6 +6,9 @@ controller = Blueprint("controller", __name__)
 
 @controller.route("/who_pass", methods=["POST"])
 def who_pass():
+    """
+    summery: 
+    """
     if request.method == "POST":
         data = request.get_json()
         if data["roll"] == "student":

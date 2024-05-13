@@ -35,4 +35,4 @@ def app():
     return app
 
 app = app()
-# migrate = Migrate(app, db)
+migrate = Migrate(app, db)
