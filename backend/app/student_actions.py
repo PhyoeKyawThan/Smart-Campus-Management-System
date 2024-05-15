@@ -17,6 +17,11 @@ def register_student():
         if not is_admin_in_session():
             abort(401)
         student_data = request.get_json()
+        if not valid_datas(student_data):
+            return jsonify({
+                "status": 403,
+                "message": "Be sure your update datas all set"
+            }), 403
         try:
             if student_exists(student_data["roll_no"]):
                 return jsonify({
@@ -149,7 +154,7 @@ def get_student_info(student_id: int):
 
 
 @student.route("/delete/<int:student_id>", methods=["DELETE"])
-def delete_student(student_id):
+def delete_student(student_id: int):
     """
     summery: will take student_id as arg and delete if exists
     """
@@ -171,8 +176,8 @@ def delete_student(student_id):
                 "message": f"Student ID {student_id} doesn't exists"
             }), 404
         except Exception as err:
-            print(err)
             return jsonify({
                 "status": 500,
-                "message": "Something wrong with server"
+                "message": "Something wrong with server",
+                "error_msg": err
             }), 500

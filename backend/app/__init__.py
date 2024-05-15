@@ -18,6 +18,7 @@ def app():
     from .auth import auth
     from .student_actions import student
     from .teacher_actions import teacher
+    from .stuff_actions import stuff
     from .errors import errors
     from .esp.controller import controller
     # register_blueprint
@@ -26,6 +27,7 @@ def app():
     app.register_blueprint(auth, url_prefix="/auth/admin")
     app.register_blueprint(student, url_prefix="/student")
     app.register_blueprint(teacher, url_prefix="/teacher")
+    app.register_blueprint(stuff, url_prefix="/stuff")
     app.register_blueprint(controller, url_prefix="/controller")
 
     # database create after app 

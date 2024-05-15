@@ -69,8 +69,9 @@ class Stuff(db.Model):
     address = db.Column(db.String(255), nullable=False)
     phone_no = db.Column(db.String(15), nullable=False)
     email = db.Column(db.String(200), nullable=True)
+    nrc = db.Column(db.String(100), nullable=False)
     birth_date = db.Column(db.DateTime, nullable=False)
-    register_date = db.Column(db.DateTime, nullable=False)
+    register_date = db.Column(db.DateTime, nullable=False, default=datetime.now())
     track_passes = db.relationship("TrackPass", backref="stuff", lazy=True, cascade="all, delete")
     
     def __str__(self) -> str:
@@ -84,7 +85,7 @@ class TrackPass(db.Model):
     out_time = db.Column(db.DateTime, nullable=True)
     student_id = db.Column(db.Integer, db.ForeignKey("student.student_id"))
     teacher_id = db.Column(db.Integer, db.ForeignKey("teacher.teacher_id"))
-    
+    stuff_id = db.Column(db.Integer, db.ForeignKey("stuff.stuff_id"))
     def __str__(self) -> str:
         if self.student_id:
             return f"< student_id: {self.student_id}, pass_id: {self.pass_id} >"
