@@ -1,15 +1,33 @@
-from ..models import Student, Admin, Teacher
+from ..models import Student, Admin, Teacher, Stuff
 from flask import session
 
 def student_exists(roll_no: str)->bool:
     """
-    parems: roll_no
+    params: roll_no
     summery: check the student is already exists or not by name and roll_no and return boolean result
     """
-    student = Student.query.filter_by(roll_no=roll_no).first()
-    if student:
-        return True
-    return False
+    try:
+        student = Student.query.filter_by(roll_no=roll_no).first()
+        if student:
+            return True
+        return False
+    except Exception as err:
+        print(err)
+        return False
+
+def stuff_exists(name: str, position: str) -> bool:
+    """
+    params: name: str, position: str
+    summery: check the stuff is already exist or not when register new stuff
+    """
+    try:
+        stuff = Stuff.query.filter_by(name=name, position=position).first()
+        if stuff:
+            return True
+        return False
+    except Exception as err:
+        print(err)
+        return False
 
 def teacher_exists(name: str, department: str, position: str) -> bool:
     teacher = Teacher.query.filter_by(name=name,
@@ -21,7 +39,7 @@ def teacher_exists(name: str, department: str, position: str) -> bool:
 
 def is_admin(username: str, password: str)->bool:
     """
-    parems: username: from form data, password: from form data
+    params: username: from form data, password: from form data
     summery: check admin is admin or not by username and password provided by client admin
     """
     admin = Admin.query.filter_by(username=username, password=password).first()
