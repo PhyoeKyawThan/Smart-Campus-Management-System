@@ -1,333 +1,217 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Campus Management System</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css' )}}">
-</head>
-<body>
-
-
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css' )}}"
+    />
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+  </head>
+  <body>
     <div class="tab">
-        <button class="tablinks" onclick="openNav(event, 'Gate')" id="defaultOpen">Gate</button>
-        <button class="tablinks" onclick="openNav(event, 'Dashboard')">Dashboard</button>
-        <button class="tablinks" onclick="openNav(event, 'List')">List</button>
-        <button class="tablinks" onclick="openNav(event, 'Control')">Control</button>
+      <button
+        class="tablinks"
+        onclick="openNav(event, 'Dashboard')"
+        id="defaultOpen"
+      >
+        Dashboard
+      </button>
+      <button class="tablinks" onclick="openNav(event, 'Gate')">Gate</button>
+      <button class="tablinks" onclick="openNav(event, 'List')">List</button>
+      <button class="tablinks" onclick="openNav(event, 'Control')">
+        Control
+      </button>
     </div>
 
-
+    <div class="search">
+      <input type="text" placeholder="Search.." name="search2" />
+      <button type="search"><i class="fa fa-search"></i></button>
+    </div>
+    <!-- search -->
     <div id="Gate" class="tabcontent">
-
-        <div class="search">
-            <input type="text" placeholder="Search.." name="search2">
-            <button type="search"><i class="fa fa-search"></i></button>
+      <div class="container">
+        <div class="center">
+          <button
+            class="button button1"
+            onclick="openCampus('campus-in')"
+            id="defaultOpen"
+          >
+            Campus In
+          </button>
+          <button class="button button1" onclick="openCampus('campus-out')">
+            Campus Out
+          </button>
         </div>
+      </div>
 
-        <div class="container">
-            <div class="center">
-                <button class="button button1" onclick="openCampus('Campus In')" id="defaultOpen">Campus In</button>
-                <button class="button button1" onclick="openCampus('Campus Out')">Campus Out</button>
-            </div>
-        </div>
+      <div id="campus-in" class="container campus">
+        <h2>Campus In</h2>
+        <table>
+          <tr>
+            <th>ID</th>
+            <th>PIC</th>
+            <th>NAME</th>
+            <th>Date</th>
+            <th>Time</th>
+          </tr>
+          <tr>
+            <td>2201</td>
+            <td><img src="./fower.jpg" width="50" height="50" /></td>
+            <td>Myat Phoo Pwint</td>
+            <td>9.5.24</td>
+            <td>11:00</td>
+          </tr>
+        </table>
+        <!-- campus in -->
+      </div>
 
-        <div id="Campus In" class="container-campus">
-            <h2>Campus In</h2>
-            <table>
-                <tr>
-                    <th>ID</th>
-                    <th>PIC</th>
-                    <th>NAME</th>
-                    <th>Date</th>
-                    <th>Time</th>
-                </tr>
-                <tr>
-                    <td>2201</td>
-                    <td><img src="./fower.jpg" width="50" height="50"></td>
-                    <td>Myat Phoo Pwint</td>
-                    <td>9.5.24</td>
-                    <td>11:00</td>
-                </tr>
-                <tr>
-                    <td>2201</td>
-                    <td><img src="./fower.jpg" width="50" height="50"></td>
-                    <td>Myat Phoo Pwint</td>
-                    <td>9.5.24</td>
-                    <td>11:00</td>
-                </tr>
-                <tr>
-                    <td>2201</td>
-                    <td><img src="./fower.jpg" width="50" height="50"></td>
-                    <td>Myat Phoo Pwint</td>
-                    <td>9.5.24</td>
-                    <td>11:00</td>
-                </tr>
-                <tr>
-                    <td>2201</td>
-                    <td><img src="./fower.jpg" width="50" height="50"></td>
-                    <td>Myat Phoo Pwint</td>
-                    <td>9.5.24</td>
-                    <td>11:00</td>
-                </tr>
-                <tr>
-                    <td>2201</td>
-                    <td><img src="./fower.jpg" width="50" height="50"></td>
-                    <td>Myat Phoo Pwint</td>
-                    <td>9.5.24</td>
-                    <td>11:00</td>
-                </tr>
-                <tr>
-                    <td>2201</td>
-                    <td><img src="./fower.jpg" width="50" height="50"></td>
-                    <td>Myat Phoo Pwint</td>
-                    <td>9.5.24</td>
-                    <td>11:00</td>
-                </tr>
-                <tr>
-                    <td>2201</td>
-                    <td><img src="./fower.jpg" width="50" height="50"></td>
-                    <td>Myat Phoo Pwint</td>
-                    <td>9.5.24</td>
-                    <td>11:00</td>
-                </tr>
-                <tr>
-                    <td>2201</td>
-                    <td><img src="./fower.jpg" width="50" height="50"></td>
-                    <td>Myat Phoo Pwint</td>
-                    <td>9.5.24</td>
-                    <td>11:00</td>
-                </tr>
-                <tr>
-                    <td>2201</td>
-                    <td><img src="./fower.jpg" width="50" height="50"></td>
-                    <td>Myat Phoo Pwint</td>
-                    <td>9.5.24</td>
-                    <td>11:00</td>
-                </tr>
-                <tr>
-                    <td>2201</td>
-                    <td><img src="./fower.jpg" width="50" height="50"></td>
-                    <td>Myat Phoo Pwint</td>
-                    <td>9.5.24</td>
-                    <td>11:00</td>
-                </tr>
-
-
-            </table>
-        </div>
-
-        <div id="Campus Out" class="container campus" style="display:none">
-            <h2>Campus Out</h2>
-            <table>
-                <tr>
-                    <th>ID</th>
-                    <th>PIC</th>
-                    <th>NAME</th>
-                    <th>Date</th>
-                    <th>Time</th>
-                </tr>
-                <tr>
-                    <td>2201</td>
-                    <td><img src="./fower.jpg" width="50" height="50"></td>
-                    <td>Aae Ae</td>
-                    <td>9.5.24</td>
-                    <td>11:00</td>
-                </tr>
-                <tr>
-                    <td>2201</td>
-                    <td><img src="./fower.jpg" width="50" height="50"></td>
-                    <td>Chaw Su</td>
-                    <td>9.5.24</td>
-                    <td>11:00</td>
-                </tr>
-                <tr>
-                    <td>2201</td>
-                    <td><img src="./fower.jpg" width="50" height="50"></td>
-                    <td>Myat Phoo Pwint</td>
-                    <td>9.5.24</td>
-                    <td>11:00</td>
-                </tr>
-                <tr>
-                    <td>2201</td>
-                    <td><img src="./fower.jpg" width="50" height="50"></td>
-                    <td>Myat Phoo Pwint</td>
-                    <td>9.5.24</td>
-                    <td>11:00</td>
-                </tr>
-                <tr>
-                    <td>2201</td>
-                    <td><img src="./fower.jpg" width="50" height="50"></td>
-                    <td>Myat Phoo Pwint</td>
-                    <td>9.5.24</td>
-                    <td>11:00</td>
-                </tr>
-                <tr>
-                    <td>2201</td>
-                    <td><img src="./fower.jpg" width="50" height="50"></td>
-                    <td>Myat Phoo Pwint</td>
-                    <td>9.5.24</td>
-                    <td>11:00</td>
-                </tr>
-                <tr>
-                    <td>2201</td>
-                    <td><img src="./fower.jpg" width="50" height="50"></td>
-                    <td>Myat Phoo Pwint</td>
-                    <td>9.5.24</td>
-                    <td>11:00</td>
-                </tr>
-                <tr>
-                    <td>2201</td>
-                    <td><img src="./fower.jpg" width="50" height="50"></td>
-                    <td>Myat Phoo Pwint</td>
-                    <td>9.5.24</td>
-                    <td>11:00</td>
-                </tr>
-                <tr>
-                    <td>2201</td>
-                    <td><img src="./fower.jpg" width="50" height="50"></td>
-                    <td>Myat Phoo Pwint</td>
-                    <td>9.5.24</td>
-                    <td>11:00</td>
-                </tr>
-                <tr>
-                    <td>2201</td>
-                    <td><img src="./fower.jpg" width="50" height="50"></td>
-                    <td>Myat Phoo Pwint</td>
-                    <td>9.5.24</td>
-                    <td>11:00</td>
-                </tr>
-
-
-            </table>
-        </div>
-
-        <script>
-            function openCampus(campusName) {
-                var i;
-                var x = document.getElementsByClassName("campus");
-                for (i = 0; i < x.length; i++) {
-                    x[i].style.display = "none";
-                }
-                document.getElementById(campusName).style.display = "block";
-            }
-        </script>
-
-
+      <div id="campus-out" class="container campus" style="display: none">
+        <h2>Campus Out</h2>
+        <table>
+          <tr>
+            <th>ID</th>
+            <th>PIC</th>
+            <th>NAME</th>
+            <th>Date</th>
+            <th>Time</th>
+          </tr>
+          <tr>
+            <td>2201</td>
+            <td><img src="./fower.jpg" width="50" height="50" /></td>
+            <td>Aae Ae</td>
+            <td>9.5.24</td>
+            <td>11:00</td>
+          </tr>
+        </table>
+        <!-- campus out -->
+      </div>
     </div>
 
     <div id="Dashboard" class="tabcontent">
-        <h3>Paris</h3>
-        <p>Paris is the capital of France.</p>
+      <h3>Paris</h3>
+      <p>Paris is the capital of France.</p>
     </div>
+
     <div id="List" class="tabcontent">
-        <div class="search">
-            <h1>.Search</h1>
-            <!-- <form class="example" action="/action_page.php" style="margin:auto;max-width:300px">
-          <input type="text" placeholder="Search.." name="search2">
-          <button type="submit"><i class="fa fa-search"></i></button>
-        </form> -->
+      <div class="container">
+        <div class="center">
+          <button
+            class="button button1"
+            onclick="openCampus('Student')"
+            id="defaultOpen"
+          >
+            Student
+          </button>
+          <button class="button button1" onclick="openCampus('Teacher')">
+            Teacher
+          </button>
         </div>
-        <div class="container">
-            <div class="center">
-                <button class="button button1" onclick="openCampus('Student')" id="defaultOpen">Student</button>
-                <button class="button button1" onclick="openCampus('Teacher')">Teacher</button>
+      </div>
+      <div id="Student" class="container campus">
+        <h1>Student</h1>
+        <table>
+          <tr>
+            <th>ID</th>
+            <th>PIC</th>
+            <th>NAME</th>
+            <th>ROLL NO.</th>
+            <th>CURRENT_SEMESTER</th>
+            <th>REGISTER DATE</th>
+          </tr>
 
-            </div>
-        </div>
-        <div id="Student" class="container campus">
+          {% for student in students %}
+          <tr>
+            <td>{{ student[0] }}</td>
+            <td>
+              <img
+                src="static/images/{{ student[1] }}"
+                width="50"
+                height="50"
+              />
+            </td>
+            <td>{{ student[2] }}</td>
+            <td>{{ student[3] }}</td>
+            <td>{{ student[4] }}</td>
+            <td>{{ student[5].date() }}</td>
+          </tr>
+          {% endfor %}
+        </table>
+        <!-- student views in list topic -->
+      </div>
 
-            <table>
-                <tr>
-                    <th>ID</th>
-                    <th>PIC</th>
-                    <th>NAME</th>
-                    <th>Roll No</th>
-                    <th>Registration Date</th>
-                    <th>Current Semester</th>
-                </tr>
-                
-                {% for student in students %}
-                <a href="/student/get_student/{{ student[0] }}">
-                    <tr>
-                        <td>{{ student[0] }}</td>
-                        <td><img src="static/images/{{ student[1] }}" width="50" height="50"></td>
-                        <td>{{ student[2] }}</td>
-                        <td>{{ student[3] }}</td>
-                        <td>{{ student[5].date() }}</td>
-                        <td>{{ student[4] }}</td>
-                    </tr>
-                </a>
-                {% endfor %}
-
-
-            </table>
-        </div>
-
-        <div id="Teacher" class="container campus" style="display:none">
-
-            <table>
-                <tr>
-                    <th>ID</th>
-                    <th>PIC</th>
-                    <th>NAME</th>
-                    <th>Department</th>
-                    <th>Position</th>  
-                    <th>Registration Date</th>
-                </tr>
-
-                {% for teacher in teachers %}
-                <tr>
-                    <td>{{ teacher[0] }}</td>
-                    <td><img src="static/images/{{ teacher[1] }}" width="50" height="50"></td>
-                    <td>{{ teacher[2] }}</td>
-                    <td>{{ teacher[3] }}</td>
-                    <td>{{ teacher[4] }}</td>
-                    <td>{{ teacher[5].date() }}</td>
-                </tr>
-                {% endfor %}
-
-
-            </table>
-        </div>
-
-        <script>
-            function openCampus(campusName) {
-                var i;
-                var x = document.getElementsByClassName("campus");
-                for (i = 0; i < x.length; i++) {
-                    x[i].style.display = "none";
-                }
-                document.getElementById(campusName).style.display = "block";
-            }
-        </script>
-
-
+      <div id="Teacher" class="container campus" style="display: none">
+        <h1>Teacher</h1>
+        <table>
+          <tr>
+            <th>ID</th>
+            <th>PIC</th>
+            <th>NAME</th>
+            <th>Department</th>
+            <th>Position</th>
+            <th>Register_Date</th>
+          </tr>
+          {% for teacher in teachers %}
+          <tr>
+            <td>{{ teacher[0] }}</td>
+            <td>
+              <img
+                src="static/images/{{ teacher[1] }}"
+                width="50"
+                height="50"
+              />
+            </td>
+            <td>{{ teacher[2] }}</td>
+            <td>{{ teacher[3] }}</td>
+            <td>{{ teacher[4] }}</td>
+            <td>{{ teacher[5].date() }}</td>
+          </tr>
+          {% endfor %}
+        </table>
+        <!-- teacher in list topic -->
+      </div>
     </div>
 
     <div id="Control" class="tabcontent">
-        <h3>Tokyo</h3>
-        <p>Tokyo is the capital of Japan.</p>
+      <h3>Tokyo</h3>
+      <p>Tokyo is the capital of Japan.</p>
     </div>
 
     <script>
-        function openNav(evt, navName) {
-            var i, tabcontent, tablinks;
-            tabcontent = document.getElementsByClassName("tabcontent");
-            for (i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].style.display = "none";
-            }
-            tablinks = document.getElementsByClassName("tablinks");
-            for (i = 0; i < tablinks.length; i++) {
-                tablinks[i].className = tablinks[i].className.replace(" active", "");
-            }
-            document.getElementById(navName).style.display = "block";
-            evt.currentTarget.className += " active";
+      function openNav(evt, navName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+          tabcontent[i].style.display = "none";
         }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+          tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(navName).style.display = "block";
+        const search = document.querySelector(".search");
+        document.getElementById("Dashboard").style.display === "block"
+          ? (search.style.display = "none")
+          : (search.style.display = "block");
+        evt.currentTarget.className += " active";
+      }
 
-        // Get the element with id="defaultOpen" and click on it
-        document.getElementById("defaultOpen").click();
+      // Get the element with id="defaultOpen" and click on it
+      document.getElementById("defaultOpen").click();
+      function openCampus(campusName) {
+        var i;
+        var x = document.getElementsByClassName("campus");
+        for (i = 0; i < x.length; i++) {
+          x[i].style.display = "none";
+        }
+        document.getElementById(campusName).style.display = "block";
+      }
     </script>
-</body>
-
+  </body>
 </html>

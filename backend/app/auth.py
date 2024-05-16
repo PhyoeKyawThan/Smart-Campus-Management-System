@@ -15,6 +15,6 @@ def admin_login():
                 "username": username,
                 "password": password
             }
-            return render_template("index.html")
+            return redirect(url_for("views.home"))
         return redirect(url_for("views.admin_login_view", 
                                 message="Incorrect Admin username or Password"))

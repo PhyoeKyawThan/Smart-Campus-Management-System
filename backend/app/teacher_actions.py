@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request, render_template, abort
 from .models import Teacher
 from . import db
-from .assets.validate import is_admin_in_session, teacher_exists, valid_datas
+from .assets.validate import is_admin_in_session, teacher_exists, is_not_valid
 teacher = Blueprint("teacher", __name__)
 
 
@@ -19,7 +19,7 @@ def register_teacher():
             abort(401)
         # get teacher info
         teacher_data = request.get_json()
-        if not valid_datas(teacher_data):
+        if not is_not_valid(teacher_data):
             return jsonify({
                 "status": 403,
                 "message": "Be sure your datas all set"
@@ -42,6 +42,7 @@ def register_teacher():
             new_teacher.father_name = teacher_data["father_name"]
             new_teacher.address = teacher_data["address"]
             new_teacher.phone_no = teacher_data["phone_no"]
+            new_teacher.birth_date = teacher_data["birth_date"]
             new_teacher.email = teacher_data["email"]
             
             # add to db session
@@ -81,7 +82,7 @@ def edit_teacher_info(teacher_id: int):
         abort(401)
     # get updated data
     edit_data = request.get_json()
-    if not valid_datas(edit_data):
+    if not is_not_valid(edit_data):
         return jsonify({
                 "status": 403,
                 "message": "Be sure your update datas all set"

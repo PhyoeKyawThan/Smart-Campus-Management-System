@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify, abort
-from .assets.validate import valid_datas, stuff_exists, is_admin_in_session
+from .assets.validate import is_not_valid, stuff_exists, is_admin_in_session
 from .models import Stuff
 from . import db
 stuff = Blueprint("stuff", __name__)
@@ -18,7 +18,7 @@ def register_stuff():
             abort(401)
         try:
             stuff_data = request.get_json()
-            if not valid_datas(stuff_data):
+            if not is_not_valid(stuff_data):
                 return jsonify({
                     "status": 403,
                     "message": "Be sure your update datas all set"
@@ -78,7 +78,7 @@ def edit_stuff_info(stuff_id: int):
         if not is_admin_in_session():
             abort(401)
         edit_data = request.get_json()
-        if not valid_datas(edit_data):
+        if not is_not_valid(edit_data):
             return jsonify({
                 "status": 403,
                 "message": "Be sure ur updates all set"

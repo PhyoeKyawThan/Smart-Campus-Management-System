@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=
+    , initial-scale=1.0"
+    />
+    <title>Document</title>
+    <style>
+      * {
+        width: 100%;
+        margin: auto;
+      }
+
+      html,
+      body {
+        height: 100%;
+      }
+
+      .container{
+        height: 100%;
+        background-color: wheat;
+      }
+      .loader {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        background-color: rgba(14, 11, 5, 0.324);
+      }
+
+      .loader .text {
+        width: fit-content;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestias, maiores, vel cum veritatis possimus et consequuntur dolor sapiente impedit sed voluptatum minus, accusamus ullam. Nobis doloremque ipsa pariatur voluptatem perspiciatis.
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Odit dolore, fuga a accusamus deleniti aliquid libero saepe vero laborum quod, eligendi atque officia enim veritatis magni placeat aut! Explicabo, sit!
+    </div>
+    <script>
+      const loadingScreen = (message, delay) => {
+        const mainContainer = document.getElementById("container");
+        mainContainer.innerHTML += `<div class="loader">
+                <div class="text">${message} <span class="dot" id="dot"></span></div>
+            </div>`;
+      };
+
+      loadingScreen("Loading", 4);
+    </script>
+  </body>
+</html>
