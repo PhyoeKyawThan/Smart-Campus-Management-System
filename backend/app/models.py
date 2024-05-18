@@ -58,10 +58,10 @@ class Teacher(db.Model):
     def __str__(self) -> str:
         return f"<teacher_id: {self.teacher_id}, name: {self.name}"
 
-class Stuff(db.Model):
-    __tablename__ = "stuff"
+class Staff(db.Model):
+    __tablename__ = "staff"
 
-    stuff_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    staff_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(50), nullable=False)
     picture_uri = db.Column(db.String(255), nullable=False)
     position = db.Column(db.String(100), nullable=False)
@@ -72,10 +72,10 @@ class Stuff(db.Model):
     nrc = db.Column(db.String(100), nullable=False)
     birth_date = db.Column(db.DateTime, nullable=False)
     register_date = db.Column(db.DateTime, nullable=False, default=datetime.now())
-    track_passes = db.relationship("TrackPass", backref="stuff", lazy=True, cascade="all, delete")
+    track_passes = db.relationship("TrackPass", backref="staff", lazy=True, cascade="all, delete")
     
     def __str__(self) -> str:
-        return f"< stuff_id: {self.stuff_id}, stuff_name: {self.name} >"
+        return f"< staff_id: {self.staff_id}, staff_name: {self.name} >"
     
 class TrackPass(db.Model):
     __tablename__ = "trackpass"
@@ -85,7 +85,7 @@ class TrackPass(db.Model):
     out_time = db.Column(db.DateTime, nullable=True)
     student_id = db.Column(db.Integer, db.ForeignKey("student.student_id"))
     teacher_id = db.Column(db.Integer, db.ForeignKey("teacher.teacher_id"))
-    stuff_id = db.Column(db.Integer, db.ForeignKey("stuff.stuff_id"))
+    staff_id = db.Column(db.Integer, db.ForeignKey("staff.staff_id"))
     def __str__(self) -> str:
         if self.student_id:
             return f"< student_id: {self.student_id}, pass_id: {self.pass_id} >"

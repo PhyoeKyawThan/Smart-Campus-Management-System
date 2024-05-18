@@ -1,4 +1,4 @@
-from ..models import Student, Admin, Teacher, Stuff
+from ..models import Student, Admin, Teacher, Staff
 from flask import session
 
 def student_exists(roll_no: str)->bool:
@@ -15,14 +15,14 @@ def student_exists(roll_no: str)->bool:
         print(err)
         return False
 
-def stuff_exists(name: str, position: str) -> bool:
+def staff_exists(name: str, position: str) -> bool:
     """
     params: name: str, position: str
-    summery: check the stuff is already exist or not when register new stuff
+    summery: check the staff is already exist or not when register new staff
     """
     try:
-        stuff = Stuff.query.filter_by(name=name, position=position).first()
-        if stuff:
+        staff = Staff.query.filter_by(name=name, position=position).first()
+        if staff:
             return True
         return False
     except Exception as err:
@@ -78,7 +78,7 @@ def is_not_valid(datas: dict) -> list:
         else:
             validated_data.append(data)
     if "" in validated_data:
-        return True
+        return False
     if None in validated_data:
-            return True
-    return False
+        return False
+    return True

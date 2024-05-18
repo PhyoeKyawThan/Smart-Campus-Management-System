@@ -19,6 +19,7 @@ def register_teacher():
             abort(401)
         # get teacher info
         teacher_data = request.get_json()
+        print(teacher_data)
         if not is_not_valid(teacher_data):
             return jsonify({
                 "status": 403,
@@ -43,6 +44,7 @@ def register_teacher():
             new_teacher.address = teacher_data["address"]
             new_teacher.phone_no = teacher_data["phone_no"]
             new_teacher.birth_date = teacher_data["birth_date"]
+            print(new_teacher.birth_date)
             new_teacher.email = teacher_data["email"]
             
             # add to db session

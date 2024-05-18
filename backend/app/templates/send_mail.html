@@ -12,6 +12,7 @@
       * {
         width: 100%;
         margin: auto;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       }
 
       html,
@@ -24,6 +25,8 @@
         background-color: wheat;
       }
       .loader {
+        position: absolute;
+        top: 0;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -37,19 +40,33 @@
     </style>
   </head>
   <body>
-    <div class="container">
+    <div class="container" id="container">
         Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestias, maiores, vel cum veritatis possimus et consequuntur dolor sapiente impedit sed voluptatum minus, accusamus ullam. Nobis doloremque ipsa pariatur voluptatem perspiciatis.
         Lorem ipsum dolor sit amet consectetur, adipisicing elit. Odit dolore, fuga a accusamus deleniti aliquid libero saepe vero laborum quod, eligendi atque officia enim veritatis magni placeat aut! Explicabo, sit!
     </div>
     <script>
-      const loadingScreen = (message, delay) => {
+      const loadingScreen = (message, break_val) => {
         const mainContainer = document.getElementById("container");
         mainContainer.innerHTML += `<div class="loader">
                 <div class="text">${message} <span class="dot" id="dot"></span></div>
             </div>`;
+        const dot = document.getElementById("dot");
+        if (break_val){
+          setInterval(()=>{
+            dot.innerText += ".";
+            if(dot.innerText.length > 5){
+              dot.innerText = "";
+            }
+          }, 400)
+        }
       };
-
-      loadingScreen("Loading", 4);
+      async function sendMail(){
+        const response = await fetch("/send");
+        const respone = await response.text();
+        console.log("sending");
+        console.log(respone)
+      }
+      sendMail();
     </script>
   </body>
 </html>

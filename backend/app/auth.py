@@ -8,8 +8,12 @@ def admin_login():
     summery: formdata as client request and key of admin are username, password
     """
     if request.method == 'POST':
-        username = request.form["username"]
-        password = request.form["password"]
+        try:
+            username = request.form["username"]
+            password = request.form["password"]
+        except KeyError as err:
+            return redirect(url_for("views.admin_login_view", 
+                             message="Be sure your requested login datas is correct"))
         if is_admin(username, password):
             session["current_admin"] = {
                 "username": username,
@@ -18,3 +22,8 @@ def admin_login():
             return redirect(url_for("views.home"))
         return redirect(url_for("views.admin_login_view", 
                                 message="Incorrect Admin username or Password"))
+        
+@auth.route("/logout")
+def logout_admin():
+    session.clear()
+    return redirect(url_for("views.admin_login_view"))

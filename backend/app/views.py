@@ -27,15 +27,23 @@ def protected_route():
     from flask import session
     return session["current_admin"]
 
+@views.route("/show")
+def show():
+    return render_template("send_mail.html")
+
 @views.route("/send")
-async def send_mail_test():
+def send_mail_test():
     from .mail import send_mail
-    is_send: tuple = await send_mail({
+    is_send: tuple = send_mail({
         "subject": "Hello Dom",
-        "recipients": ["kyawthan.phyoe9@gmail.com"],
+        "recipients": ["@gmail.com"],
         "body": "Hello phyoe are u okey?"
     })
     print(is_send)
     if is_send[0]:
         return f"{is_send[1]}"
     return is_send[1]
+
+@views.route("/register_teacher")
+def teacher_register_view():
+    return render_template("teacher/register.html")
