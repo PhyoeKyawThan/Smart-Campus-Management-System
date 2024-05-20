@@ -183,34 +183,34 @@
       function validateForm(event) {
         event.preventDefault();
 
-        // const rollNo = document.getElementById("rollNo").value.trim();
-        // const nrc = document.getElementById("nrc").value.trim();
-        // const phoneNumber = document.getElementById("phoneNumber").value.trim();
+        const rollNo = document.getElementById("rollNo").value.trim();
+        const nrc = document.getElementById("nrc").value.trim();
+        const phoneNumber = document.getElementById("phoneNumber").value.trim();
 
-        // const rollNoPattern = /^(1cst|2cs|3cs|4cs|5cs)-([1-9][0-9]?|100)$/;
-        // const nrcPattern = /^([1-9]|1[0-4])\/[a-zA-Z]{3}\((n|p)\)\d{6}$/;
-        // const phonePattern = /^(09[246789]\d{8}|(\d{4,9}))$/;
+        const rollNoPattern = /^(1cst|2cs|3cs|4cs|5cs)-([1-9][0-9]?|100)$/;
+        const nrcPattern = /^([1-9]|1[0-4])\/[a-zA-Z]{3}\((n|p)\)\d{6}$/;
+        const phonePattern = /^(09[246789]\d{8}|(\d{4,9}))$/;
 
-        // if (!rollNoPattern.test(rollNo)) {
-        //   alert(
-        //     "Invalid roll number. Roll number must be in the format like 1cst-1 to 1cst-100 and 2cs-1 to 2cs-100 and so on."
-        //   );
-        //   return false;
-        // }
+        if (!rollNoPattern.test(rollNo)) {
+          alert(
+            "Invalid roll number. Roll number must be in the format like 1cst-1 to 1cst-100 and 2cs-1 to 2cs-100 and so on."
+          );
+          return false;
+        }
 
-        // if (!nrcPattern.test(nrc)) {
-        //   alert(
-        //     "Invalid NRC. NRC must be in the format like 14/zln(n)187660 where 14 may be 1 to 14, zln are three characters, (n) is n or p, and 187660 is six digits."
-        //   );
-        //   return false;
-        // }
+        if (!nrcPattern.test(nrc)) {
+          alert(
+            "Invalid NRC. NRC must be in the format like 14/zln(n)187660 where 14 may be 1 to 14, zln are three characters, (n) is n or p, and 187660 is six digits."
+          );
+          return false;
+        }
 
-        // if (!phonePattern.test(phoneNumber)) {
-        //   alert(
-        //     "Invalid phone number. Phone number must be between 4 and 9 digits, or start with 09 followed by 11 digits with the third digit being 2, 4, 6, 7, 8, or 9."
-        //   );
-        //   return false;
-        // }
+        if (!phonePattern.test(phoneNumber)) {
+          alert(
+            "Invalid phone number. Phone number must be between 4 and 9 digits, or start with 09 followed by 11 digits with the third digit being 2, 4, 6, 7, 8, or 9."
+          );
+          return false;
+        }
         // Add event listener to submit button
 
         const image_uploaded = uploadImage(
@@ -233,11 +233,13 @@
                 phone_no: document.getElementById("phoneNumber").value,
                 birth_date: document.getElementById("birthDate").value,
               };
-              requestRegister(
+              if(requestRegister(
                 "/student/register",
                 registeration_data,
                 document.getElementById("alert-container")
-              );
+              )){
+                document.getElementById("registrationForm").reset();
+              }
             }
           })
           .catch((err) => console.error(err));

@@ -11,10 +11,13 @@ function requestRegister(url, datas, alert_container) {
       console.log(data);
       if (data.status === 200) {
         alert_container.innerHTML = data.message;
+        return true;
       }
       alert_container.innerHTML = data.message;
+      return true;
     })
     .catch((err) => console.error(err));
+    return false;
 }
 
 async function uploadImage(image_container) {
