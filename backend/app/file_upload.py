@@ -24,14 +24,14 @@ def file_upload():
                 return jsonify({
                     "status": "fail",
                     "message": "Already uploaded this file",
-                    "image_uri": "static/" + image_name
+                    "image_uri": "static/profiles" + image_name
                 }), 200
             try:
                 image.save(path.join(current_app.config["PROFILE_DIR"], image_name))
                 return jsonify({
                     "status": "Success",
                     "message": "Image Uploaded",
-                    "image_uri": "static/" + image_name
+                    "image_uri": "static/profiles/" + image_name
                 })
                 # pass
             except FileNotFoundError as err:
