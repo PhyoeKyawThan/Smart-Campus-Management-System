@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registration Form</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/register.css') }}"
+    />
+    <style>
+      .form-container {
+        display: flex;
+        justify-content: space-between;
+      }
+      .section {
+        width: 48%;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="container">
+      <header>Registration Form</header>
+      <form class="form" id="registrationForm">
+        <h2 id="alert-container"></h2>
+        <div class="form-container">
+          <div class="section">
+            <div class="input-box">
+              <label for="firm-image">Image:</label>
+              <div class="image-container">
+                <img
+                  id="imagePreview"
+                  src="/static/images/camera.jpg"
+                  alt="Default Image"
+                />
+                <div class="overlay">
+                  <label for="firm-image" class="browse-button">Browse</label>
+                </div>
+              </div>
+              <input
+                type="file"
+                id="firm-image"
+                name="firm-image"
+                accept="image/*"
+                style="display: none"
+              />
+            </div>
+
+            <div class="input-box">
+              <label>Student ID</label>
+              <input
+                type="text"
+                id="studentId"
+                placeholder="Enter your student ID"
+                required
+              />
+            </div>
+            <div class="input-box">
+              <label>Full Name</label>
+              <input
+                type="text"
+                id="fullName"
+                placeholder="Enter your full name"
+                required
+              />
+            </div>
+            <div class="input-box">
+              <label>Roll No.</label>
+              <input
+                type="text"
+                id="rollNo"
+                placeholder="Enter your roll number"
+                required
+              />
+            </div>
+            <div class="input-box">
+              <label>NRC</label>
+              <input
+                type="text"
+                id="nrc"
+                placeholder="Enter your NRC"
+                required
+              />
+            </div>
+
+            <div class="input-box">
+              <label>Current Semester</label>
+              <select name="" id="currentSemester">
+                <option value="Select CurrentSemester">
+                  Select Current Semester
+                </option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+              </select>
+            </div>
+            <div></div>
+          </div>
+          <div class="section">
+            <div class="input-box">
+              <label>Father’s Name</label>
+              <input
+                type="text"
+                id="fathersName"
+                placeholder="Enter your father’s name"
+                required
+              />
+            </div>
+            <div class="input-box">
+              <label>Address</label>
+              <input
+                type="text"
+                id="address"
+                placeholder="Enter your address"
+                required
+              />
+            </div>
+            <div class="input-box">
+              <label>Email Address</label>
+              <input
+                type="email"
+                id="emailAddress"
+                placeholder="Enter your email"
+                required
+              />
+            </div>
+            <div class="input-box">
+              <label>Phone Number</label>
+              <input
+                type="number"
+                id="phoneNumber"
+                placeholder="Enter your phone number"
+                required
+              />
+            </div>
+            <div class="column">
+              <div class="input-box">
+                <label>Birth Date</label>
+                <input
+                  type="date"
+                  id="birthDate"
+                  placeholder="Enter your birth date"
+                  required
+                />
+              </div>
+              <!-- <div class="input-box">
+                <label>Registration Date</label>
+                  <input
+                  type="date"
+                  id="registrationDate"
+                  placeholder="Enter the registration date"
+                  required
+                />
+              </div> -->
+            </div>
+          </div>
+        </div>
+
+        <div class="button-bar">
+          <button id="cancel-button" onclick="backHome()">Cancel</button>
+          <button
+            id="submit-button"
+            type="button"
+            onclick="validateForm(event)"
+          >
+            Submit
+          </button>
+        </div>
+      </form>
+    </section>
+    <script src="{{ url_for('static', filename='js/request_register.js' )}}"></script>
+    <script>
+      function backHome() {
+        window.location.href = "/";
+      }
+      function validateForm(event) {
+        event.preventDefault();
+
+        // const rollNo = document.getElementById("rollNo").value.trim();
+        // const nrc = document.getElementById("nrc").value.trim();
+        // const phoneNumber = document.getElementById("phoneNumber").value.trim();
+
+        // const rollNoPattern = /^(1cst|2cs|3cs|4cs|5cs)-([1-9][0-9]?|100)$/;
+        // const nrcPattern = /^([1-9]|1[0-4])\/[a-zA-Z]{3}\((n|p)\)\d{6}$/;
+        // const phonePattern = /^(09[246789]\d{8}|(\d{4,9}))$/;
+
+        // if (!rollNoPattern.test(rollNo)) {
+        //   alert(
+        //     "Invalid roll number. Roll number must be in the format like 1cst-1 to 1cst-100 and 2cs-1 to 2cs-100 and so on."
+        //   );
+        //   return false;
+        // }
+
+        // if (!nrcPattern.test(nrc)) {
+        //   alert(
+        //     "Invalid NRC. NRC must be in the format like 14/zln(n)187660 where 14 may be 1 to 14, zln are three characters, (n) is n or p, and 187660 is six digits."
+        //   );
+        //   return false;
+        // }
+
+        // if (!phonePattern.test(phoneNumber)) {
+        //   alert(
+        //     "Invalid phone number. Phone number must be between 4 and 9 digits, or start with 09 followed by 11 digits with the third digit being 2, 4, 6, 7, 8, or 9."
+        //   );
+        //   return false;
+        // }
+        // Add event listener to submit button
+
+        const image_uploaded = uploadImage(
+          document.getElementById("firm-image")
+        );
+        image_uploaded
+          .then((result) => {
+            if (result.ok) {
+              const registeration_data = {
+                student_id: document.getElementById("studentId").value,
+                name: document.getElementById("fullName").value,
+                picture_uri: result.uri,
+                roll_no: document.getElementById("rollNo").value,
+                nrc: document.getElementById("nrc").value,
+                current_semester:
+                  document.getElementById("currentSemester").value,
+                father_name: document.getElementById("fathersName").value,
+                address: document.getElementById("address").value,
+                email: document.getElementById("emailAddress").value,
+                phone_no: document.getElementById("phoneNumber").value,
+                birth_date: document.getElementById("birthDate").value,
+              };
+              requestRegister(
+                "/student/register",
+                registeration_data,
+                document.getElementById("alert-container")
+              );
+            }
+          })
+          .catch((err) => console.error(err));
+      }
+    </script>
+
+    <!-- // image  -->
+    <script>
+      const fileInput = document.getElementById("firm-image");
+      const imagePreview = document.getElementById("imagePreview");
+
+      fileInput.addEventListener("change", function () {
+        const reader = new FileReader();
+        reader.onload = function () {
+          imagePreview.src = reader.result;
+        };
+        reader.readAsDataURL(fileInput.files[0]);
+      });
+    </script>
+  </body>
+</html>

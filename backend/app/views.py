@@ -44,6 +44,14 @@ def send_mail_test():
         return f"{is_send[1]}"
     return is_send[1]
 
-@views.route("/register_teacher")
+@views.route("/file")
+def fileupload_view():
+    return render_template("file.html")
+
+@views.route("/controller")
+def controller():
+    return render_template("controller.html")
+
+@views.route("/register_student")
 def teacher_register_view():
-    return render_template("teacher/register.html")
+    return render_template("student/register.html")

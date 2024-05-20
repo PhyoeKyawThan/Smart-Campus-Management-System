@@ -95,9 +95,86 @@
     </div>
 
     <div id="Dashboard" class="tabcontent">
-      <h3>Paris</h3>
-      <p>Paris is the capital of France.</p>
+      <h1>Today Passed Rate</h1>
+      <div class="stat-container">
+        <!-- Stat Boxes Here -->
+        <div class="stat-box">
+          <h3>Students</h3>
+          <p>100%</p>
+        </div>
+        <div class="stat-box">
+          <h3>Teachers</h3>
+          <p>100%</p>
+        </div>
+        <div class="stat-box">
+          <h3>Staffs</h3>
+          <p>100%</p>
+        </div>
+        <div class="stat-box">
+          <h3>Total</h3>
+          <p>100%</p>
+        </div>
+      </div>
+  
+      <div class="articles-container">
+        <div class="articles-header">
+          <h2>Recent Visits</h2>
+          <button class="view-all-btn">View All</button>
+        </div>
+        <table>
+          <!-- Table Rows Here -->
+          <tr>
+            <th>ID</th>
+            <th>PIC</th>
+            <th>NAME</th>
+            <th>DATE</th>
+            <th>TIME</th>
+          </tr>
+  
+          <tr>
+            <td>1</td>
+            <td><img src="./fower.jpg" width="50" height="50"></td>
+            <td>Kyaw Kyaw</td>
+            <td>14.5.24</td>
+            <td>10:00</td>
+          </tr>
+  
+          <tr>
+            <td>1</td>
+            <td><img src="./fower.jpg" width="50" height="50"></td>
+            <td>Kyaw Kyaw</td>
+            <td>14.5.24</td>
+            <td>10:00</td>
+          </tr>
+  
+          <tr>
+            <td>1</td>
+            <td><img src="./fower.jpg" width="50" height="50"></td>
+            <td>Kyaw Kyaw</td>
+            <td>14.5.24</td>
+            <td>10:00</td>
+          </tr>
+  
+          <tr>
+            <td>1</td>
+            <td><img src="./fower.jpg" width="50" height="50"></td>
+            <td>Kyaw Kyaw</td>
+            <td>14.5.24</td>
+            <td>10:00</td>
+          </tr>
+  
+          <tr>
+            <td>1</td>
+            <td><img src="./fower.jpg" width="50" height="50"></td>
+            <td>Kyaw Kyaw</td>
+            <td>14.5.24</td>
+            <td>10:00</td>
+          </tr>
+          <!-- Add more rows as needed -->
+        </table>
+      </div>
     </div>
+    <!-- dashboard data -->
 
     <div id="List" class="tabcontent">
       <div class="container">
@@ -179,10 +256,13 @@
     </div>
 
     <div id="Control" class="tabcontent">
-      <h3>Tokyo</h3>
-      <p>Tokyo is the capital of Japan.</p>
+      <h1 class="state">Closed</h1>
+      <div class="control">
+        <div class="open" onclick="openFunc()">OPEN</div>
+        <div class="close" onclick="closeFunc()">ClOSE</div>
+      </div>
     </div>
-
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
     <script>
       function openNav(evt, navName) {
         var i, tabcontent, tablinks;
@@ -211,6 +291,14 @@
           x[i].style.display = "none";
         }
         document.getElementById(campusName).style.display = "block";
+      }
+
+      async function openControl(){
+        const response = await fetch("/controller");
+        if(response.ok){
+          const content_data = await response.text();
+          document.getElementById("Control").innerHTML = content_data;
+        }
       }
     </script>
   </body>
