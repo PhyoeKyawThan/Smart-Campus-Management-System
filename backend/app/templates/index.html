@@ -24,7 +24,7 @@
         Dashboard
       </button>
       <button class="tablinks" onclick="openNav(event, 'Gate')">Gate</button>
-      <button class="tablinks" onclick="openNav(event, 'List')">List</button>
+      <button class="tablinks" id="list-section" onclick="openNav(event, 'List')">List</button>
       <button class="tablinks" onclick="openNav(event, 'Control')">
         Control
       </button>
@@ -37,21 +37,24 @@
     <!-- search -->
     <div id="Gate" class="tabcontent">
       <div class="container">
-        <div class="center">
-          <button
-            class="button button1"
-            onclick="openCampus('campus-in')"
-            id="defaultOpen"
-          >
-            Campus In
-          </button>
-          <button class="button button1" onclick="openCampus('campus-out')">
-            Campus Out
-          </button>
-        </div>
+          <div class="center">
+            <button
+              class="button button1"
+              onclick="openCampusSection('CampusIn', 'Gate')"
+              id="defaultOpenGate"
+            >
+              Campus In
+            </button>
+            <button
+              class="button button1"
+              onclick="openCampusSection('CampusOut', 'Gate')"
+            >
+              Campus Out
+            </button>
+          </div>
       </div>
 
-      <div id="campus-in" class="container campus">
+      <div id="CampusIn" class="container-campus campus-section">
         <h2>Campus In</h2>
         <table>
           <tr>
@@ -72,7 +75,7 @@
         <!-- campus in -->
       </div>
 
-      <div id="campus-out" class="container campus" style="display: none">
+      <div id="CampusOut" class="container-campus campus-section" style="display: none">
         <h2>Campus Out</h2>
         <table>
           <tr>
@@ -115,11 +118,11 @@
           <p>100%</p>
         </div>
       </div>
-  
+
       <div class="articles-container">
         <div class="articles-header">
           <h2>Recent Visits</h2>
-          <button class="view-all-btn">View All</button>
+          <button class="view-all-btn" id="view-all" onclick="viewAll()">View All</button>
         </div>
         <table>
           <!-- Table Rows Here -->
@@ -130,42 +133,42 @@
             <th>DATE</th>
             <th>TIME</th>
           </tr>
-  
+
           <tr>
             <td>1</td>
-            <td><img src="./fower.jpg" width="50" height="50"></td>
+            <td><img src="./fower.jpg" width="50" height="50" /></td>
             <td>Kyaw Kyaw</td>
             <td>14.5.24</td>
             <td>10:00</td>
           </tr>
-  
+
           <tr>
             <td>1</td>
-            <td><img src="./fower.jpg" width="50" height="50"></td>
+            <td><img src="./fower.jpg" width="50" height="50" /></td>
             <td>Kyaw Kyaw</td>
             <td>14.5.24</td>
             <td>10:00</td>
           </tr>
-  
+
           <tr>
             <td>1</td>
-            <td><img src="./fower.jpg" width="50" height="50"></td>
+            <td><img src="./fower.jpg" width="50" height="50" /></td>
             <td>Kyaw Kyaw</td>
             <td>14.5.24</td>
             <td>10:00</td>
           </tr>
-  
+
           <tr>
             <td>1</td>
-            <td><img src="./fower.jpg" width="50" height="50"></td>
+            <td><img src="./fower.jpg" width="50" height="50" /></td>
             <td>Kyaw Kyaw</td>
             <td>14.5.24</td>
             <td>10:00</td>
           </tr>
-  
+
           <tr>
             <td>1</td>
-            <td><img src="./fower.jpg" width="50" height="50"></td>
+            <td><img src="./fower.jpg" width="50" height="50" /></td>
             <td>Kyaw Kyaw</td>
             <td>14.5.24</td>
             <td>10:00</td>
@@ -181,17 +184,20 @@
         <div class="center">
           <button
             class="button button1"
-            onclick="openCampus('Student')"
-            id="defaultOpen"
+            onclick="openCampusSection('Student', 'List')"
+            id="defaultOpenList"
           >
             Student
           </button>
-          <button class="button button1" onclick="openCampus('Teacher')">
+          <button
+            class="button button1"
+            onclick="openCampusSection('Teacher', 'List')"
+          >
             Teacher
           </button>
         </div>
       </div>
-      <div id="Student" class="container campus">
+      <div id="Student" class="container-campus campus-section">
         <h1>Student</h1>
         <table>
           <tr>
@@ -207,11 +213,7 @@
           <tr>
             <td>{{ student[0] }}</td>
             <td>
-              <img
-                src="{{ student[1] }}"
-                width="50"
-                height="50"
-              />
+              <img src="{{ student[1] }}" width="50" height="50" />
             </td>
             <td>{{ student[2] }}</td>
             <td>{{ student[3] }}</td>
@@ -223,7 +225,7 @@
         <!-- student views in list topic -->
       </div>
 
-      <div id="Teacher" class="container campus" style="display: none">
+      <div id="Teacher" class="container-campus campus-section" style="display: none">
         <h1>Teacher</h1>
         <table>
           <tr>
@@ -263,43 +265,5 @@
       </div>
     </div>
     <script src="{{ url_for('static', filename='js/index.js') }}"></script>
-    <script>
-      function openNav(evt, navName) {
-        var i, tabcontent, tablinks;
-        tabcontent = document.getElementsByClassName("tabcontent");
-        for (i = 0; i < tabcontent.length; i++) {
-          tabcontent[i].style.display = "none";
-        }
-        tablinks = document.getElementsByClassName("tablinks");
-        for (i = 0; i < tablinks.length; i++) {
-          tablinks[i].className = tablinks[i].className.replace(" active", "");
-        }
-        document.getElementById(navName).style.display = "block";
-        const search = document.querySelector(".search");
-        document.getElementById("Dashboard").style.display === "block"
-          ? (search.style.display = "none")
-          : (search.style.display = "block");
-        evt.currentTarget.className += " active";
-      }
-
-      // Get the element with id="defaultOpen" and click on it
-      document.getElementById("defaultOpen").click();
-      function openCampus(campusName) {
-        var i;
-        var x = document.getElementsByClassName("campus");
-        for (i = 0; i < x.length; i++) {
-          x[i].style.display = "none";
-        }
-        document.getElementById(campusName).style.display = "block";
-      }
-
-      async function openControl(){
-        const response = await fetch("/controller");
-        if(response.ok){
-          const content_data = await response.text();
-          document.getElementById("Control").innerHTML = content_data;
-        }
-      }
-    </script>
   </body>
 </html>
