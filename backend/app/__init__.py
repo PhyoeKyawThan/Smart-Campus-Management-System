@@ -2,9 +2,11 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_mail import Mail, Message
+from flask_qrcode import QRcode
 
 # create db object
 db = SQLAlchemy()
+
 
 def app():
     
@@ -43,3 +45,4 @@ app = app()
 migrate = Migrate(app, db)
 # initial mail object for using in all blueprint
 MAIL = Mail(app=app)
+qrcode = QRcode(app=app)

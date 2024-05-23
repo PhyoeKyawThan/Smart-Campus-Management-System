@@ -311,3 +311,9 @@ td {
     background-color: red;
   }
 /* control */
+
+.search-by-date{
+    position: absolute;
+    right: 10px;
+    top: 100%;
+}

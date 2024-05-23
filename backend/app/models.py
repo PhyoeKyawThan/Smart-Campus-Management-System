@@ -1,6 +1,6 @@
 from . import db
 from datetime import datetime, timedelta
-
+from sqlalchemy import desc, func
 class Admin(db.Model):
     __tablename__ = "admin"
 
@@ -76,6 +76,19 @@ class Staff(db.Model):
     
     def __str__(self) -> str:
         return f"< staff_id: {self.staff_id}, staff_name: {self.name} >"
+
+class Guest(db.Model):
+    __tablename__ = "guest"
+    
+    guest_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    picture_uri = db.Column(db.String(255), nullable=False)
+    name = db.Column(db.String(50), nullable=False)
+    token = db.Column(db.String(200), nullable=False, unique=True)
+    register_date = db.Column(db.DateTime, default=datetime.now())
+    track_passes = db.relationship("TrackPass", backref="guest", lazy=True, cascade="all, delete")
+    
+    def __str__(self) -> str:
+        return f"{self.token}"
     
 class TrackPass(db.Model):
     __tablename__ = "trackpass"
@@ -86,6 +99,9 @@ class TrackPass(db.Model):
     student_id = db.Column(db.Integer, db.ForeignKey("student.student_id"))
     teacher_id = db.Column(db.Integer, db.ForeignKey("teacher.teacher_id"))
     staff_id = db.Column(db.Integer, db.ForeignKey("staff.staff_id"))
+    guest_id = db.Column(db.Integer, db.ForeignKey("guest.guest_id"))
+    
+    
     def __str__(self) -> str:
         if self.student_id:
             return f"< student_id: {self.student_id}, pass_id: {self.pass_id} >"
@@ -130,5 +146,108 @@ def get_teacher_info() -> list:
                 )).all()
         return teachers
     except Exception as err:
-        print(err)
         return list()
+    
+def get_staff_info() -> list:
+    """
+    get all staff data( staff_id, picture_uri,
+    name,  position, register_date )
+    """
+    try:
+        staffs = db.session.execute(
+                db.select(
+                    Staff.staff_id,
+                    Staff.picture_uri,
+                    Staff.name,
+                    Staff.position,   
+                    Staff.register_date
+                )).all()
+        return staffs
+    except Exception as err:
+        return list()
+
+def get_guest_info() -> list:
+    """
+    get all guest data( guest_id, picture_uri,
+    name,  position, register_date )
+    """
+    try:
+        guest = db.session.execute(
+                db.select(
+                    Guest.guest_id,
+                    Guest.picture_uri,
+                    Guest.name,
+                    Guest.token,   
+                    Guest.register_date
+                )).all()
+        return guest
+    except Exception as err:
+        return list()
+
+def get_trackpass() -> list:
+    try:
+        # Assuming `session` is your SQLAlchemy session
+        passes_student = db.session.query(
+            Student.student_id, 
+            Student.picture_uri, 
+            Student.name, 
+            TrackPass.in_time, 
+            TrackPass.out_time,
+            TrackPass.pass_id
+        ).join(TrackPass, 
+               Student.student_id == TrackPass.student_id).order_by(desc(TrackPass.pass_id)).all()
+        passes_teacher = db.session.query(
+            Teacher.teacher_id, 
+            Teacher.picture_uri, 
+            Teacher.name, 
+            TrackPass.in_time, 
+            TrackPass.out_time,
+            TrackPass.pass_id
+        ).join(TrackPass, 
+               Teacher.teacher_id == TrackPass.teacher_id).order_by(desc(TrackPass.pass_id)).all()
+        passes_guest = db.session.query(
+            Guest.guest_id, 
+            Guest.picture_uri, 
+            Guest.name, 
+            TrackPass.in_time, 
+            TrackPass.out_time,
+            TrackPass.pass_id
+        ).join(TrackPass, 
+               Guest.guest_id == TrackPass.guest_id).order_by(desc(TrackPass.pass_id)).all()
+        passess_staff = db.session.query(
+            Staff.staff_id, 
+            Staff.picture_uri, 
+            Staff.name, 
+            TrackPass.in_time, 
+            TrackPass.out_time,
+            TrackPass.pass_id
+        ).join(TrackPass, 
+               Staff.staff_id == TrackPass.staff_id).order_by(desc(TrackPass.pass_id)).all()
+        passess = passes_student + passes_guest + passes_teacher + passess_staff
+        all_passes_sorted = sorted(passess, key=lambda x: x.pass_id, reverse=True)
+        return all_passes_sorted
+    
+    except Exception as err:
+        # Log the error
+        print(f"An error occurred: {err}")
+        return []
+
+
+def recent_pass() -> list:
+    try:
+        # Assuming `session` is your SQLAlchemy session
+        today = datetime.now().date()
+        recent_passes = db.session.query(
+            Student.student_id, 
+            Student.picture_uri, 
+            Student.name, 
+            TrackPass.in_time, 
+            TrackPass.out_time,
+            TrackPass.pass_id
+        ).join(TrackPass, 
+               Student.student_id == TrackPass.student_id).filter( func.date(TrackPass.in_time) == today ).order_by(desc(TrackPass.pass_id)).all()
+        return recent_passes[:5]
+    except Exception as err:
+        # Log the error
+        print(f"An error occurred: {err}")
+        return []

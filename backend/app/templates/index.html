@@ -24,10 +24,17 @@
         Dashboard
       </button>
       <button class="tablinks" onclick="openNav(event, 'Gate')">Gate</button>
-      <button class="tablinks" id="list-section" onclick="openNav(event, 'List')">List</button>
-      <button class="tablinks" onclick="openNav(event, 'Control')">
-        Control
+      <button
+        class="tablinks"
+        id="list-section"
+        onclick="openNav(event, 'List')"
+      >
+        List
       </button>
+      <!-- <button class="tablinks" onclick="openNav(event, 'Control')">
+        Control
+      </button> -->
+      <button class="tablinks" onclick="logout()">Logout</button>
     </div>
 
     <div class="search">
@@ -37,21 +44,25 @@
     <!-- search -->
     <div id="Gate" class="tabcontent">
       <div class="container">
-          <div class="center">
-            <button
-              class="button button1"
-              onclick="openCampusSection('CampusIn', 'Gate')"
-              id="defaultOpenGate"
-            >
-              Campus In
-            </button>
-            <button
-              class="button button1"
-              onclick="openCampusSection('CampusOut', 'Gate')"
-            >
-              Campus Out
-            </button>
-          </div>
+        <div class="center">
+          <button
+            class="button button1"
+            onclick="openCampusSection('CampusIn', 'Gate')"
+            id="defaultOpenGate"
+          >
+            Campus In
+          </button>
+          <button
+            class="button button1"
+            onclick="openCampusSection('CampusOut', 'Gate')"
+          >
+            Campus Out
+          </button>
+        </div>
+        <div class="search-by-date">
+          <label for="search-by-date">Search: </label>
+          <input type="date" name="date" id="search-by-date">
+        </div>
       </div>
 
       <div id="CampusIn" class="container-campus campus-section">
@@ -64,18 +75,34 @@
             <th>Date</th>
             <th>Time</th>
           </tr>
+          {% for campus_in in campus_passes %} 
+          {% if campus_in.out_time == None or campus_in.out_time%}
           <tr>
+            <td>{{ campus_in.student_id }}</td>
+            <td>
+              <img src="{{ campus_in.picture_uri }}" width="50" height="50" />
+            </td>
+            <td>{{ campus_in.name }}</td>
+            <td>{{ campus_in.in_time.date() }}</td>
+            <td>{{ campus_in.in_time.time() }}</td>
+          </tr>
+          {% endif %} {% endfor %}
+          <!-- <tr>
             <td>2201</td>
             <td><img src="./fower.jpg" width="50" height="50" /></td>
             <td>Myat Phoo Pwint</td>
             <td>9.5.24</td>
             <td>11:00</td>
-          </tr>
+          </tr> -->
         </table>
         <!-- campus in -->
       </div>
 
-      <div id="CampusOut" class="container-campus campus-section" style="display: none">
+      <div
+        id="CampusOut"
+        class="container-campus campus-section"
+        style="display: none"
+      >
         <h2>Campus Out</h2>
         <table>
           <tr>
@@ -85,13 +112,27 @@
             <th>Date</th>
             <th>Time</th>
           </tr>
+          {% for campus_out in campus_passes %}
+          {% if campus_out.out_time %}
           <tr>
+            <td>{{ campus_out.student_id }}</td>
+            <td>
+              <img src="{{ campus_out.picture_uri }}" width="50" height="50" />
+            </td>
+            <td>{{ campus_out.name }}</td>
+            <td>{{ campus_out.out_time.date() }}</td>
+            <td>{{ campus_out.out_time.time() }}</td>
+          </tr>
+          
+          {% endif %}
+          {% endfor %}
+          <!-- <tr>
             <td>2201</td>
             <td><img src="./fower.jpg" width="50" height="50" /></td>
             <td>Aae Ae</td>
             <td>9.5.24</td>
             <td>11:00</td>
-          </tr>
+          </tr> -->
         </table>
         <!-- campus out -->
       </div>
@@ -122,7 +163,9 @@
       <div class="articles-container">
         <div class="articles-header">
           <h2>Recent Visits</h2>
-          <button class="view-all-btn" id="view-all" onclick="viewAll()">View All</button>
+          <button class="view-all-btn" id="view-all" onclick="viewAll()">
+            View All
+          </button>
         </div>
         <table>
           <!-- Table Rows Here -->
@@ -133,46 +176,57 @@
             <th>DATE</th>
             <th>TIME</th>
           </tr>
-
-          <tr>
+          {% for recent in recent_pass %}
+            {% if recent.student_id %}
+            <tr>
+              <td>{{ recent.student_id }}</td>
+              <td>
+                <img src="{{ recent.picture_uri }}" width="50" height="50" />
+              </td>
+              <td>{{ recent.name }}</td>
+              <td>{{ recent.in_time.date() if recent.in_time != None }}</td>
+              <td>IN - {{ recent.in_time.time() if recent.in_time != None  }} - OUT - {{ recent.out_time.time() if recent.out_time != None }}</td>
+            </tr>
+            {% elif teacher_id %}
+            <tr>
+              <td>{{ recent.teacher_id }}</td>
+              <td>
+                <img src="{{ recent.picture_uri }}" width="50" height="50" />
+              </td>
+              <td>{{ recent.name }}</td>
+              <td>{{ recent.in_time.date() if recent.in_time != None }}</td>
+              <td>IN - {{ recent.in_time.time() if recent.in_time != None  }} - OUT - {{ recent.out_time.time() if recent.out_time != None }}</td>
+            </tr>
+            {% elif guest_id %}
+            <tr>
+              <td>{{ recent.guest_id }}</td>
+              <td>
+                <img src="{{ recent.picture_uri }}" width="50" height="50" />
+              </td>
+              <td>{{ recent.name }}</td>
+              <td>{{ recent.in_time.date() if recent.in_time != None }}</td>
+              <td>IN - {{ recent.in_time.time() if recent.in_time != None  }} - OUT - {{ recent.out_time.time() if recent.out_time != None }}</td>
+            </tr>
+            {% else %}
+            <tr>
+              <td>{{ recent.staff_id }}</td>
+              <td>
+                <img src="{{ recent.picture_uri }}" width="50" height="50" />
+              </td>
+              <td>{{ recent.name }}</td>
+              <td>{{ recent.in_time.date() if recent.in_time != None }}</td>
+              <td>IN - {{ recent.in_time.time() if recent.in_time != None  }} - OUT - {{ recent.out_time.time() if recent.out_time != None }}</td>
+            </tr>
+            {% endif %}
+          {% endfor %}
+          <!-- <tr>
             <td>1</td>
             <td><img src="./fower.jpg" width="50" height="50" /></td>
             <td>Kyaw Kyaw</td>
             <td>14.5.24</td>
             <td>10:00</td>
-          </tr>
+          </tr> -->
 
-          <tr>
-            <td>1</td>
-            <td><img src="./fower.jpg" width="50" height="50" /></td>
-            <td>Kyaw Kyaw</td>
-            <td>14.5.24</td>
-            <td>10:00</td>
-          </tr>
-
-          <tr>
-            <td>1</td>
-            <td><img src="./fower.jpg" width="50" height="50" /></td>
-            <td>Kyaw Kyaw</td>
-            <td>14.5.24</td>
-            <td>10:00</td>
-          </tr>
-
-          <tr>
-            <td>1</td>
-            <td><img src="./fower.jpg" width="50" height="50" /></td>
-            <td>Kyaw Kyaw</td>
-            <td>14.5.24</td>
-            <td>10:00</td>
-          </tr>
-
-          <tr>
-            <td>1</td>
-            <td><img src="./fower.jpg" width="50" height="50" /></td>
-            <td>Kyaw Kyaw</td>
-            <td>14.5.24</td>
-            <td>10:00</td>
-          </tr>
           <!-- Add more rows as needed -->
         </table>
       </div>
@@ -194,6 +248,12 @@
             onclick="openCampusSection('Teacher', 'List')"
           >
             Teacher
+          </button>
+          <button
+            class="button button1"
+            onclick="openCampusSection('Staff', 'List')"
+          >
+            Staff
           </button>
         </div>
       </div>
@@ -225,7 +285,11 @@
         <!-- student views in list topic -->
       </div>
 
-      <div id="Teacher" class="container-campus campus-section" style="display: none">
+      <div
+        id="Teacher"
+        class="container-campus campus-section"
+        style="display: none"
+      >
         <h1>Teacher</h1>
         <table>
           <tr>
@@ -254,6 +318,32 @@
           {% endfor %}
         </table>
         <!-- teacher in list topic -->
+        <div id="Staff" class="container-campus campus-section">
+          <h1>Staff</h1>
+          <table>
+            <tr>
+              <th>ID</th>
+              <th>PIC</th>
+              <th>NAME</th>
+              <th>ROLL NO.</th>
+              <th>CURRENT_SEMESTER</th>
+              <th>REGISTER DATE</th>
+            </tr>
+  
+            {% for student in students %}
+            <tr>
+              <td>{{ student[0] }}</td>
+              <td>
+                <img src="{{ student[1] }}" width="50" height="50" />
+              </td>
+              <td>{{ student[2] }}</td>
+              <td>{{ student[3] }}</td>
+              <td>{{ student[4] }}</td>
+              <td>{{ student[5].date() }}</td>
+            </tr>
+            {% endfor %}
+          </table>
+        <!-- staff in list topic -->
       </div>
     </div>
 

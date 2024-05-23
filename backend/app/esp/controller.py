@@ -1,14 +1,22 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, abort
+from ..assets.validate import is_admin_in_session
 from werkzeug.security import generate_password_hash, check_password_hash
-from ..models import Student
+from ..models import Student, TrackPass
 import json
 controller = Blueprint("controller", __name__)
+
+# def add_trackpass(roll: str, dat): bool:
+#     match(roll):
+#         case "student":
+#             new_student = Student()
 
 @controller.route("/who_pass", methods=["POST"])
 def who_pass():
     """
     summery: 
     """
+    if not is_admin_in_session():
+        abort(401)
     if request.method == "POST":
         data = request.get_json()
         if data["roll"] == "student":

@@ -1,3 +1,7 @@
+// logout
+function logout(){
+  window.location.href = "/auth/admin/logout";
+}
 // communicate with esp
 async function openFunc() {
   const servo_response = await fetch("http://192.168.39.67/servo?position=180");
@@ -29,6 +33,7 @@ function openNav(evt, navName) {
   document.getElementById("Dashboard").style.display === "block"
     ? (search.style.display = "none")
     : (search.style.display = "block");
+    localStorage.setItem("current_display", navName);
   evt.currentTarget.className += " active";
 }
 
@@ -58,4 +63,9 @@ async function openControl() {
     const content_data = await response.text();
     document.getElementById("Control").innerHTML = content_data;
   }
+}
+
+
+async function searchStudent(){
+  const response = await fetch("student")
 }
