@@ -1,5 +1,5 @@
 from . import db
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 from sqlalchemy import desc, func
 class Admin(db.Model):
     __tablename__ = "admin"
@@ -52,7 +52,7 @@ class Teacher(db.Model):
     phone_no = db.Column(db.String(15), nullable=False)
     email = db.Column(db.String(200), nullable=True)
     birth_date = db.Column(db.DateTime, nullable=False)
-    register_date = db.Column(db.DateTime, default=datetime.now())
+    register_date = db.Column(db.DateTime, default=datetime.now().date())
     track_passes = db.relationship("TrackPass", backref="teacher", lazy=True, cascade="all, delete")
     
     def __str__(self) -> str:
@@ -94,12 +94,12 @@ class TrackPass(db.Model):
     __tablename__ = "trackpass"
     
     pass_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    in_time = db.Column(db.DateTime, nullable=True)
-    out_time = db.Column(db.DateTime, nullable=True)
     student_id = db.Column(db.Integer, db.ForeignKey("student.student_id"))
     teacher_id = db.Column(db.Integer, db.ForeignKey("teacher.teacher_id"))
     staff_id = db.Column(db.Integer, db.ForeignKey("staff.staff_id"))
     guest_id = db.Column(db.Integer, db.ForeignKey("guest.guest_id"))
+    date = db.Column(db.Date, nullable=True, default=datetime.now().date())
+    times = db.relationship("Time", backref="trackpass", lazy=True, cascade="all, delete")
     
     
     def __str__(self) -> str:
@@ -108,6 +108,17 @@ class TrackPass(db.Model):
         if self.teacher_id:
             return f"< teacher_id: {self.teacher_id}, pass_id: {self.pass_id} >"
         return "<>"
+
+class Time(db.Model):
+    __tablename__ = "time"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    date = db.Column(db.Date, default=datetime.now().date())
+    in_time = db.Column(db.DateTime, nullable=True)
+    out_time = db.Column(db.DateTime, nullable=True)
+    pass_id = db.Column(db.Integer, db.ForeignKey("trackpass.pass_id"), nullable=False)
+    
+    def __str__(self) -> str:
+        return f"In - {self.in_time} -> Out - {self.out_time}"
 
 def get_student_info() -> list:
     """
