@@ -31,3 +31,20 @@ def student_register_view():
 @views.route("/admin_login")
 def admin_login_view():
     return render_template("admin_login.html")
+
+@views.route("/get_hash")
+def get_hash():
+    from flask import request
+    from werkzeug.security import generate_password_hash
+    student_id = request.args.get("id")
+    from .models import Student
+    student = db.session.query(Student).get(student_id)
+    format_data = {
+                "student_id": student.student_id,
+                "name": student.name,
+                "roll_no": student.roll_no,
+                "father_name": student.father_name,
+                "current_semester": student.current_semester
+                }
+    from json import dumps
+    return generate_password_hash(dumps(format_data))

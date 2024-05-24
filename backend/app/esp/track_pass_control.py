@@ -5,6 +5,17 @@ import json
 from .. import db
 from datetime import datetime, date
 
+"""
+need to reduce reduntent codes 
+"""
+def is_even(length: int) -> bool:
+    return True if length%2 == 0 else False
+
+def is_in(pass_id: int):
+    passes_time = Time.query.filter_by( pass_id=pass_id).all()
+    for time in passes_time:
+        print(time.pass_id)
+
 def is_today_out(exist_date: datetime) -> bool:
     current = datetime.now().date()
     current_date = datetime(current.year, current.month, current.day)
@@ -15,7 +26,7 @@ def is_today_out(exist_date: datetime) -> bool:
     return False    
 
 def student_passed_today(student_id: int) -> TrackPass:
-    passes = TrackPass.query.filter_by(student_id= student_id, 
+    passes = TrackPass.query.filter_by(student_id=student_id, 
                                        date = datetime.now().date()).first()
     if passes:
         return passes
@@ -43,7 +54,7 @@ def staff_passed_today(staff_id: int) -> TrackPass:
     return TrackPass()
 
 # def response(object, format_data: dict) -> jsonify:
-    
+
 
 def add_trackpass(data: dict) -> bool:
     match data["who"]:
@@ -58,18 +69,27 @@ def add_trackpass(data: dict) -> bool:
                     "current_semester": student.current_semester
                 }
                 if check_password_hash(data["token"], json.dumps(format_data)):
-                    if student_passed_today(student.student_id).student_id:
-                        out = Time()
-                        out.out_time = datetime.now()
-                        out.pass_id = student_passed_today(student_id=student.student_id).pass_id
-                        db.session.add(out)
-                        db.session.commit()
+                    today_student = student_passed_today(student_id=student.student_id)
+                    if today_student.student_id:
+                        if (len(today_student.times) + 1)%2 != 0:
+                            in_ = Time()
+                            in_.in_time = datetime.now()
+                            in_.pass_id = today_student.pass_id
+                            db.session.add(in_)
+                            db.session.commit()
+                        else:
+                            out = Time()
+                            out.out_time = datetime.now()
+                            out.pass_id = today_student.pass_id
+                            db.session.add(out)
+                            db.session.commit()
+                            
                     else:
                         new_pass = TrackPass()
                         new_pass.student_id = student.student_id
                         db.session.add(new_pass)
                         db.session.commit()
-                        new_time = student_passed_today(student_id=student.student_id)
+                        new_time = Time()
                         new_time.in_time = datetime.now()
                         new_time.pass_id = new_pass.pass_id
                         db.session.add(new_time)
