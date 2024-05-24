@@ -37,20 +37,20 @@ class Track:
             case _:
                 return None
     
-    def __set_id_to_time(self, time_obj: Time, id: int)->None:
+    def __set_id_to_pass(self, pass_obj: Time, id: int)->None:
         match self.who:
             case "student":
-                time_obj.student_id = id
+                pass_obj.student_id = id
             case "teacher":
-                time_obj.teacher_id = id
+                pass_obj.teacher_id = id
             case "staff":
-                time_obj.staff_id = id
+                pass_obj.staff_id = id
             case "guest":
-                time_obj.guest_id = id
+                pass_obj.guest_id = id
             case _:
                 return None
     
-    def __get_id_from_people(self, people: object) -> int:
+    def __get_id_from_object(self, people: object) -> int:
         match self.who:
             case "student":
                 return people.student_id
@@ -76,7 +76,6 @@ class Track:
                 return track_pass
         except Exception as e:
             current_app.logger.error(e)
-            return False
         return TrackPass()
     
     def __check(self, unique_id: str, token: str)->bool:
@@ -85,8 +84,10 @@ class Track:
             if people:
                 formatted_data = self.__get_format(people=people)
                 if check_password_hash(token, json.dumps(formatted_data)):
+                    # add logging for test
+                    current_app.logger.info(f"username = {people.name} is validate")
                     today_passed_people =self.__passed_today(unique_id)
-                    if today_passed_people:
+                    if self.__get_id_from_object(today_passed_people):
                         if (len(today_passed_people.times) + 1) % 2 != 0:
                             in_time = Time()
                             in_time.in_time = datetime.now()
@@ -102,7 +103,7 @@ class Track:
                         return True
                     # create new in coming pass
                     new_in_pass_people = TrackPass()
-                    self.__set_id_to_time(new_in_pass_people, self.__get_id_from_people(people=people))
+                    self.__set_id_to_pass(new_in_pass_people, self.__get_id_from_object(people=people))
                     db.session.add(new_in_pass_people)
                     db.session.commit()
                     # create new in time data 
@@ -139,14 +140,14 @@ class Track:
                     "department": people.department,
                     "position": people.position,
                     "nrc": people.nrc,
-                    "birth_date": people.birth_date
+                    "birth_date": str(people.birth_date)
                 }
             case "staff":
                 return {
                     "staff_id": people.staff_id,
                     "name": people.name,
                     "position": people.position,
-                    "birth_date": people.birth_date
+                    "birth_date": str(people.birth_date)
                 }
             case "guest":
                 return {

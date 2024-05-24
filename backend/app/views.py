@@ -37,13 +37,14 @@ def get_hash():
     from flask import request
     from werkzeug.security import generate_password_hash
     student_id = request.args.get("id")
-    from .models import Student
-    student = db.session.query(Student).get(student_id)
-    format_data = {'student_id': 5,
-                   'name': 'Alice Johnson',
-                   'roll_no': 'S112233',
-                   'father_name': 'Thomas Johnson',
-                   'current_semester': 4}
-
-    from json import dumps
-    return generate_password_hash(dumps(format_data))
+    from .models import Teacher, Staff
+    from flask import jsonify
+    student = db.session.query(Staff).get(student_id).track_passes
+    for track in student:
+        print("Pass ID - ", track.pass_id)
+        for time in track.times:
+            if time.in_time:
+                print(f"In - {time.in_time}")
+            if time.out_time:
+                print(f"Out - {time.out_time}")
+    return ""
