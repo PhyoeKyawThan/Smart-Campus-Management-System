@@ -3,6 +3,7 @@ from ..assets.validate import is_admin_in_session
 from .track_pass_control import add_trackpass
 from werkzeug.security import generate_password_hash
 import json
+from .track import Track
 controller = Blueprint("controller", __name__)
 
 
@@ -22,13 +23,8 @@ def who_pass():
         abort(401)
     if request.method == "POST":
         data = request.get_json()
-        add_trackpass(data)
+        new_track = Track(data["who"])
+        new_track.add_pass(datas=data)
         
             # return student.name
-    return generate_password_hash(json.dumps({
-                    "student_id": 1,
-                    "name": "Alice Johnson",
-                    "roll_no": "A12345",
-                    "father_name": "John Johnson",
-                    "current_semester": 4
-                }))
+    return f"passed - {data["id"]}"

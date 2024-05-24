@@ -2,6 +2,7 @@ from datetime import datetime
 from ..models import *
 from werkzeug.security import check_password_hash
 from flask import current_app
+import json
 
 class Track:
     def __init__(self, who: str) -> None:
@@ -78,12 +79,12 @@ class Track:
             return False
         return TrackPass()
     
-    def __check(self, unique_id: str, datas: list )->bool:
+    def __check(self, unique_id: str, token: str)->bool:
         try:
             people = self.__get_object().query.filter_by(**{f"{self.who}_id": unique_id}).first()
             if people:
                 formatted_data = self.__get_format(people=people)
-                if check_password_hash(formatted_data, formatted_data):
+                if check_password_hash(token, json.dumps(formatted_data)):
                     today_passed_people =self.__passed_today(unique_id)
                     if today_passed_people:
                         if (len(today_passed_people.times) + 1) % 2 != 0:
@@ -116,7 +117,9 @@ class Track:
             return False
         
     def add_pass(self, datas: dict) -> bool:
-        pass
+        if self.__check(datas["id"], datas["token"]):
+            return True
+        return False
     
     
     def __get_format(self, people: object)->dict:
@@ -155,3 +158,5 @@ class Track:
                 
             case _:
                 return None
+    def __str__(self) -> str:
+        return f"< who_pass = {self.who} >"

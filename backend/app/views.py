@@ -39,12 +39,11 @@ def get_hash():
     student_id = request.args.get("id")
     from .models import Student
     student = db.session.query(Student).get(student_id)
-    format_data = {
-                "student_id": student.student_id,
-                "name": student.name,
-                "roll_no": student.roll_no,
-                "father_name": student.father_name,
-                "current_semester": student.current_semester
-                }
+    format_data = {'student_id': 5,
+                   'name': 'Alice Johnson',
+                   'roll_no': 'S112233',
+                   'father_name': 'Thomas Johnson',
+                   'current_semester': 4}
+
     from json import dumps
     return generate_password_hash(dumps(format_data))
