@@ -195,69 +195,42 @@ def get_guest_info() -> list:
     except Exception as err:
         return list()
 
+def get_object(track_pass: TrackPass) -> tuple[int: object]:
+    if track_pass.student_id:
+        return (track_pass.student_id, "student", Student.query.get(track_pass.student_id))
+    if track_pass.teacher_id:
+        return (track_pass.teacher_id, "teacher", Teacher.query.get(track_pass.teacher_id))
+    if track_pass.guest_id:
+        return (track_pass.guest_id, "guest", Teacher.query.get(track_pass.guest_id))
+    if track_pass.staff_id:
+        return (track_pass.staff_id, "staff", Staff.query.get(track_pass.staff_id))
+    return (None, None)
+
 def get_trackpass() -> list:
     try:
         # Assuming `session` is your SQLAlchemy session
-        passes_student = db.session.query(
-            Student.student_id, 
-            Student.picture_uri, 
-            Student.name, 
-            TrackPass.in_time, 
-            TrackPass.out_time,
-            TrackPass.pass_id
-        ).join(TrackPass, 
-               Student.student_id == TrackPass.student_id).order_by(desc(TrackPass.pass_id)).all()
-        passes_teacher = db.session.query(
-            Teacher.teacher_id, 
-            Teacher.picture_uri, 
-            Teacher.name, 
-            TrackPass.in_time, 
-            TrackPass.out_time,
-            TrackPass.pass_id
-        ).join(TrackPass, 
-               Teacher.teacher_id == TrackPass.teacher_id).order_by(desc(TrackPass.pass_id)).all()
-        passes_guest = db.session.query(
-            Guest.guest_id, 
-            Guest.picture_uri, 
-            Guest.name, 
-            TrackPass.in_time, 
-            TrackPass.out_time,
-            TrackPass.pass_id
-        ).join(TrackPass, 
-               Guest.guest_id == TrackPass.guest_id).order_by(desc(TrackPass.pass_id)).all()
-        passess_staff = db.session.query(
-            Staff.staff_id, 
-            Staff.picture_uri, 
-            Staff.name, 
-            TrackPass.in_time, 
-            TrackPass.out_time,
-            TrackPass.pass_id
-        ).join(TrackPass, 
-               Staff.staff_id == TrackPass.staff_id).order_by(desc(TrackPass.pass_id)).all()
-        passess = passes_student + passes_guest + passes_teacher + passess_staff
-        all_passes_sorted = sorted(passess, key=lambda x: x.pass_id, reverse=True)
-        return all_passes_sorted
+        passes = Time.query.all()
+        passess_data = []
+        for pass_ in passes:
+            track_pass = TrackPass.query.get(pass_.pass_id)
+            if track_pass.student_id:
+                people_id, who, people = get_object(track_pass=track_pass)
+                data = {
+                    "pass_id": pass_.pass_id,
+                    "picture_uri": people.picture_uri,
+                    "name": people.name,
+                    "id": people_id,
+                    "who": who,
+                    "date": pass_.date, 
+                }
+                if pass_.in_time:
+                    data["in_time"] = str(pass_.in_time.time())
+                if pass_.out_time:
+                    data["out_time"] = str(pass_.out_time.time())
+                passess_data.append(data)
+        # all_passes_sorted = sorted(passess, key=lambda x: x.pass_id, reverse=True)
+        return passess_data
     
-    except Exception as err:
-        # Log the error
-        print(f"An error occurred: {err}")
-        return []
-
-
-def recent_pass() -> list:
-    try:
-        # Assuming `session` is your SQLAlchemy session
-        today = datetime.now().date()
-        recent_passes = db.session.query(
-            Student.student_id, 
-            Student.picture_uri, 
-            Student.name, 
-            TrackPass.in_time, 
-            TrackPass.out_time,
-            TrackPass.pass_id
-        ).join(TrackPass, 
-               Student.student_id == TrackPass.student_id).filter( func.date(TrackPass.in_time) == today ).order_by(desc(TrackPass.pass_id)).all()
-        return recent_passes[:5]
     except Exception as err:
         # Log the error
         print(f"An error occurred: {err}")

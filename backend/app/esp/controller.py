@@ -1,6 +1,5 @@
 from flask import Blueprint, request, jsonify, abort
 from ..assets.validate import is_admin_in_session
-from .track_pass_control import add_trackpass
 from werkzeug.security import generate_password_hash
 import json
 from .track import Track

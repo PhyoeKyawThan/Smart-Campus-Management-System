@@ -23,7 +23,7 @@
       >
         Dashboard
       </button>
-      <button class="tablinks" onclick="openNav(event, 'Gate')">Gate</button>
+      <button class="tablinks" onclick="openNav(event, 'Gate')" id="gate-section">Gate</button>
       <button
         class="tablinks"
         id="list-section"
@@ -61,32 +61,36 @@
         </div>
         <div class="search-by-date">
           <label for="search-by-date">Search: </label>
-          <input type="date" name="date" id="search-by-date">
+          <input type="date" name="date" id="search-by-date" onchange="searchPass()">
         </div>
       </div>
 
       <div id="CampusIn" class="container-campus campus-section">
         <h2>Campus In</h2>
         <table>
-          <tr>
+          <thead>
+            <tr>
             <th>ID</th>
             <th>PIC</th>
             <th>NAME</th>
             <th>Date</th>
             <th>Time</th>
           </tr>
-          {% for campus_in in campus_passes %} 
-          {% if campus_in.out_time == None or campus_in.out_time%}
-          <tr>
-            <td>{{ campus_in.student_id }}</td>
-            <td>
-              <img src="{{ campus_in.picture_uri }}" width="50" height="50" />
-            </td>
-            <td>{{ campus_in.name }}</td>
-            <td>{{ campus_in.in_time.date() }}</td>
-            <td>{{ campus_in.in_time.time() }}</td>
-          </tr>
-          {% endif %} {% endfor %}
+          </thead>
+          <tbody id="in-body">
+          {% for campus in campus_passes %}
+            {% if campus.in_time %}
+             <tr>
+              <td>{{ campus["pass_id"] }}</td>
+              <td><img src='{{ campus["picture_uri"] }}' width="50" height="50" /></td>
+              <td>{{ campus["name"] }}</td>
+              <td>{{ campus["date"] }}</td>
+              <td>{{ campus["in_time"] }}</td>
+              <td><a href="">View</a></td>
+             </tr>
+            {% endif %}
+          {% endfor %}
+          </tbody>
           <!-- <tr>
             <td>2201</td>
             <td><img src="./fower.jpg" width="50" height="50" /></td>
@@ -105,27 +109,29 @@
       >
         <h2>Campus Out</h2>
         <table>
-          <tr>
-            <th>ID</th>
-            <th>PIC</th>
-            <th>NAME</th>
-            <th>Date</th>
-            <th>Time</th>
-          </tr>
-          {% for campus_out in campus_passes %}
-          {% if campus_out.out_time %}
-          <tr>
-            <td>{{ campus_out.student_id }}</td>
-            <td>
-              <img src="{{ campus_out.picture_uri }}" width="50" height="50" />
-            </td>
-            <td>{{ campus_out.name }}</td>
-            <td>{{ campus_out.out_time.date() }}</td>
-            <td>{{ campus_out.out_time.time() }}</td>
-          </tr>
-          
-          {% endif %}
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>PIC</th>
+              <th>NAME</th>
+              <th>Date</th>
+              <th>Time</th>
+            </tr>
+          </thead>
+          <tbody id="out-body">
+            {% for campus in campus_passes %}
+            {% if campus.out_time %}
+             <tr>
+              <td>{{ campus["pass_id"] }}</td>
+              <td><img src='{{ campus["picture_uri"] }}' width="50" height="50" /></td>
+              <td>{{ campus["name"] }}</td>
+              <td>{{ campus["date"] }}</td>
+              <td>{{ campus["out_time"] }}</td>
+              <td><a href="">View</a></td>
+             </tr>
+            {% endif %}
           {% endfor %}
+          </tbody>
           <!-- <tr>
             <td>2201</td>
             <td><img src="./fower.jpg" width="50" height="50" /></td>
@@ -177,47 +183,13 @@
             <th>TIME</th>
           </tr>
           {% for recent in recent_pass %}
-            {% if recent.student_id %}
-            <tr>
-              <td>{{ recent.student_id }}</td>
-              <td>
-                <img src="{{ recent.picture_uri }}" width="50" height="50" />
-              </td>
-              <td>{{ recent.name }}</td>
-              <td>{{ recent.in_time.date() if recent.in_time != None }}</td>
-              <td>IN - {{ recent.in_time.time() if recent.in_time != None  }} - OUT - {{ recent.out_time.time() if recent.out_time != None }}</td>
-            </tr>
-            {% elif teacher_id %}
-            <tr>
-              <td>{{ recent.teacher_id }}</td>
-              <td>
-                <img src="{{ recent.picture_uri }}" width="50" height="50" />
-              </td>
-              <td>{{ recent.name }}</td>
-              <td>{{ recent.in_time.date() if recent.in_time != None }}</td>
-              <td>IN - {{ recent.in_time.time() if recent.in_time != None  }} - OUT - {{ recent.out_time.time() if recent.out_time != None }}</td>
-            </tr>
-            {% elif guest_id %}
-            <tr>
-              <td>{{ recent.guest_id }}</td>
-              <td>
-                <img src="{{ recent.picture_uri }}" width="50" height="50" />
-              </td>
-              <td>{{ recent.name }}</td>
-              <td>{{ recent.in_time.date() if recent.in_time != None }}</td>
-              <td>IN - {{ recent.in_time.time() if recent.in_time != None  }} - OUT - {{ recent.out_time.time() if recent.out_time != None }}</td>
-            </tr>
-            {% else %}
-            <tr>
-              <td>{{ recent.staff_id }}</td>
-              <td>
-                <img src="{{ recent.picture_uri }}" width="50" height="50" />
-              </td>
-              <td>{{ recent.name }}</td>
-              <td>{{ recent.in_time.date() if recent.in_time != None }}</td>
-              <td>IN - {{ recent.in_time.time() if recent.in_time != None  }} - OUT - {{ recent.out_time.time() if recent.out_time != None }}</td>
-            </tr>
-            {% endif %}
+          <tr>
+            <td>{{ recent["pass_id"] }}</td>
+            <td><img src="{{ recent['picture_uri']}}" width="50" height="50" /></td>
+            <td>{{ recent["name"] }}</td>
+            <td>{{ recent["date"] }}</td>
+            <td>{{ "In - " + recent["in_time"] if recent["in_time"] else "Out - "+  recent["out_time"] }}</td>
+            <td><a href="">View</a></td>
           {% endfor %}
           <!-- <tr>
             <td>1</td>
@@ -279,6 +251,7 @@
             <td>{{ student[3] }}</td>
             <td>{{ student[4] }}</td>
             <td>{{ student[5].date() }}</td>
+            <td><a href="">View</a></td>
           </tr>
           {% endfor %}
         </table>

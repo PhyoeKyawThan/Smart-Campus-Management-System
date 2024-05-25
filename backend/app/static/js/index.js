@@ -1,5 +1,6 @@
+let campus = "";
 // logout
-function logout(){
+function logout() {
   window.location.href = "/auth/admin/logout";
 }
 // communicate with esp
@@ -33,7 +34,7 @@ function openNav(evt, navName) {
   document.getElementById("Dashboard").style.display === "block"
     ? (search.style.display = "none")
     : (search.style.display = "block");
-    localStorage.setItem("current_display", navName);
+  localStorage.setItem("current_display", navName);
   evt.currentTarget.className += " active";
 }
 
@@ -51,10 +52,13 @@ function openCampusSection(sectionName, parentName) {
     campusSections[i].style.display = "none";
   }
   document.getElementById(sectionName).style.display = "block";
+  if( sectionName === "CampusIn" || sectionName === "CampusOut"){
+    campus = sectionName;
+  }
 }
 
 function viewAll() {
-  document.getElementById("list-section").click();
+  document.getElementById("gate-section").click();
 }
 
 async function openControl() {
@@ -65,7 +69,57 @@ async function openControl() {
   }
 }
 
+function searchPass() {
+  const date = document.getElementById("search-by-date").value;
+  fetch("/search_by_date", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      date: date,
+    }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      // check campus in or campus out is clicked
+      const campus_in = document.getElementById("in-body");
+      const campus_out = document.getElementById("out-body");
+      if (data.success) {
 
-async function searchStudent(){
-  const response = await fetch("student")
+        console.log(campus);
+        campus === "CampusIn"
+          ? (campus_in.innerHTML = "")
+          : (campus_out.innerHTML = "");
+          console.log(data)
+        data.data.forEach((pass) => {
+          if (pass.in_time && campus === "CampusIn" ) {
+            campus_in.innerHTML += `
+          <tr>
+          <td>${pass.pass_id}</td>
+          <td><img src='${pass.profile_uri}' width="50" height="50" /></td>
+          <td>${pass.name}</td>
+          <td>${pass.date}</td>
+          <td> In - ${pass.in_time}</td>
+          <td><a href="">View</a></td>
+         </tr>
+          `;
+          }
+          
+          if(pass.out_time && campus === "CampusOut"){
+            campus_out.innerHTML += `
+          <tr>
+          <td>${pass.pass_id}</td>
+          <td><img src='${pass.profile_uri}' width="50" height="50" /></td>
+          <td>${pass.name}</td>
+          <td>${pass.date}</td>
+          <td>Out - ${pass.out_time}</td>
+          <td><a href="">View</a></td>
+         </tr>
+          `;
+          }
+        });
+      }
+    })
+    .catch((err) => console.error(err));
 }
