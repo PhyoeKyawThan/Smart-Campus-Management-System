@@ -169,6 +169,7 @@ def get_staff_info() -> list:
                 db.select(
                     Staff.staff_id,
                     Staff.picture_uri,
+                    Staff.nrc,
                     Staff.name,
                     Staff.position,   
                     Staff.register_date
@@ -213,7 +214,7 @@ def get_trackpass() -> list:
         passess_data = []
         for pass_ in passes:
             track_pass = TrackPass.query.get(pass_.pass_id)
-            if track_pass.student_id:
+            if track_pass:
                 people_id, who, people = get_object(track_pass=track_pass)
                 data = {
                     "pass_id": pass_.pass_id,

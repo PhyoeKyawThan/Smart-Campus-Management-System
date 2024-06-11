@@ -291,28 +291,30 @@
           {% endfor %}
         </table>
         <!-- teacher in list topic -->
-        <div id="Staff" class="container-campus campus-section">
+        <div id="Staff" class="container-campus campus-section" style="display: none;">
           <h1>Staff</h1>
           <table>
-            <tr>
-              <th>ID</th>
-              <th>PIC</th>
-              <th>NAME</th>
-              <th>ROLL NO.</th>
-              <th>CURRENT_SEMESTER</th>
-              <th>REGISTER DATE</th>
-            </tr>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>PIC</th>
+                <th>NAME</th>
+                <th>NRC</th>
+                <th>POSITION</th>
+                <th>REGISTER DATE</th>
+              </tr>
+            </thead>
   
-            {% for student in students %}
+            {% for staff in staffs %}
             <tr>
-              <td>{{ student[0] }}</td>
+              <td>{{ staff[0] }}</td>
               <td>
-                <img src="{{ student[1] }}" width="50" height="50" />
+                <img src="{{ staff[1] }}" width="50" height="50" />
               </td>
-              <td>{{ student[2] }}</td>
-              <td>{{ student[3] }}</td>
-              <td>{{ student[4] }}</td>
-              <td>{{ student[5].date() }}</td>
+              <td>{{ staff[2] }}</td>
+              <td>{{ staff[3] }}</td>
+              <td>{{ staff[4] }}</td>
+              <td>{{ staff[5].date() }}</td>
             </tr>
             {% endfor %}
           </table>
