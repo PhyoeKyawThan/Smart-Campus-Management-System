@@ -1,0 +1,43 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>(401)Unauthorized Request first login</title>
+    <style>
+        *{
+            width: 100%;
+            margin: auto;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        html, body{
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container{
+            width: fit-content;
+        }
+
+        .container h1{
+            font-size: 4em;
+            width: fit-content;
+        }
+
+        .container .text span{
+            font-weight: bolder;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>401</h1>
+        <div class="text">Ohhhh Really? <span>She already belong with someone else.</span></div>
+        <a href="{{ url_for('views.admin_login_view') }}" style="display: block; width: fit-content;">Login Here</a>
+    </div>
+</body>
+</html>
