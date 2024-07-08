@@ -1,0 +1,171 @@
+<section class="container mx-auto mt-10 p-6 bg-white rounded-md shadow-md">
+    <header class="text-2xl font-bold mb-4">Update Form</header>
+    <form class="form" id="updateForm">
+        <h2 id="alert-container" class="text-red-500 mb-4"></h2>
+        <div class="flex justify-between">
+            <div class="w-1/2 mr-2">
+                <div class="mb-4">
+                    <label for="firm-image" class="block text-sm font-medium text-gray-700">Image:</label>
+                    <div class="relative w-32 h-32">
+                        <img id="imagePreview" src="/static/images/camera.jpg" alt="Default Image"
+                            class="object-cover w-full h-full rounded-md" />
+                        <div
+                            class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white cursor-pointer">
+                            <label for="firm-image" class="browse-button">Browse</label>
+                        </div>
+                    </div>
+                    <input type="file" id="firm-image" name="firm-image" accept="image/*" class="hidden" />
+                </div>
+
+                <div class="mb-4">
+                    <label for="studentId" class="block text-sm font-medium text-gray-700">Student ID</label>
+                    <input type="text" id="studentId" placeholder="Enter your student ID" required
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                </div>
+
+                <div class="mb-4">
+                    <label for="fullName" class="block text-sm font-medium text-gray-700">Full Name</label>
+                    <input type="text" id="fullName" placeholder="Enter your full name" required
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                </div>
+
+                <div class="mb-4">
+                    <label for="rollNo" class="block text-sm font-medium text-gray-700">Roll No.</label>
+                    <input type="text" id="rollNo" placeholder="Enter your roll number" required
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                </div>
+
+                <div class="mb-4">
+                    <label for="nrc" class="block text-sm font-medium text-gray-700">NRC</label>
+                    <input type="text" id="nrc" placeholder="Enter your NRC" required
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                </div>
+
+                <div class="mb-4">
+                    <label for="currentSemester" class="block text-sm font-medium text-gray-700">Current
+                        Semester</label>
+                    <select id="currentSemester" required
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <option value="">Select Current Semester</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="w-1/2 ml-2">
+                <div class="mb-4">
+                    <label for="fathersName" class="block text-sm font-medium text-gray-700">Father’s Name</label>
+                    <input type="text" id="fathersName" placeholder="Enter your father’s name" required
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                </div>
+
+                <div class="mb-4">
+                    <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
+                    <input type="text" id="address" placeholder="Enter your address" required
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                </div>
+
+                <div class="mb-4">
+                    <label for="emailAddress" class="block text-sm font-medium text-gray-700">Email Address</label>
+                    <input type="email" id="emailAddress" placeholder="Enter your email" required
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                </div>
+
+                <div class="mb-4">
+                    <label for="phoneNumber" class="block text-sm font-medium text-gray-700">Phone Number</label>
+                    <input type="text" id="phoneNumber" placeholder="Enter your phone number" required
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                </div>
+
+                <div class="mb-4">
+                    <label for="birthDate" class="block text-sm font-medium text-gray-700">Birth Date</label>
+                    <input type="date" id="birthDate" required
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                </div>
+            </div>
+        </div>
+
+        <div class="flex justify-end space-x-4 mt-6">
+            <button id="cancel-button" onclick="backHome()"
+                class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400">Cancel</button>
+            <button id="submit-button" type="button" onclick="validateForm(event)"
+                class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Update</button>
+        </div>
+    </form>
+</section>
+<script>
+    function backHome() {
+        window.location.href = "/";
+    }
+
+    function validateForm(event) {
+        event.preventDefault();
+
+        const rollNo = document.getElementById("rollNo").value.trim();
+        const nrc = document.getElementById("nrc").value.trim();
+        const phoneNumber = document.getElementById("phoneNumber").value.trim();
+
+        const rollNoPattern = /^(1cst|2cs|3cs|4cs|5cs)-([1-9][0-9]?|100)$/;
+        const nrcPattern = /^([1-9]|1[0-4])\/[a-zA-Z]{3}\((n|p)\)\d{6}$/;
+        const phonePattern = /^(09[246789]\d{8}|(\d{4,9}))$/;
+
+        if (!rollNoPattern.test(rollNo)) {
+            alert("Invalid roll number. Roll number must be in the format like 1cst-1 to 1cst-100 and 2cs-1 to 2cs-100 and so on.");
+            return false;
+        }
+
+        if (!nrcPattern.test(nrc)) {
+            alert("Invalid NRC. NRC must be in the format like 14/zln(n)187660 where 14 may be 1 to 14, zln are three characters, (n) is n or p, and 187660 is six digits.");
+            return false;
+        }
+
+        if (!phonePattern.test(phoneNumber)) {
+            alert("Invalid phone number. Phone number must be between 4 and 9 digits, or start with 09 followed by 11 digits with the third digit being 2, 4, 6, 7, 8, or 9.");
+            return false;
+        }
+
+        const image_uploaded = uploadImage(document.getElementById("firm-image"));
+        image_uploaded
+            .then((result) => {
+                if (result.ok) {
+                    const update_data = {
+                        student_id: document.getElementById("studentId").value,
+                        name: document.getElementById("fullName").value,
+                        picture_uri: result.uri,
+                        roll_no: document.getElementById("rollNo").value,
+                        nrc: document.getElementById("nrc").value,
+                        current_semester: document.getElementById("currentSemester").value,
+                        father_name: document.getElementById("fathersName").value,
+                        address: document.getElementById("address").value,
+                        email: document.getElementById("emailAddress").value,
+                        phone_no: document.getElementById("phoneNumber").value,
+                        birth_date: document.getElementById("birthDate").value,
+                    };
+                    if (requestRegister("/student/update", update_data, document.getElementById("alert-container"))) {
+                        document.getElementById("updateForm").reset();
+                    }
+                }
+            })
+            .catch((err) => console.error(err));
+    }
+
+    const fileInput = document.getElementById("firm-image");
+    const imagePreview = document.getElementById("imagePreview");
+
+    fileInput.addEventListener("change", function () {
+        const reader = new FileReader();
+        reader.onload = function () {
+            imagePreview.src = reader.result;
+        };
+        reader.readAsDataURL(fileInput.files[0]);
+    });
+</script>

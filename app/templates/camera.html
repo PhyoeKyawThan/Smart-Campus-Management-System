@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Scanner</title>
+    <style>
+        #video {
+            width: 500px;
+            height: 500px;
+        }
+    </style>
+</head>
+<body>
+    <video id="video" autoplay></video>
+    <canvas id="canvas" hidden></canvas>
+    <div id="result"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.js"></script>
+    <script>
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const resultDiv = document.getElementById('result');
+        const canvasContext = canvas.getContext('2d');
+
+        navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } })
+            .then((stream) => {
+                video.srcObject = stream;
+                video.setAttribute('playsinline', true); // required to tell iOS safari we don't want fullscreen
+                video.play();
+                requestAnimationFrame(tick);
+            });
+
+        let lastCode = null;
+        let waiting = false;
+
+        async function moveServo(position) {
+            const response = await fetch(`http://192.168.1.25/move?status=open`);
+            if (response.ok) {
+                return response.text();
+            } else {
+                throw new Error('Servo move failed');
+            }
+        }
+
+        async function handleQRCode(code) {
+            if (code.data) {
+                lastCode = code.data;
+                resultDiv.innerText = `Detected QR Code: ${code.data}`;
+                console.log(code.data);
+                console.log(typeof(code.data));
+                const response = await fetch("/controller/who_pass?data=" + code.data, {
+                    method: "POST"
+                });
+                if(response.ok){
+                    const text = await response.json();
+                    console.log(text);
+                }
+            }
+        }
+
+        function tick() {
+            if (!waiting && video.readyState === video.HAVE_ENOUGH_DATA) {
+                canvas.height = video.videoHeight;
+                canvas.width = video.videoWidth;
+                canvasContext.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+                const imageData = canvasContext.getImageData(0, 0, canvas.width, canvas.height);
+                const code = jsQR(imageData.data, imageData.width, imageData.height, {
+                    inversionAttempts: 'dontInvert',
+                });
+
+                if (code) {
+                    drawLine(code.location.topLeftCorner, code.location.topRightCorner, '#FF3B58');
+                    drawLine(code.location.topRightCorner, code.location.bottomRightCorner, '#FF3B58');
+                    drawLine(code.location.bottomRightCorner, code.location.bottomLeftCorner, '#FF3B58');
+                    drawLine(code.location.bottomLeftCorner, code.location.topLeftCorner, '#FF3B58');
+                    if(code.data){
+                        handleQRCode(code);
+                        waiting = true;
+                        setTimeout(() => {
+                            waiting = false;
+                            console.log("Waited for 3 seconds, ready to scan again.");
+                        }, 3000);
+                    }
+                } else {
+                    resultDiv.innerText = 'No QR code detected.';
+                }
+            }
+            requestAnimationFrame(tick);
+        }
+
+        function drawLine(begin, end, color) {
+            canvasContext.beginPath();
+            canvasContext.moveTo(begin.x, begin.y);
+            canvasContext.lineTo(end.x, end.y);
+            canvasContext.lineWidth = 4;
+            canvasContext.strokeStyle = color;
+            canvasContext.stroke();
+        }
+    </script>
+</body>
+</html>
