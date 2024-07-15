@@ -1,31 +1,110 @@
 from .models import *
 from flask import current_app
+from sqlalchemy import desc
 
 class ViewModel():
     def __init__(self) -> None:
         pass
     
-    def get_student_info(self) -> list:
+    def get_student_info(self, limit=10, offset=0, order_by_date_desc=True) -> list:
         try:
-            students = db.session.execute(
+            query = db.select(
+                Student.student_id,
+                Student.picture_uri,
+                Student.name,
+                Student.roll_no,
+                Student.current_semester,   
+                Student.register_date
+            ).limit(limit).offset(offset)
+            
+            if order_by_date_desc:
+                query = query.order_by(desc(Student.register_date))
+            
+            results = db.session.execute(query).all()
+            
+            students = [
+                {
+                    "student_id": row[0],
+                    "picture_uri": row[1],
+                    "name": row[2],
+                    "roll_no": row[3],
+                    "current_semester": row[4],
+                    "register_date": str(row[5])
+                }
+                for row in results
+            ]
+            return students
+        except Exception as err:
+            print(err)
+            return []
+        
+    def search_student_by_roll(self, roll_no) -> list:
+        try:
+            # Adjust the query to use `like()` for searching roll_no
+            results = db.session.execute(
                 db.select(
                     Student.student_id,
                     Student.picture_uri,
                     Student.name,
                     Student.roll_no,
-                    Student.current_semester,   
+                    Student.current_semester,
                     Student.register_date
-                )
+                ).where(Student.roll_no.like(f'%{roll_no}%'))  # Using LIKE for partial matching
             ).all()
+            students = [
+                {
+                    "student_id": row[0],
+                    "picture_uri": row[1],
+                    "name": row[2],
+                    "roll_no": row[3],
+                    "current_semester": row[4],
+                    "register_date": str(row[5])
+                }
+                for row in results
+                
+            ]
             return students
         except Exception as err:
             print(err)
-            return list()
+            return []
 
     
-    def get_teacher_info(self) -> list:
+    def get_teacher_info(self, limit=10, offset=0, order_by_date_desc=True) -> list:
         try:
-            teachers = db.session.execute(
+            query = db.select(
+                Teacher.teacher_id,
+                Teacher.picture_uri,
+                Teacher.name,
+                Teacher.department,
+                Teacher.position,   
+                Teacher.register_date
+            ).limit(limit).offset(offset)
+            
+            if order_by_date_desc:
+                query = query.order_by(desc(Teacher.register_date))
+            
+            results = db.session.execute(query).all()
+            teachers = [
+                {
+                    "teacher_id": row[0],
+                    "picture_uri": row[1],
+                    "name": row[2],
+                    "department": row[3],
+                    "position": row[4],
+                    "register_date": str(row[5])
+                }
+                for row in results
+                
+            ]
+            return teachers
+        except Exception as err:
+            print(err)
+            return []
+    
+    def search_teacher_by_name(self, name) -> list:
+        try:
+            # Adjust the query to use `like()` for searching roll_no
+            results = db.session.execute(
                 db.select(
                     Teacher.teacher_id,
                     Teacher.picture_uri,
@@ -33,42 +112,63 @@ class ViewModel():
                     Teacher.department,
                     Teacher.position,   
                     Teacher.register_date
-                )
+                ).where(Teacher.name.like(f'%{name}%'))  # Using LIKE for partial matching
             ).all()
+            teachers = [
+                {
+                    "teacher_id": row[0],
+                    "picture_uri": row[1],
+                    "name": row[2],
+                    "department": row[3],
+                    "position": row[4],
+                    "register_date": str(row[5])
+                }
+                for row in results
+                
+            ]
             return teachers
         except Exception as err:
-            return list()
+            print(err)
+            return []
     
-    def get_staff_info(self) -> list:
+    def get_staff_info(self, order_by_date_desc=True) -> list:
         try:
-            staffs = db.session.execute(
-                db.select(
-                    Staff.staff_id,
-                    Staff.picture_uri,
-                    Staff.nrc,
-                    Staff.name,
-                    Staff.position,   
-                    Staff.register_date
-                )
-            ).all()
+            query = db.select(
+                Staff.staff_id,
+                Staff.picture_uri,
+                Staff.nrc,
+                Staff.name,
+                Staff.position,   
+                Staff.register_date
+            )
+            
+            if order_by_date_desc:
+                query = query.order_by(desc(Staff.register_date))
+            
+            staffs = db.session.execute(query).all()
             return staffs
         except Exception as err:
-            return list()
+            print(err)
+            return []
 
-    def get_guest_info(self) -> list:
+    def get_guest_info(self, order_by_date_desc=True) -> list:
         try:
-            guests = db.session.execute(
-                db.select(
-                    Guest.guest_id,
-                    Guest.picture_uri,
-                    Guest.name,
-                    Guest.token,   
-                    Guest.register_date
-                )
-            ).all()
+            query = db.select(
+                Guest.guest_id,
+                Guest.picture_uri,
+                Guest.name,
+                Guest.token,   
+                Guest.register_date
+            )
+            
+            if order_by_date_desc:
+                query = query.order_by(desc(Guest.register_date))
+            
+            guests = db.session.execute(query).all()
             return guests
         except Exception as err:
-            return list()
+            print(err)
+            return []
     
     def gate_passes(self, which_: str) -> list:
         try:

@@ -1,0 +1,50 @@
+<!-- student list -->
+<div class="w-full h-full rounded-xl shadow-xl p-5 overflow-scroll" id="teacher-container">
+    <header class="flex flex-row justify-between w-full">
+      <h1 class="font-bold text-slate-400 mb-2">Teachers</h1>
+      <div class="text-right">
+        <a href="/register_teacher"
+          class="flex flex-row mr-2 pt-2 pb-2 pr-4 pl-4 rounded-md bg-sky-300 font-bold hover:bg-sky-200">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd"
+              d="M10 3a1 1 0 00-1 1v5H4a1 1 0 100 2h5v5a1 1 0 102 0v-5h5a1 1 0 100-2h-5V4a1 1 0 00-1-1z"
+              clip-rule="evenodd" />
+          </svg>
+          New Teacher
+        </a>
+      </div>
+    </header>
+  
+    <div class="w-full flex justify-end">
+      <input type="text" name="" id="search-teacher-name-field" placeholder="Teacher name...." class="p-1 rounded-md m-2 text-sm" onchange="search_teacher()">
+    </div>
+    <section class="w-full h-4/5 bg-slate-200 rounded-xl overflow-scroll">
+      <table class="w-full">
+        <thead>
+          <tr>
+            <th class="text-center p-2 border-b border-slate-400">#</th>
+            <th class="text-center p-2 border-b border-slate-400">Profile</th>
+            <th class="text-center p-2 border-b border-slate-400">Name</th>
+            <th class="text-center p-2 border-b border-slate-400">department</th>
+            <th class="text-center p-2 border-b border-slate-400">position</th>
+            <th class="text-center p-2 border-b border-slate-400">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+  
+        </tbody>
+      </table>
+    </section>
+    <section id="pignation" class="fixed bottom-5 right-10">
+      <button class="bg-slate-300 text-slate-400 pt-2 pb-2 pr-4 pl-4 rounded-md"
+        onclick="previousRows(event)">Previous</button>
+      <button class="bg-slate-300 text-slate-800 pt-2 pb-2 pr-4 pl-4 rounded-md bg-sky-400" onclick="nextRows(event)"
+        id="prev-btn">Next</button>
+    </section>
+  </div>
+  <!-- update form  -->
+  {% include "teacher/update_teacher.html" %}
+  
+  <script src="{{ url_for('static', filename='js/teacher.js' )}}"></script>
+  <script src="{{ url_for('static', filename='js/ViewInfo.js' )}}"></script>

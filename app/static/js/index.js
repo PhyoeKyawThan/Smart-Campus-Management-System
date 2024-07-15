@@ -42,6 +42,8 @@ function close_form(main_container_id, form_id) {
   form_.classList.add("hidden");
 }
 
+
+
 // image upload
 async function uploadImage(fileInput, is_who) {
   const formData = new FormData();
@@ -80,4 +82,27 @@ async function update_data(update_endpoint, data_object){
     return true;
   }
   return false;
+}
+
+async function register_data(update_endpoint, data_object){
+  const response = await fetch(update_endpoint, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data_object)
+  });
+  if(response.ok){
+    return true;
+  }
+  return false;
+}
+
+async function search(end_point, input_id){
+  const value = document.getElementById(input_id);
+  const response = await fetch(end_point + value.value);
+  if(response.ok){
+    return await response.json();
+  }
+  return [];
 }

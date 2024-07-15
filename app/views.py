@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, abort, jsonify, request
 from . import db
 from .assets.validate import is_admin_in_session
 from .viewModel import ViewModel
+from json import dumps
 
 views = Blueprint("views", __name__)
 
@@ -16,8 +17,8 @@ def home():
 
 @views.route("/page/<string:page>")
 def get_page(page: str):
-    view = ViewModel()
-    return render_template(f"{page}/index.html", students=view.get_student_info())
+    return render_template(f"{page}/index.html")
+
 
 @views.route("/get_info/<string:which>")
 def get_info(which):
@@ -31,19 +32,46 @@ def get_info(which):
 def camera():
     return render_template("camera.html")
 
-@views.route("/students")
-def student_views():
+@views.route("/get_all_students/<int:limit>/<int:offset>")
+def student_views(limit: int, offset: int):
     if not is_admin_in_session():
         return render_template("admin_login.html")
-    from .models import get_student_info
-    return render_template("student_view.html", students=get_student_info())
+    view = ViewModel()
+    students = view.get_student_info(limit, offset)
+    return jsonify(students)
 
+@views.route("/search_student/<string:roll_no>")
+def get_student_id(roll_no):
+    view = ViewModel()
+    student = view.search_student_by_roll(roll_no)
+    return jsonify(student)
 
 @views.route("/register_student")
 def student_register_view():
     if not is_admin_in_session():
         return render_template("admin_login.html")
     return render_template("student/register.html")
+# student
+@views.route("/get_all_teachers/<int:limit>/<int:offset>")
+def teacher_views(limit: int, offset: int):
+    if not is_admin_in_session():
+        return render_template("admin_login.html")
+    view = ViewModel()
+    teachers = view.get_teacher_info(limit, offset)
+    return jsonify(teachers)
+
+@views.route("/search_teacher/<string:name>")
+def get_teacher(name):
+    view = ViewModel()
+    teacher = view.search_teacher_by_name(name)
+    return jsonify(teacher)
+
+@views.route("/register_teacher")
+def teacher_register_view():
+    if not is_admin_in_session():
+        return render_template("admin_login.html")
+    return render_template("teacher/register.html")
+# teacher
 
 @views.route("/admin_login")
 def admin_login_view():

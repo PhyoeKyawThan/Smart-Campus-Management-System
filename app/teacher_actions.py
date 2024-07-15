@@ -25,6 +25,7 @@ def register_teacher():
                 "status": 403,
                 "message": "Be sure your datas all set"
             }), 403
+        is_picture =  teacher_data.get("picture_uri")    
         try:
             if teacher_exists(teacher_data["name"],
                               teacher_data["department"],
@@ -36,7 +37,8 @@ def register_teacher():
             # if teacher doesn't exist 
             new_teacher = Teacher()
             new_teacher.name = teacher_data["name"]
-            new_teacher.picture_uri = teacher_data["picture_uri"]
+            if is_picture:
+                new_teacher.picture_uri = teacher_data["picture_uri"]
             new_teacher.department = teacher_data["department"]
             new_teacher.position = teacher_data["position"]
             new_teacher.nrc = teacher_data["nrc"]
@@ -63,7 +65,7 @@ def register_teacher():
                 "message": "There is something wrong with the server."
             }), 500
             
-@teacher.route("/edit_teacher/<int:teacher_id>", methods=["POST"])
+@teacher.route("/update_teacher/<int:teacher_id>", methods=["POST"])
 def edit_teacher_info(teacher_id: int):
     """
     request_data: json 
@@ -89,10 +91,12 @@ def edit_teacher_info(teacher_id: int):
                 "status": 403,
                 "message": "Be sure your update datas all set"
          }), 403
+    is_picture =  edit_data.get("picture_uri")
     try: 
         teacher = Teacher.query.get(teacher_id)
         teacher.name = edit_data["name"]
-        teacher.picture_uri = edit_data["picture_uri"]
+        if is_picture:
+            teacher.picture_uri = edit_data["picture_uri"]
         teacher.department = edit_data["department"]
         teacher.position = edit_data["position"]
         teacher.nrc = edit_data["nrc"]
