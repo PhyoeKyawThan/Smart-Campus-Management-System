@@ -31,7 +31,7 @@ def register_staff():
                 }), 403
             
             # create staff 
-            new_staff = staff()
+            new_staff = Staff()
             new_staff.name = staff_data["name"]
             new_staff.picture_uri = staff_data["picture_uri"] 
             new_staff.position = staff_data["position"]
@@ -58,7 +58,7 @@ def register_staff():
                 "error_msg": err
             }), 500
 
-@staff.route("/edit_staff/<int:staff_id>", methods=["POST"])
+@staff.route("/update_staff/<int:staff_id>", methods=["POST"])
 def edit_staff_info(staff_id: int):
     """
     request_data: json 
@@ -83,11 +83,14 @@ def edit_staff_info(staff_id: int):
                 "status": 403,
                 "message": "Be sure ur updates all set"
             })
+        is_picture =  edit_data.get("picture_uri")
+        print(edit_data.get("picture_uri"))
         try:
             edit_staff = Staff.query.get(staff_id)
             if edit_staff:
                 edit_staff.name = edit_data["name"]
-                edit_staff.picture_uri = edit_data["picture_uri"] 
+                if is_picture:
+                    edit_staff.picture_uri = edit_data["picture_uri"] 
                 edit_staff.position = edit_data["position"]
                 edit_staff.father_name = edit_data["father_name"]
                 edit_staff.address = edit_data["address"]

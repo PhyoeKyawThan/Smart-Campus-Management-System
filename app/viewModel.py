@@ -131,7 +131,7 @@ class ViewModel():
             print(err)
             return []
     
-    def get_staff_info(self, order_by_date_desc=True) -> list:
+    def get_staff_info(self, limit=10, offset=0, order_by_date_desc=True) -> list:
         try:
             query = db.select(
                 Staff.staff_id,
@@ -140,16 +140,28 @@ class ViewModel():
                 Staff.name,
                 Staff.position,   
                 Staff.register_date
-            )
+            ).limit(limit).offset(offset)
             
             if order_by_date_desc:
                 query = query.order_by(desc(Staff.register_date))
             
-            staffs = db.session.execute(query).all()
+            results = db.session.execute(query).all()
+            staffs = [
+                {
+                    "staff_id": row[0],
+                    "picture_uri": row[1],
+                    "nrc": row[2],
+                    "name": row[3],
+                    "position": row[4],
+                    "register_date": str(row[5])
+                }
+                for row in results
+            ]
             return staffs
         except Exception as err:
             print(err)
             return []
+
 
     def get_guest_info(self, order_by_date_desc=True) -> list:
         try:

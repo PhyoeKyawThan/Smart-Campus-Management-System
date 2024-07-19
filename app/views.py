@@ -53,7 +53,7 @@ def student_register_view():
     return render_template("student/register.html")
 # student
 @views.route("/get_all_teachers/<int:limit>/<int:offset>")
-def teacher_views(limit: int, offset: int):
+def get_all_teachers(limit: int, offset: int):
     if not is_admin_in_session():
         return render_template("admin_login.html")
     view = ViewModel()
@@ -61,7 +61,7 @@ def teacher_views(limit: int, offset: int):
     return jsonify(teachers)
 
 @views.route("/search_teacher/<string:name>")
-def get_teacher(name):
+def search_teacher(name):
     view = ViewModel()
     teacher = view.search_teacher_by_name(name)
     return jsonify(teacher)
@@ -72,6 +72,21 @@ def teacher_register_view():
         return render_template("admin_login.html")
     return render_template("teacher/register.html")
 # teacher
+
+@views.route("/register_staff")
+def staff_register_view():
+    if not is_admin_in_session():
+        return render_template("admin_login.html")
+    return render_template("staff/register.html")
+#staff
+
+@views.route("/get_all_staff/<int:limit>/<int:offset>")
+def get_all_staff(limit: int, offset: int):
+    if not is_admin_in_session():
+        return render_template("admin_login.html")
+    view = ViewModel()
+    staff = view.get_staff_info(limit=limit ,offset=offset)
+    return jsonify(staff)
 
 @views.route("/admin_login")
 def admin_login_view():
