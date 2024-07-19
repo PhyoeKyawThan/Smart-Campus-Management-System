@@ -36,6 +36,11 @@ function studentCard(student) {
 function staffCard(staff) {
     return `
         <div class="max-w-sm mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+            <div>
+                <svg class="w-4 h-4 cursor-pointer" viewBox="0 0 20 20" fill="currentColor" onclick="closeView('staff-tab')">   
+                    <path fill-rule="evenodd" d="M14.707 5.293a1 1 0 0 0-1.414 0L10 8.586 6.707 5.293a1 1 0 1 0-1.414 1.414L8.586 10l-3.293 3.293a1 1 0 0 0 1.414 1.414L10 11.414l3.293 3.293a1 1 0 0 0 1.414-1.414L11.414 10l3.293-3.293a1 1 0 0 0 0-1.414z" clip-rule="evenodd" />
+                </svg>
+            </div>
             <img src="${staff.picture_uri}" class="w-full h-48 object-cover" alt="Staff Picture">
             <div class="p-6">
                 <h2 class="text-2xl font-semibold text-gray-800">Name: ${staff.name}</h2>
@@ -56,6 +61,11 @@ function staffCard(staff) {
 function teacherCard(teacher) {
     return `
         <div class="max-w-sm mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+            <div>
+                <svg class="w-4 h-4 cursor-pointer" viewBox="0 0 20 20" fill="currentColor" onclick="closeView('teacher-tab')">   
+                    <path fill-rule="evenodd" d="M14.707 5.293a1 1 0 0 0-1.414 0L10 8.586 6.707 5.293a1 1 0 1 0-1.414 1.414L8.586 10l-3.293 3.293a1 1 0 0 0 1.414 1.414L10 11.414l3.293 3.293a1 1 0 0 0 1.414-1.414L11.414 10l3.293-3.293a1 1 0 0 0 0-1.414z" clip-rule="evenodd" />
+                </svg>
+            </div>
             <img src="${teacher.picture_uri}" class="w-full h-48 object-cover" alt="Teacher Picture">
             <div class="p-6">
                 <h2 class="text-2xl font-semibold text-gray-800">Name: ${teacher.name}</h2>
