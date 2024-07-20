@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gate Passes</title>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const which_ = 'staff'; // Replace with actual parameter
+            const eventSource = new EventSource(`/sse_gate_passes/${which_}`);
+            
+            eventSource.onmessage = function(event) {
+                const data = JSON.parse(event.data);
+                if (data.error) {
+                    console.error(data.error);
+                } else {
+                    updateUI(data);
+                }
+            };
+
+            function updateUI(data) {
+                // Implement your UI update logic here
+                console.log(data);
+            }
+        });
+    </script>
+</head>
+<body>
+    <h1>Gate Passes</h1>
+    <div id="passes">
+        <!-- Pass data will be displayed here -->
+    </div>
+</body>
+</html>

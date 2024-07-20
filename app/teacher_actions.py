@@ -157,7 +157,7 @@ def get_teacher_info(teacher_id: int):
         "message": f"Student ID: {teacher_id} not found or exists"
     }), 404
 
-@teacher.route("/delete/<int:teacher_id>", methods=["GET"])
+@teacher.route("/delete/<int:teacher_id>", methods=["DELETE"])
 def delete_teacher(teacher_id: int):
     """
     summery: will take student_id as arg and delete if exists

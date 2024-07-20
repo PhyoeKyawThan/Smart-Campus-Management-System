@@ -1,5 +1,6 @@
 alembic==1.13.1
 asgiref==3.8.1
+bidict==0.23.1
 blinker==1.8.2
 certifi==2024.6.2
 charset-normalizer==3.3.2
@@ -9,8 +10,10 @@ Flask==3.0.3
 Flask-Mail==0.9.1
 Flask-Migrate==4.0.7
 Flask-QRcode==3.1.0
+Flask-SocketIO==5.3.6
 Flask-SQLAlchemy==3.1.1
 greenlet==3.0.3
+h11==0.14.0
 idna==3.7
 itsdangerous==2.2.0
 Jinja2==3.1.4
@@ -24,12 +27,16 @@ pandas==2.2.2
 pillow==10.3.0
 pypng==0.20220715.0
 python-dateutil==2.9.0.post0
+python-engineio==4.9.1
+python-socketio==5.11.3
 pytz==2024.1
 qrcode==7.4.2
 requests==2.32.3
+simple-websocket==1.0.0
 six==1.16.0
 SQLAlchemy==2.0.30
 typing_extensions==4.11.0
 tzdata==2024.1
 urllib3==2.2.1
 Werkzeug==3.0.3
+wsproto==1.2.0

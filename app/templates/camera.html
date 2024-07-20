@@ -35,7 +35,7 @@
         let waiting = false;
 
         async function moveServo(position) {
-            const response = await fetch(`http://192.168.1.25/move?status=open`);
+            const response = await fetch(`http://192.168.248.67/move?state=open`);
             if (response.ok) {
                 return response.text();
             } else {
@@ -54,6 +54,9 @@
                 });
                 if(response.ok){
                     const text = await response.json();
+                    if(text.status){
+                        await moveServo('0');
+                    }
                     console.log(text);
                 }
             }

@@ -3,9 +3,10 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_mail import Mail, Message
 from flask_qrcode import QRcode
-
+# from flask_socketio import SocketIO
 # create db object
 db = SQLAlchemy()
+# socket = SocketIO()
 
 
 def app():
@@ -38,7 +39,6 @@ def app():
     # database create after app 
     with app.app_context():
         db.create_all()
-    
     return app
 
 app = app()

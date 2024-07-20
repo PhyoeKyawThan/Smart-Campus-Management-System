@@ -1,10 +1,20 @@
-from flask import Blueprint, render_template, abort, jsonify, request
+from flask import Blueprint, render_template, abort, jsonify, request, Response
 from . import db
 from .assets.validate import is_admin_in_session
 from .viewModel import ViewModel
-from json import dumps
+# from . import socket as socketio
+from .event_ import generate
 
 views = Blueprint("views", __name__)
+
+# @views.route("/test")
+# def test_event():
+#     return render_template("test.html")
+
+# @views.route('/stream_passes/<string:who>')
+# def stream(who):
+    # from flask import current_app
+    # return Response(generate(current_app, who), mimetype='text/event-stream')
 
 @views.route("/")
 def home():
@@ -22,7 +32,6 @@ def get_page(page: str):
 
 @views.route("/get_info/<string:which>")
 def get_info(which):
-    from json import dumps
     view = ViewModel()
     return jsonify({
         "data": view.gate_passes(which)
@@ -73,12 +82,13 @@ def teacher_register_view():
     return render_template("teacher/register.html")
 # teacher
 
+
+
 @views.route("/register_staff")
 def staff_register_view():
     if not is_admin_in_session():
         return render_template("admin_login.html")
     return render_template("staff/register.html")
-#staff
 
 @views.route("/get_all_staff/<int:limit>/<int:offset>")
 def get_all_staff(limit: int, offset: int):
@@ -88,28 +98,42 @@ def get_all_staff(limit: int, offset: int):
     staff = view.get_staff_info(limit=limit ,offset=offset)
     return jsonify(staff)
 
+@views.route("/search_staff/<string:name>")
+def search_staff(name):
+    view = ViewModel()
+    teacher = view.search_staff_by_name(name)
+    return jsonify(teacher)
+#staff
 @views.route("/admin_login")
 def admin_login_view():
     return render_template("admin_login.html")
+
+@views.route("/get_passes/<string:which_>")
+def get_passes(which_):
+    if not is_admin_in_session():
+        return render_template("admin_login.html")
+    view = ViewModel()
+    passes = view.gate_passes(which_)
+    return jsonify(passes)
 
 @views.route("/get_hash")
 def get_hash():
     from .models import Student, Teacher, Staff
     from werkzeug.security import generate_password_hash
     import json
-    # test_stu = Teacher.query.get(1)
+    test_stu = Student.query.get(5)
     # test_tec = Teacher.query.get(1)
-    people = Staff.query.get(1)
-    # format_hash = {
-    #                 "student_id": test_stu.student_id,
-    #                 "name": test_stu.name,
-    #                 "roll_no": test_stu.roll_no,
-    #                 "father_name": test_stu.father_name,
-    #                 "current_semester": test_stu.current_semester
-    #    #                 "roll_no": test_stu.roll_no,
-    #                 "father_name": test_stu.father_name,
-    #                 "current_semester": test_stu.current_semester
-    #             }
+    # people = Staff.query.get(6)
+    format_hash = {
+                    "student_id": test_stu.student_id,
+                    "name": test_stu.name,
+                    "roll_no": test_stu.roll_no,
+                    "father_name": test_stu.father_name,
+                    "current_semester": test_stu.current_semester,
+                    "roll_no": test_stu.roll_no,
+                    "father_name": test_stu.father_name,
+                    "current_semester": test_stu.current_semester
+                }
     # format_hash = {
     #                 "teacher_id": test_tec.teacher_id,
     #                 "name": test_tec.name,
@@ -148,15 +172,15 @@ def get_hash():
     #                 "nrc": test_tec.nrc,
     #                 "birth_date": str(test_tec.birth_date)
     #             }
-    format_hash = {
-                    "staff_id": people.staff_id,
-                    "name": people.name,
-                    "position": people.position,
-                    "birth_date": str(people.birth_date)
-                }
+    # format_hash = {
+    #                 "staff_id": people.staff_id,
+    #                 "name": people.name,
+    #                 "position": people.position,
+    #                 "birth_date": str(people.birth_date)
+    #             }
     token = {
-        "id": people.staff_id,
-        "who": "staff",
+        "id": test_stu.student_id,
+        "who": "student",
         "token": generate_password_hash(json.dumps(format_hash))
     }
     return jsonify(token)

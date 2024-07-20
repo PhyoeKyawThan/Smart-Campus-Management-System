@@ -33,7 +33,7 @@ async function fetch_teacher(limit, offset, datas) {
                 <path d="M10 3a7 7 0 100 14 7 7 0 000-14zm1 8H9v2h2v-2zm0-4H9v2h2V7z" />
               </svg>
             </a>
-            <a class="p-2 text-slate-200 rounded-md bg-red-600 flex items-center justify-center w-fit" onclick="DeleteStudent(${teacher.teacher_id}, 'teacher-tab')">
+            <a class="p-2 text-slate-200 rounded-md bg-red-600 flex items-center justify-center w-fit" onclick="DeleteTeacher(${teacher.teacher_id}, 'teacher-tab')">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd"
                   d="M6 2a1 1 0 011-1h6a1 1 0 011 1v1H6V2zM5 4h10v1H5V4zm2 1v10a1 1 0 001 1h4a1 1 0 001-1V5H7z"
@@ -218,9 +218,9 @@ fileInput.addEventListener("change", function () {
 
 
 // delete student
-async function DeleteStudent(student_id, tab_id) {
+async function DeleteTeacher(teacher_id, tab_id) {
     const tab = document.getElementById(tab_id);
-    const response = await fetch(`/student/delete/${student_id}`, {
+    const response = await fetch(`/teacher/delete/${teacher_id}`, {
         method: "DELETE"
     });
     const is_deleted = await response.json();

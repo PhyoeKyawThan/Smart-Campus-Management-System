@@ -162,7 +162,34 @@ class ViewModel():
             print(err)
             return []
 
-
+    def search_staff_by_name(self, name) -> list:
+        try:
+            results = db.session.execute(
+                db.select(
+                    Staff.staff_id,
+                    Staff.picture_uri,
+                    Staff.nrc,
+                    Staff.name,
+                    Staff.position,   
+                    Staff.register_date
+            ).where(Staff.name.like(f'%{name}%'))).all()
+            
+            staffs = [
+                {
+                    "staff_id": row[0],
+                    "picture_uri": row[1],
+                    "nrc": row[2],
+                    "name": row[3],
+                    "position": row[4],
+                    "register_date": str(row[5])
+                }
+                for row in results
+            ]
+            return staffs
+        except Exception as err:
+            print(err)
+            return []
+        
     def get_guest_info(self, order_by_date_desc=True) -> list:
         try:
             query = db.select(
@@ -192,11 +219,12 @@ class ViewModel():
                 current_app.logger.info(time.pass_id)
                 people_id = self.__get_id_from_object(which_, pass_)
                 people = people.query.get(people_id)
-                current_app.logger.info(people)
+                
                 people_data = {
                     "name": people.name,
                     "picture_uri": people.picture_uri,
                     f"{which_}_id": people_id,
+                    "who": f"{which_}",
                     "is_today": True if datetime.now().date() == time.date else False,
                 }
                 in_times = []
@@ -205,6 +233,8 @@ class ViewModel():
                 out_times = []
                 for out_time in time.out_passes:
                     out_times.append(str(out_time.time))
+                in_times = sorted([str(in_time.time) for in_time in time.in_passes], reverse=True)
+                out_times = sorted([str(out_time.time) for out_time in time.out_passes], reverse=True)
                 data = {
                     "info": people_data,
                     "in_times": in_times,
@@ -212,6 +242,8 @@ class ViewModel():
                 }
                 times.append(data)
                 print(data)
+            # return sorted([ time for time in times ], reverse=True)
+            times.reverse()
             return times
         except Exception as err:
             current_app.logger.error(err)

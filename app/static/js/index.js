@@ -1,3 +1,16 @@
+if(getPageFromURL() !== "dashboard"){
+  openPage(getPageFromURL());
+}else{
+  openPage("dashboard");
+}
+
+// get page from url
+function getPageFromURL() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get('p') || 'dashboard';
+}
+
+
 function showOptions() {
   const option_container = document.getElementById("options-container");
   option_container.classList.toggle("hidden");
@@ -5,10 +18,21 @@ function showOptions() {
 
 async function openPage(page_) {
   const container = document.getElementById("tab-content-container");
+  const nav_btns = document.querySelectorAll("nav button");
+  nav_btns.forEach( btn => {
+    if(btn.id !== page_ + "-tab" ){
+      btn.classList.remove("text-slate-100");
+      btn.classList.remove("bg-sky-800");
+    }else{
+      btn.classList.add("text-slate-100");
+      btn.classList.add("bg-sky-800");
+    }
+  })
   const response = await fetch("/page/" + page_);
   if (response.ok) {
     const response_ = await response.text();
     container.innerHTML = response_;
+    history.pushState({}, null, `?p=${page_}`);
     reExecuteScripts(container);
   }
 }
