@@ -1,0 +1,54 @@
+<div class="w-full h-full rounded-xl shadow-xl p-5 overflow-scroll" id="dashboard-container">
+    <header class="flex flex-row justify-between w-full">
+        <h1 class="font-bold text-slate-400 mb-2">DASHBOARD</h1>
+        <div class="text-right">
+        </div>
+    </header>
+    <h1 class="font-bold text-2xl text-slate-600 text-center">Today's Rate</h1>
+    <section class="flex flex-row justify-between w-full mb-2">
+        <div class="percentage shadow-2xl p-5 text-center w-1/4" id="student">
+            <h1 class="text-xl font-bold text-slate-400">Student</h1>
+            <span class="font-bold text-slate-800"> 80 %</span>
+        </div>
+        <div class="percentage shadow-2xl p-5 text-center w-1/4" id="teacher">
+            <h1 class="text-xl font-bold text-slate-400">Teacher</h1>
+            <span class="font-bold text-slate-800"> 60 %</span>
+        </div>
+        <div class="percentage shadow-2xl p-5 text-center w-1/4" id="staff">
+            <h1 class="text-xl font-bold text-slate-400">Staff</h1>
+            <span class="font-bold text-slate-800"> 100 %</span>
+        </div>
+        <div class="percentage shadow-2xl p-5 text-center w-1/4" id="guest">
+            <h1 class="text-xl font-bold text-slate-400">Guest</h1>
+            <span class="font-bold text-slate-800"> 80 %</span>
+        </div>
+    </section>
+    <section id="today-passed">
+        <div class="flex flex-row">
+            <h1 class="p-2 text-xl font-bold text-slate-600">Last Pass </h1>
+            <select name="" id="in-out-option" onchange="handleInOut(event)" class="p-2 rounded-md shadow-xl font-bold">
+                <option value="in_times" selected>IN</option>
+                <option value="out_times">OUT</option>
+            </select>
+        </div>
+        <table class="w-full">
+            <thead>
+              <tr>
+                <th class="text-center p-2 border-b border-slate-400">#</th>
+                <th class="text-center p-2 border-b border-slate-400">PROFILE</th>
+                <th class="text-center p-2 border-b border-slate-400">NAME</th>
+                <th class="text-center p-2 border-b border-slate-400">IS_WHO</th>
+                <th class="text-center p-2 border-b border-slate-400">TIME</th>
+                <th class="text-center p-2 border-b border-slate-400">View</th>
+              </tr>
+            </thead>
+            <tbody>
+              
+      
+            </tbody>
+          </table>
+    </section>
+</div>
+
+<script src="{{ url_for('static', filename='js/dashboard.js' )}}"></script>
+<script src="{{ url_for('static', filename='js/ViewInfo.js' )}}"></script>

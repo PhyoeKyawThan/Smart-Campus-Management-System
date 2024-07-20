@@ -116,6 +116,13 @@ def get_passes(which_):
     passes = view.gate_passes(which_)
     return jsonify(passes)
 
+@views.route("/today_pass")
+def today_pass():
+    if not is_admin_in_session():
+        return render_template("admin_login.html")
+    view = ViewModel()
+    return jsonify(view.today_pass())
+
 @views.route("/get_hash")
 def get_hash():
     from .models import Student, Teacher, Staff

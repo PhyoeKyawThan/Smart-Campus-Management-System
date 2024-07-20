@@ -241,7 +241,6 @@ class ViewModel():
                     "out_times": out_times
                 }
                 times.append(data)
-                print(data)
             # return sorted([ time for time in times ], reverse=True)
             times.reverse()
             return times
@@ -249,6 +248,16 @@ class ViewModel():
             current_app.logger.error(err)
             return list()
     
+    def today_pass(self) -> list:
+        whos = ["student", "teacher", "staff", "guest"]
+        passes = []
+        today_pass = []
+        for who in whos:
+            passes += self.gate_passes(who)
+        for pass_ in passes:
+            if pass_["info"]["is_today"]:
+                today_pass.append(pass_)
+        return today_pass
     
     
     def __get_object(self, pronoun: int) -> tuple[object, object]:
