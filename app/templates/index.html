@@ -22,15 +22,21 @@
     <div class="w-1/2 text-right p-2">
       <button class="mr-4" onclick="showOptions()">
         <div class="w-fit flex justify-center aligns-center">
+          <span class="font-bold pt-3 pr-2">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+            class="w-5 h-5 ml-2 -mr-1 text-gray-800 font-bold">
+            <path fill-rule="evenodd"
+              d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4 4a.75.75 0 01-1.06 0l-4-4a.75.75 0 01.02-1.06z"
+              clip-rule="evenodd" />
+          </svg>
+          </span>
           <img src="../static/images/default.png" alt="" srcset="" class="block w-10 h-10 bg-white p-2 rounded-full">
-          <div class="p-2">
-            <i class="fa-solid fa-caret-down"></i>
-          </div>
         </div>
       </button>
       <div class="hidden absolute bg-slate-100 shadow-xl right-2 top-12" id="options-container">
-        <a href="" class="block w-20 font-bold text-slate-600 text-center p-2 hover:bg-white">Profile</a>
-        <a href="" class="block w-20 font-bold text-slate-600 text-center p-2 hover:bg-white">Logout</a>
+        <!-- <a href="" class="block w-20 font-bold text-slate-600 text-center p-2 hover:bg-white">Profile</a> -->
+        <a href="/auth/admin/logout"
+          class="block w-20 font-bold text-slate-600 text-center p-2 hover:bg-white">Logout</a>
       </div>
     </div>
   </header>
@@ -41,18 +47,17 @@
         <span class="h-fit font-bold text-white relative top-2 ml-2 underline">Rocky Rity</span>
       </a>
       <h3 class="text-center p-4 underline text-xl font-bold text-slate-400">CAMPUS</h3>
-      <button
-        class="w-full p-2 text-black font-bold bg-slate-300 hover:bg-sky-800 hover:text-slate-100 border-b" id="dashboard-tab"
-        onclick="openPage('dashboard')">DASHBOARD</button>
+      <button class="w-full p-2 text-black font-bold bg-slate-300 hover:bg-sky-800 hover:text-slate-100 border-b"
+        id="dashboard-tab" onclick="openPage('dashboard')">DASHBOARD</button>
       <button class="w-full p-2 text-black font-bold bg-slate-300 hover:bg-sky-800 hover:text-slate-100" id="passes-tab"
         onclick="openPage('passes')">PASSES</button>
       <h3 class="text-center p-4 underline text-xl font-bold text-slate-400">LIST</h3>
-      <button class="w-full p-2 text-black font-bold bg-slate-300 hover:bg-sky-800 hover:text-slate-100 border-b" id="student-tab"
-        onclick="openPage('student')">STUDENT</button>
-      <button class="w-full p-2 text-black font-bold bg-slate-300 hover:bg-sky-800 hover:text-slate-100 border-b" id="teacher-tab"
-        onclick="openPage('teacher')">TEACHER</button>
-      <button class="w-full p-2 text-black font-bold bg-slate-300 hover:bg-sky-800 hover:text-slate-100 border-b" id="staff-tab"
-        onclick="openPage('staff')">STAFF</button>
+      <button class="w-full p-2 text-black font-bold bg-slate-300 hover:bg-sky-800 hover:text-slate-100 border-b"
+        id="student-tab" onclick="openPage('student')">STUDENT</button>
+      <button class="w-full p-2 text-black font-bold bg-slate-300 hover:bg-sky-800 hover:text-slate-100 border-b"
+        id="teacher-tab" onclick="openPage('teacher')">TEACHER</button>
+      <button class="w-full p-2 text-black font-bold bg-slate-300 hover:bg-sky-800 hover:text-slate-100 border-b"
+        id="staff-tab" onclick="openPage('staff')">STAFF</button>
       <button class="w-full p-2 text-black font-bold bg-slate-300 hover:bg-sky-800 hover:text-slate-100 border-b"
         onclick="openPage('guest')">GUESS</button>
     </nav>
