@@ -28,6 +28,7 @@ function studentCard(student) {
                 <p class="text-gray-600"><strong>Email:</strong> ${student.email}</p>
                 <p class="text-gray-600"><strong>Birth Date:</strong> ${student.birth_date}</p>
                 <p class="text-gray-600"><strong>Register Date:</strong> ${student.register_date}</p>
+                <a class="text-sky-600 font-bold underline p-2 bg-slate-200" href="/qr_token/student/${student.student_id}">GET QR TOKEN</a>
             </div>
         </div>
     `;
@@ -53,6 +54,7 @@ function staffCard(staff) {
                 <p class="text-gray-600"><strong>Email:</strong> ${staff.email}</p>
                 <p class="text-gray-600"><strong>Birth Date:</strong> ${staff.birth_date}</p>
                 <p class="text-gray-600"><strong>Register Date:</strong> ${staff.register_date}</p>
+                <a class="text-sky-600 font-bold underline p-2 bg-slate-200" href="/qr_token/staff/${staff.staff_id}">GET QR TOKEN</a>
             </div>
         </div>
     `;
@@ -79,6 +81,7 @@ function teacherCard(teacher) {
                 <p class="text-gray-600"><strong>Email:</strong> ${teacher.email}</p>
                 <p class="text-gray-600"><strong>Birth Date:</strong> ${teacher.birth_date}</p>
                 <p class="text-gray-600"><strong>Register Date:</strong> ${teacher.register_date}</p>
+                <a class="text-sky-600 font-bold underline p-2 bg-slate-200" href="/qr_token/teacher/${teacher.teacher_id}">GET QR TOKEN</a>
             </div>
         </div>
     `;
@@ -97,6 +100,7 @@ function guestCard(guest) {
                 <h2 class="text-2xl font-semibold text-gray-800">Name: ${guest.name}</h2>
                 <p class="text-gray-600"><strong>Guest Token:</strong> ${guest.token}</p>
                 <p class="text-gray-600"><strong>Register Date: </strong> ${guest.register_date}</p>
+                <a class="text-sky-600 font-bold underline p-2 bg-slate-200" href="/qr_token/guest/${guest.guest_id}">GET QR TOKEN</a>
             </div>
         </div>
     `;
