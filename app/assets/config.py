@@ -1,6 +1,7 @@
 SECRET_KEY = "WER SSYA"
 SQLALCHEMY_DATABASE_URI = "mysql://domak:audrey@localhost:3306/beta_rocky"
 PROFILE_DIR = "app/static/profiles"
+QR_CODE_DIR = "app/qrcodes"
 # mail 
 MAIL_SERVER='smtp.gmail.com'
 MAIL_PORT = 465

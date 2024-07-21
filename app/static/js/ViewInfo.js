@@ -1,6 +1,6 @@
 async function fetchData(url) {
     const response = await fetch(url);
-    if(response.ok) {
+    if (response.ok) {
         const data = await response.json();
         return data;
     }
@@ -84,14 +84,32 @@ function teacherCard(teacher) {
     `;
 }
 
-function closeView(tab_id){
+function guestCard(guest) {
+    return `
+        <div class="max-w-sm mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+            <div>
+                <svg class="w-4 h-4 cursor-pointer" viewBox="0 0 20 20" fill="currentColor" onclick="closeView('guest-tab')">   
+                    <path fill-rule="evenodd" d="M14.707 5.293a1 1 0 0 0-1.414 0L10 8.586 6.707 5.293a1 1 0 1 0-1.414 1.414L8.586 10l-3.293 3.293a1 1 0 0 0 1.414 1.414L10 11.414l3.293 3.293a1 1 0 0 0 1.414-1.414L11.414 10l3.293-3.293a1 1 0 0 0 0-1.414z" clip-rule="evenodd" />
+                </svg>
+            </div>
+            <img src="${guest.picture_uri}" class="w-full h-48 object-cover" alt="Guest Picture">
+            <div class="p-6">
+                <h2 class="text-2xl font-semibold text-gray-800">Name: ${guest.name}</h2>
+                <p class="text-gray-600"><strong>Guest Token:</strong> ${guest.token}</p>
+                <p class="text-gray-600"><strong>Register Date: </strong> ${guest.register_date}</p>
+            </div>
+        </div>
+    `;
+}
+
+function closeView(tab_id) {
     document.getElementById(tab_id).click();
-  }
+}
 
 async function ViewInfo(is_who, id, container_id) {
     let url, data, cardHTML;
 
-    switch(is_who) {
+    switch (is_who) {
         case 'student':
             url = `/student/get_student/${id}`;
             data = await fetchData(url);
@@ -106,6 +124,11 @@ async function ViewInfo(is_who, id, container_id) {
             url = `/teacher/get_teacher/${id}`;
             data = await fetchData(url);
             cardHTML = teacherCard(data.teacher_info);
+            break;
+        case 'guest':
+            url = `/guest/get_guest/${id}`;
+            data = await fetchData(url);
+            cardHTML = guestCard(data.guest_info);
             break;
         default:
             cardHTML = "<h1 class='text-red-400'>Invalid category</h1>";

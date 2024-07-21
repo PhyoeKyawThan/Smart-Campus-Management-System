@@ -1,4 +1,8 @@
-<section id="add-guest" class="w-full">
-    <input type="text" name="name" id="name" placeholder="Guest Name..." class="shadow-xl rounded-md">
-    <input type="submit" value="Add Guest" class="p-2 font-bold text-sky-300 shadow-xl">
+<section id="add-guest" class=" w-full bg-slate-200 flex flex-row justify-center space-around p-2">
+    <label for="form-image" class="h-20 w-20 border-2 border-slate-800 rounded-md">
+        <img src="" id="imagePreview" alt="" class="w-full h-full">
+    </label>
+    <input type="file" name="guest-file" id="form-image" onchange="previewImage()" hidden>
+    <input type="text" name="name" id="guest-name" placeholder="Guest Name..." class="shadow-xl p-2 rounded-md text-slate-800 text-center bg-slate-200 m-2">
+    <input type="button" value="Add Guest" class="p-2 font-bold bg-slate-400 text-white shadow-xl p-2 m-2 rounded-md hover:bg-slate-600 cursor-pointer" onclick="addNewGuest()">
 </section>

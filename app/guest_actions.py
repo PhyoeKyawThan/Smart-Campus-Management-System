@@ -28,7 +28,7 @@ def register_guest():
             initial_token = generate_password_hash(guest_data["name"])
             token = generate_password_hash(initial_token)
             if guest_exists(guest_data["name"],
-                            guest_data["token"]):
+                            token):
                 return jsonify({
                     "status": 403,
                     "message": f"guest exists with this name - {guest_data["name"]}"
@@ -80,3 +80,37 @@ def delete_guest(guest_id: int):
             "status": 500,
             "message": "Error while deleting"
         })
+
+@guest.route("/get_guest/<int:guest_id>")
+def get_guest_info(guest_id: int):
+    """
+    summery: get guest all info by guest_id
+    """
+    if not is_admin_in_session():
+        abort(401)
+    try: 
+        guest = Guest.query.get(guest_id)
+        if guest:
+            # format guest data as dict to return json
+            guest_data = {
+                "guest_id": guest.guest_id,
+                "name": guest.name,
+                "picture_uri": guest.picture_uri,
+                "token": guest.token,
+                "register_date": guest.register_date
+            }
+            return jsonify({
+                "status": 200,
+                "guest_info": guest_data
+            }), 200
+    except Exception as err:
+        return jsonify({
+            "status": 500,
+            "message": "Error while looking for guest",
+            "error_msg": err
+        }), 500
+    return jsonify({
+        "status": 404,
+        "message": f"guest ID: {guest_id} not found or exists"
+    }), 404
+    

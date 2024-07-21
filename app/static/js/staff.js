@@ -5,7 +5,7 @@ async function fetch_staff(limit, offset, datas) {
     const staff_tbody = document.querySelector("#staff-container tbody");
     const response = await fetch(`/get_all_staff/${limit}/${offset}`);
     var staffs = await response.json();
-    if(datas){
+    if (datas) {
         staffs = datas;
     }
     var count = 1;
@@ -89,7 +89,7 @@ function fill_staff_update_form(staff_data) {
     // Set image preview
     const imagePreview = document.getElementById('imagePreview');
     console.log(staff_data);
-imagePreview.src = staff_data.picture_uri;
+    imagePreview.src = staff_data.picture_uri;
 
     // Set input fields
     document.getElementById('staffId').value = staff_data.staff_id;
@@ -185,18 +185,18 @@ function update_staff_data(data) {
         },
         body: JSON.stringify(data),
     })
-    .then(response => {
-        if (response.ok) {
-            alert("Staff information updated successfully.");
-            // Additional actions after successful update
-        } else {
+        .then(response => {
+            if (response.ok) {
+                alert("Staff information updated successfully.");
+                // Additional actions after successful update
+            } else {
+                alert("Failed to update staff information. Please try again.");
+            }
+        })
+        .catch(error => {
+            console.error('Error updating staff information:', error);
             alert("Failed to update staff information. Please try again.");
-        }
-    })
-    .catch(error => {
-        console.error('Error updating staff information:', error);
-        alert("Failed to update staff information. Please try again.");
-    });
+        });
 }
 // Function to handle image preview when file input changes
 var fileInput = document.getElementById("form-image");
@@ -214,24 +214,27 @@ fileInput.addEventListener("change", function () {
 // delete student
 async function DeleteStaff(staff_id, tab_id) {
     const tab = document.getElementById(tab_id);
-    const response = await fetch(`/staff/delete/${staff_id}`, {
-        method: "DELETE"
-    });
-    const is_deleted = await response.json();
-    if (is_deleted.status === 200) {
-        alert(is_deleted.message);
-        tab.click();
-    } else {
-        alert(is_deleted.message);
+    const confirm_delete = confirm("Are you sure to delete?");
+    if (confirm_delete) {
+        const response = await fetch(`/staff/delete/${staff_id}`, {
+            method: "DELETE"
+        });
+        const is_deleted = await response.json();
+        if (is_deleted.status === 200) {
+            alert(is_deleted.message);
+            tab.click();
+        } else {
+            alert(is_deleted.message);
+        }
     }
 }
 
-document.getElementById("search-staff-name-field").addEventListener("input", async (e)=>{
+document.getElementById("search-staff-name-field").addEventListener("input", async (e) => {
     const staffs = await search('/search_staff/', 'search-staff-name-field');
     limit = 10;
     offset = 0;
     fetch_staff(limit, offset, staffs);
-    if(e.target.value.length <= 0){
+    if (e.target.value.length <= 0) {
         fetch_staff(limit, offset, null);
     }
 })

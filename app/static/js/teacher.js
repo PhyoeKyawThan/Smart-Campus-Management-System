@@ -5,7 +5,7 @@ async function fetch_teacher(limit, offset, datas) {
     const teacher_tbody = document.querySelector("#teacher-container tbody");
     const response = await fetch(`/get_all_teachers/${limit}/${offset}`);
     var teachers = await response.json();
-    if(datas){
+    if (datas) {
         teachers = datas;
     }
     var count = 1;
@@ -191,18 +191,18 @@ function update_teacher_data(data) {
         },
         body: JSON.stringify(data),
     })
-    .then(response => {
-        if (response.ok) {
-            alert("Teacher information updated successfully.");
-            // Additional actions after successful update
-        } else {
+        .then(response => {
+            if (response.ok) {
+                alert("Teacher information updated successfully.");
+                // Additional actions after successful update
+            } else {
+                alert("Failed to update teacher information. Please try again.");
+            }
+        })
+        .catch(error => {
+            console.error('Error updating teacher information:', error);
             alert("Failed to update teacher information. Please try again.");
-        }
-    })
-    .catch(error => {
-        console.error('Error updating teacher information:', error);
-        alert("Failed to update teacher information. Please try again.");
-    });
+        });
 }
 // Function to handle image preview when file input changes
 var fileInput = document.getElementById("form-image");
@@ -220,24 +220,27 @@ fileInput.addEventListener("change", function () {
 // delete student
 async function DeleteTeacher(teacher_id, tab_id) {
     const tab = document.getElementById(tab_id);
-    const response = await fetch(`/teacher/delete/${teacher_id}`, {
-        method: "DELETE"
-    });
-    const is_deleted = await response.json();
-    if (is_deleted.status === 200) {
-        alert(is_deleted.message);
-        tab.click();
-    } else {
-        alert(is_deleted.message);
+    const confirm_delete = confirm("Are you sure to delete?");
+    if (confirm_delete) {
+        const response = await fetch(`/teacher/delete/${teacher_id}`, {
+            method: "DELETE"
+        });
+        const is_deleted = await response.json();
+        if (is_deleted.status === 200) {
+            alert(is_deleted.message);
+            tab.click();
+        } else {
+            alert(is_deleted.message);
+        }
     }
 }
 
-document.getElementById("search-teacher-name-field").addEventListener("input", async (e)=>{
+document.getElementById("search-teacher-name-field").addEventListener("input", async (e) => {
     const teachers = await search('/search_teacher/', 'search-teacher-name-field');
     limit = 10;
     offset = 0;
     fetch_teacher(limit, offset, teachers);
-    if(e.target.value.length <= 0){
+    if (e.target.value.length <= 0) {
         fetch_teacher(limit, offset, null);
     }
 })

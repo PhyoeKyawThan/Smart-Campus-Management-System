@@ -1,5 +1,6 @@
 from .models import *
 from flask import current_app
+import json
 from sqlalchemy import desc
 
 class ViewModel():
@@ -190,7 +191,7 @@ class ViewModel():
             print(err)
             return []
         
-    def get_guest_info(self, order_by_date_desc=True) -> list:
+    def get_guest_info(self, limit: int, offset: int,  order_by_date_desc=True) -> list:
         try:
             query = db.select(
                 Guest.guest_id,
@@ -198,22 +199,61 @@ class ViewModel():
                 Guest.name,
                 Guest.token,   
                 Guest.register_date
-            )
+            ).limit(limit).offset(offset)
             
             if order_by_date_desc:
                 query = query.order_by(desc(Guest.register_date))
             
-            guests = db.session.execute(query).all()
+            results = db.session.execute(query).all()
+            guests = [
+                {
+                    "guest_id": row[0],
+                    "picture_uri": row[1],
+                    # "nrc": row[2],
+                    "name": row[2],
+                    "token": row[3],
+                    "register_date": str(row[4])
+                }
+                for row in results
+            ]
+            return guests
+        except Exception as err:
+            print(err)
+            return []
+        
+    def search_by_guest_name(self, name) -> list:
+        try:
+            results = db.session.execute(
+                db.select(
+                Guest.guest_id,
+                Guest.picture_uri,
+                Guest.name,
+                Guest.token,   
+                Guest.register_date
+            ).where(Guest.name.like(f'%{name}%'))).all()
+            guests = [
+                {
+                    "guest_id": row[0],
+                    "picture_uri": row[1],
+                    # "nrc": row[2],
+                    "name": row[2],
+                    "token": row[3],
+                    "register_date": str(row[4])
+                }
+                for row in results
+            ]
             return guests
         except Exception as err:
             print(err)
             return []
     
-    def gate_passes(self, which_: str) -> list:
+    def gate_passes(self, which_: str, date: datetime = None) -> list:
         try:
             represent_number, people, people_pass = self.__get_object(which_)
             times = []
             passes = db.session.query(people_pass).order_by(desc(people_pass.date)).all()
+            if date:
+                passes = db.session.query(people_pass).filter(people_pass.date == date).order_by(desc(people_pass.date)).all()
             for pass_ in passes:
                 time = db.session.query(Time).where(Time.who_passed == represent_number, Time.pass_id == pass_.pass_id).first()
                 current_app.logger.info(time.pass_id)
@@ -225,6 +265,7 @@ class ViewModel():
                     "picture_uri": people.picture_uri,
                     f"{which_}_id": people_id,
                     "who": f"{which_}",
+                    "time_id": time.id,
                     "is_today": True if datetime.now().date() == time.date else False,
                 }
                 in_times = []
@@ -242,11 +283,26 @@ class ViewModel():
                 }
                 times.append(data)
             # return sorted([ time for time in times ], reverse=True)
-            times.reverse()
             return times
         except Exception as err:
             current_app.logger.error(err)
             return list()
+    
+    def get_times(self, time_id: int) -> dict:
+        try:
+            time = Time.query.get(time_id)
+            in_times = time.in_passes
+            out_times = time.out_passes
+            return {
+                "in_times": [str(time.time) for time in in_times],
+                "out_times": [str(time.time) for time in out_times]
+            }
+        except Exception as err:
+            current_app.logger.error(err)
+            return {
+                "in_times": [],
+                "out_times": []
+            }
     
     def today_pass(self) -> list:
         whos = ["student", "teacher", "staff", "guest"]
@@ -261,9 +317,24 @@ class ViewModel():
     
     def calculate_today_passed_rate(self) -> list:
         today_pass = self.today_pass()
+        student_ = Student.query.all()
+        teacher_ = Teacher.query.all()
+        staff_ = Staff.query.all()
+        guest_ = Guest.query.all()
+        
         student = [ people for people in today_pass if people["info"]["who"] == "student" ]
         teacher = [ people for people in today_pass if people["info"]["who"] == "teacher" ]
         staff = [ people for people in today_pass if people["info"]["who"] == "staff" ]
+        guest = [ people for people in today_pass if people["info"]["who"] == "guest" ]
+        
+        rate = {
+            "student": int((len(student) / len(student_)) * 100),
+            "teacher": int((len(teacher) / len(teacher_)) * 100),
+            "staff": int((len(staff) / len(staff_)) * 100),
+            "guest": int((len(guest) / len(guest_)) * 100)
+        }
+        return rate
+    
     def __get_object(self, pronoun: int) -> tuple[object, object]:
         
         match pronoun:

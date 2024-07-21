@@ -1,9 +1,10 @@
-from flask import Blueprint, render_template, abort, jsonify, request, Response
+from flask import Blueprint, render_template, abort, jsonify, request, Response, send_from_directory, current_app, send_file
 from . import db
 from .assets.validate import is_admin_in_session
 from .viewModel import ViewModel
 # from . import socket as socketio
 from .event_ import generate
+from os import path
 
 views = Blueprint("views", __name__)
 
@@ -116,6 +117,13 @@ def get_passes(which_):
     passes = view.gate_passes(which_)
     return jsonify(passes)
 
+@views.route("/search_pass_by_date/<string:who>/<string:date>")
+def get_passes_by_date(who: str, date):
+    if not is_admin_in_session():
+        return render_template("admin_login.html")
+    view = ViewModel()
+    return jsonify(view.gate_passes(who, date))
+
 @views.route("/today_pass")
 def today_pass():
     if not is_admin_in_session():
@@ -123,78 +131,46 @@ def today_pass():
     view = ViewModel()
     return jsonify(view.today_pass())
 # pass 
-@views.route("/get_hash")
-def get_hash():
-    from .models import Student, Teacher, Staff
-    from werkzeug.security import generate_password_hash
-    import json
-    test_stu = Student.query.get(5)
-    # test_tec = Teacher.query.get(1)
-    # people = Staff.query.get(6)
-    format_hash = {
-                    "student_id": test_stu.student_id,
-                    "name": test_stu.name,
-                    "roll_no": test_stu.roll_no,
-                    "father_name": test_stu.father_name,
-                    "current_semester": test_stu.current_semester,
-                    "roll_no": test_stu.roll_no,
-                    "father_name": test_stu.father_name,
-                    "current_semester": test_stu.current_semester
-                }
-    # format_hash = {
-    #                 "teacher_id": test_tec.teacher_id,
-    #                 "name": test_tec.name,
-    #                 "department": test_tec.department,
-    #                 "position": test_tec.position,
-    #                 "nrc": test_tec.nrc,
-    #                 "birth_date": str(test_tec.birth_date)
-    #             }#                 "roll_no": test_stu.roll_no,
-    #                 "father_name": test_stu.father_name,
-    #                 "current_semester": test_stu.current_semester
-    #             }
-    # format_hash = {
-    #                 "teacher_id": test_tec.teacher_id,
-    #                 "name": test_tec.name,
-    #                 "department": test_tec.department,
-    #                 "position": test_tec.position,
-    #                 "nrc": test_tec.nrc,
-    #                 "birth_date": str(test_tec.birth_date)
-    #             }    #                 "roll_no": test_stu.roll_no,
-    #                 "father_name": test_stu.father_name,
-    #                 "current_semester": test_stu.current_semester
-    #             }
-    # format_hash = {
-    #                 "teacher_id": test_tec.teacher_id,
-    #                 "name": test_tec.name,
-    #                 "department": test_tec.department,
-    #                 "position": test_tec.position,
-    #                 "nrc": test_tec.nrc,
-    #                 "birth_date": str(test_tec.birth_date)
-    #             }}
-    # format_hash = {
-    #                 "teacher_id": test_tec.teacher_id,
-    #                 "name": test_tec.name,
-    #                 "department": test_tec.department,
-    #                 "position": test_tec.position,
-    #                 "nrc": test_tec.nrc,
-    #                 "birth_date": str(test_tec.birth_date)
-    #             }
-    # format_hash = {
-    #                 "staff_id": people.staff_id,
-    #                 "name": people.name,
-    #                 "position": people.position,
-    #                 "birth_date": str(people.birth_date)
-    #             }
-    token = {
-        "id": test_stu.student_id,
-        "who": "student",
-        "token": generate_password_hash(json.dumps(format_hash))
-    }
-    return jsonify(token)
 
-@views.route("/times")
-def times():
-    from .models import get_passes
-    return jsonify({
-        "data": get_passes()
-    })
+@views.route("/get_all_guest/<int:limit>/<int:offset>")
+def get_all_guest(limit: int, offset: int):
+    if not is_admin_in_session():
+        return render_template("admin_login.html")
+    view = ViewModel()
+    staff = view.get_guest_info(limit=limit ,offset=offset)
+    return jsonify(staff)
+
+@views.route("/search_guest/<string:guest_name>")
+def search_guest(guest_name):
+    if not is_admin_in_session():
+        return render_template("admin_login.html")
+    view = ViewModel()
+    guests = view.search_by_guest_name(guest_name)
+    return jsonify(guests)
+# guest
+
+@views.route("/qr_token/<string:who>/<int:id>")
+def get_qr_token(who: str, id: int):
+    if not is_admin_in_session():
+        return render_template("admin_login.html")
+    from .data_generator import TokenGenerator
+    token = TokenGenerator(who)
+    token.generate(id)
+    token.get_qr_code(id)
+    print(current_app.config["QR_CODE_DIR"])
+    return send_file(path.join("qrcodes/", path.basename(token.QR_CODE_PATH))) 
+
+@views.route("/get_times/<int:time_id>")
+def get_times(time_id):
+    if not is_admin_in_session():
+        return render_template("admin_login.html")
+    view = ViewModel()
+    return jsonify(view.get_times(time_id))
+
+
+@views.route("/rate")
+def rate():
+    if not is_admin_in_session():
+        return render_template("admin_login.html")
+    view = ViewModel()
+    return jsonify(view.calculate_today_passed_rate())

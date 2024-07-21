@@ -5,7 +5,7 @@ async function fetch_students(limit, offset, datas) {
     const student_tbody = document.querySelector("#student-container tbody");
     const response = await fetch(`/get_all_students/${limit}/${offset}`);
     var students = await response.json();
-    if(datas){
+    if (datas) {
         students = datas;
     }
     var count = 1;
@@ -161,24 +161,27 @@ fileInput.addEventListener("change", function () {
 // delete student
 async function DeleteStudent(student_id, tab_id) {
     const tab = document.getElementById(tab_id);
-    const response = await fetch(`/student/delete/${student_id}`, {
-        method: "DELETE"
-    });
-    const is_deleted = await response.json();
-    if (is_deleted.status === 200) {
-        alert(is_deleted.message);
-        tab.click();
-    } else {
-        alert(is_deleted.message);
+    const confirm_delete = confirm("Are you sure to delete?");
+    if (confirm_delete) {
+        const response = await fetch(`/student/delete/${student_id}`, {
+            method: "DELETE"
+        });
+        const is_deleted = await response.json();
+        if (is_deleted.status === 200) {
+            alert(is_deleted.message);
+            tab.click();
+        } else {
+            alert(is_deleted.message);
+        }
     }
 }
 
-document.getElementById("search-roll-no-field").addEventListener("input", async (e)=>{
+document.getElementById("search-roll-no-field").addEventListener("input", async (e) => {
     const students = await search('/search_student/', 'search-roll-no-field');
     limit = 10;
     offset = 0;
     fetch_students(limit, offset, students);
-    if(e.target.value.length <= 0){
+    if (e.target.value.length <= 0) {
         fetch_students(limit, offset, null);
     }
 })

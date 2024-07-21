@@ -1,14 +1,14 @@
 // fetch all datas 
 async function fetch_pass(who, datas, in_out) {
   const pass_tbody = document.querySelector("#pass-container tbody");
-  const passes = await fetch_pass_data(who);
+  var passes = await fetch_pass_data(who);
   if (datas) {
     passes = datas;
   }
   pass_tbody.innerHTML = '';
   var count = 1;
   var who_id = who + "_id";
-  console.log(passes);
+
   passes.forEach(pass => {
     pass_tbody.innerHTML += `
         <tr>
@@ -19,7 +19,7 @@ async function fetch_pass(who, datas, in_out) {
           <td class="text-center font-bold">${pass.info.who}</td>
           <td class="text-center font-bold">${pass[in_out][0] ? pass[in_out][0] : "-"}</td>
           <td class="text-center font-bold flex flex-row justify-center space-x-2 aligns-center p-2">
-            <a class="p-2 text-slate-200 cursor-pointer rounded-md bg-green-200 flex items-center justify-center w-fit" onclick="ShowTimes(${pass},'pass-container')">
+            <a class="p-2 text-slate-200 cursor-pointer rounded-md bg-green-200 flex items-center justify-center w-fit" onclick="handleShowTimes('${pass.info.time_id}')">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -69,11 +69,54 @@ async function fetch_pass_data(who) {
   return passes;
 }
 
-function ShowTimes(pass_obj, container_){
-  const container = document.getElementById(container_);
-  const show_time_container = document.getElementById("show-time");
-  container.classList.add("hidden");
-  show_time_container.classList.remove("hidden");
-  console.log(pass_obj);
+var times = [];
 
+async function ShowTimes(time_id, container_) {
+  const container = document.getElementById(container_);
+  const show = document.getElementById("show-time");
+  const response = await fetch("/get_times/" + time_id);
+  if (response.ok) {
+    const data = await response.json();
+    console.log(data)
+  }
+}
+
+async function search_by_date(event) {
+  const who = document.getElementById("get-who").value;
+  const response = await fetch("/search_pass_by_date/" + who + "/" + event.target.value);
+  if (response.ok) {
+    const data = await response.json();
+    console.log(data)
+    fetch_pass(who, data, "in_times");
+  }
+}
+
+// times
+function showPopup(timeDetails) {
+  const popup = document.getElementById('time-popup');
+  const timeDetailsContainer = document.getElementById('time-details');
+  timeDetailsContainer.innerHTML = timeDetails;
+  popup.classList.remove('hidden');
+}
+
+function closePopup() {
+  const popup = document.getElementById('time-popup');
+  popup.classList.add('hidden');
+}
+
+function handleShowTimes(timeId) {
+  fetch(`/get_times/${timeId}`)
+    .then(response => response.json())
+    .then(data => {
+      const inTimes = data.in_times.join('<br>');
+      const outTimes = data.out_times.join('<br>');
+      const timeDetails = `
+              <h3 class="font-bold">IN Times:</h3>
+              <p>${inTimes}</p>
+              <h3 class="font-bold">OUT Times:</h3>
+              <p>${outTimes}</p>
+          `;
+      showPopup(timeDetails);
+    })
+    .catch(error => console.error('Error fetching times:', error));
 }

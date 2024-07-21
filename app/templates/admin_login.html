@@ -9,7 +9,7 @@
   <body>
     <div class="wrapper">
       <form action="/auth/admin/login" method="post">
-        <h1>Login</h1>
+        <h1>Welcome from Rocky MS</h1>
         <div class="message" style="font-weight: bold; color: red;">{{ request.args.get("message") if request.args.get("message") != None }}</div>
         <div class="input-box">
           <input type="text" placeholder="Username" name="username" required />
@@ -17,7 +17,7 @@
         <div class="input-box">
           <input type="Password" placeholder="Password" name="password" required/>
         </div>
-        <button type="submit" class="btn">Login</button>
+        <input type="submit" value="Login">
       </form>
     </div>
   </body>

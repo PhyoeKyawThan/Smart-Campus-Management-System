@@ -23,6 +23,7 @@ def app():
     from .student_actions import student
     from .teacher_actions import teacher
     from .staff_actions import staff
+    from .guest_actions import guest
     from .file_upload import file
     from .errors import errors
     from .esp.controller import controller
@@ -33,6 +34,7 @@ def app():
     app.register_blueprint(student, url_prefix="/student")
     app.register_blueprint(teacher, url_prefix="/teacher")
     app.register_blueprint(staff, url_prefix="/staff")
+    app.register_blueprint(guest, url_prefix="/guest")
     app.register_blueprint(file, url_prefix="/file")
     app.register_blueprint(controller, url_prefix="/controller")
 
