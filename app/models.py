@@ -13,6 +13,7 @@ class Admin(db.Model):
 
 class Student(db.Model):
     __tablename__ = "student"
+    
     student_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(50), nullable=False)
     picture_uri = db.Column(db.String(255), nullable=False)
@@ -35,6 +36,7 @@ class Student(db.Model):
 
 class Teacher(db.Model):
     __tablename__ = "teacher"
+    
     teacher_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(50), nullable=False)
     picture_uri = db.Column(db.String(255), nullable=False)
@@ -54,6 +56,7 @@ class Teacher(db.Model):
 
 class Staff(db.Model):
     __tablename__ = "staff"
+    
     staff_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(50), nullable=False)
     picture_uri = db.Column(db.String(255), nullable=False)
@@ -72,6 +75,7 @@ class Staff(db.Model):
 
 class Guest(db.Model):
     __tablename__ = "guest"
+    
     guest_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     picture_uri = db.Column(db.String(255), nullable=False)
     name = db.Column(db.String(50), nullable=False)

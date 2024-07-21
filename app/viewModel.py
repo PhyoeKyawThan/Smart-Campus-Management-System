@@ -259,7 +259,11 @@ class ViewModel():
                 today_pass.append(pass_)
         return today_pass
     
-    
+    def calculate_today_passed_rate(self) -> list:
+        today_pass = self.today_pass()
+        student = [ people for people in today_pass if people["info"]["who"] == "student" ]
+        teacher = [ people for people in today_pass if people["info"]["who"] == "teacher" ]
+        staff = [ people for people in today_pass if people["info"]["who"] == "staff" ]
     def __get_object(self, pronoun: int) -> tuple[object, object]:
         
         match pronoun:

@@ -1,4 +1,4 @@
-from ..models import Student, Admin, Teacher, Staff
+from ..models import Student, Admin, Teacher, Staff, Guest
 from flask import session
 
 def student_exists(roll_no: str)->bool:
@@ -36,6 +36,20 @@ def teacher_exists(name: str, department: str, position: str) -> bool:
     if teacher:
         return True
     return False
+
+def guest_exists(name: str, token: str) -> bool:
+    """
+    params: name: str, token: str
+    summery: check the guest is already exist or not when register new guest
+    """
+    try:
+        guest = Guest.query.filter_by(name=name, token=token).first()
+        if guest:
+            return True
+        return False
+    except Exception as err:
+        print(err)
+        return False
 
 def is_admin(username: str, password: str)->bool:
     """

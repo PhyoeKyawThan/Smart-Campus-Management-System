@@ -122,7 +122,7 @@ def today_pass():
         return render_template("admin_login.html")
     view = ViewModel()
     return jsonify(view.today_pass())
-
+# pass 
 @views.route("/get_hash")
 def get_hash():
     from .models import Student, Teacher, Staff
