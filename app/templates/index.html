@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rocky Rity</title>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/tailwind.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <style>
+    html,
+    body {
+      height: 100%;
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/@heroicons/vue@v2"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+</head>
+
+<body>
+  <header class="absolute w-4/5 right-0 flex bg-secondary-light">
+    <h1 class="text-xl font-bold color-primary w-1/2 p-4">Rocky Rity Management System</h1>
+    <div class="w-1/2 text-right p-2">
+      <button class="mr-4" onclick="showOptions()">
+        <div class="w-fit flex justify-center aligns-center">
+          <img src="../static/images/default.png" alt="" srcset="" class="block w-10 h-10 bg-white p-2 rounded-full">
+          <span class="font-bold p-2 text-white">
+            &#9660;
+          </span>
+        </div>
+      </button>
+      <div class="hidden absolute bg-slate-100 shadow-xl right-2 top-12" id="options-container">
+        <!-- <a href="" class="block w-20 font-bold text-slate-600 text-center p-2 hover:bg-white">Profile</a> -->
+        <a href="/auth/admin/logout"
+          class="block w-20 font-bold text-slate-600 text-center p-2 hover:bg-white">Logout</a>
+      </div>
+    </div>
+  </header>
+  <main class="flex w-full bg-slate-100 h-full">
+    <nav class="w-1/5 h-full bg-nav shadow-xl">
+      <a href="" class="flex justify-center aligns-center p-2 p-5 bg-secondary-dash">
+        <img src="../static/images/default.png" alt="" srcset="" class="block rounded-full bg-white w-10 h-10">
+        <span class="h-fit font-bold text-white relative top-2 ml-2 underline">Rocky Rity</span>
+      </a>
+      <h3 class="text-center p-4 underline text-xl font-bold text-slate-600">CAMPUS</h3>
+      <button class="w-full p-2 text-black font-bold bg-slate-300 hover:bg-sky-800 hover:text-slate-100 border-b"
+        id="dashboard-tab" onclick="openPage('dashboard')">DASHBOARD</button>
+      <button class="w-full p-2 text-black font-bold bg-slate-300 hover:bg-sky-800 hover:text-slate-100" id="passes-tab"
+        onclick="openPage('passes')">PASSES</button>
+      <h3 class="text-center p-4 underline text-xl font-bold text-slate-600">LIST</h3>
+      <button class="w-full p-2 text-black font-bold bg-slate-300 hover:bg-sky-800 hover:text-slate-100 border-b"
+        id="student-tab" onclick="openPage('student')">STUDENT</button>
+      <button class="w-full p-2 text-black font-bold bg-slate-300 hover:bg-sky-800 hover:text-slate-100 border-b"
+        id="teacher-tab" onclick="openPage('teacher')">TEACHER</button>
+      <button class="w-full p-2 text-black font-bold bg-slate-300 hover:bg-sky-800 hover:text-slate-100 border-b"
+        id="staff-tab" onclick="openPage('staff')">STAFF</button>
+      <button class="w-full p-2 text-black font-bold bg-slate-300 hover:bg-sky-800 hover:text-slate-100 border-b"
+        id="guest-tab" onclick="openPage('guest')">GUEST</button>
+    </nav>
+    <section class="w-4/5 h-full pt-20 p-10 text-black" id="tab-content-container">
+
+    </section>
+  </main>
+  <script src="{{ url_for('static', filename='node_modules/socket.io-client/dist/socket.io.js' )}}"></script>
+  <script src="{{ url_for('static', filename='js/index.js' )}}"></script>
+  <script src="{{ url_for('static', filename='js/loader.js' )}}"></script>
+</body>
+
+</html>

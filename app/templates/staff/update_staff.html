@@ -1,0 +1,92 @@
+<!-- Update form -->
+<section class="hidden w-full h-full rounded-xl shadow-xl p-5 overflow-scroll" id="staff-update-form">
+    <header class="text-2xl font-bold mb-4">Update Staff</header>
+    <form class="form" id="updateStaffForm">
+        <h2 id="alert-container" class="text-red-500 mb-4"></h2>
+        <div class="flex justify-between">
+            <div class="w-1/2 mr-2">
+                <div class="mb-4">
+                    <label for="form-image" class="block text-sm font-medium text-gray-700">Image:</label>
+                    <div class="relative w-32 h-32">
+                        <img id="imagePreview" src="" alt="Default Image"
+                            class="object-cover w-full h-full rounded-md" />
+                        <div
+                            class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white cursor-pointer">
+                            <label for="form-image" class="browse-button">Browse</label>
+                        </div>
+                    </div>
+                    <input type="file" id="form-image" name="form-image" accept="image/*" class="hidden" />
+                </div>
+
+                <div class="mb-4">
+                    <label for="staffId" class="block text-sm font-medium text-gray-700">Staff ID</label>
+                    <input type="text" id="staffId" placeholder="Enter staff ID" required
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                </div>
+
+                <div class="mb-4">
+                    <label for="fullName" class="block text-sm font-medium text-gray-700">Full Name</label>
+                    <input type="text" id="fullName" placeholder="Enter full name" required
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                </div>
+
+                <div class="mb-4">
+                    <label for="position" class="block text-sm font-medium text-gray-700">Position</label>
+                    <input type="text" id="position" placeholder="Enter position" required
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                </div>
+
+                <div class="mb-4">
+                    <label for="nrc" class="block text-sm font-medium text-gray-700">NRC</label>
+                    <input type="text" id="nrc" placeholder="Enter NRC" required
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                </div>
+
+                <div class="mb-4">
+                    <label for="fathersName" class="block text-sm font-medium text-gray-700">Father’s Name</label>
+                    <input type="text" id="fathersName" placeholder="Enter father’s name" required
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                </div>
+            </div>
+
+            <div class="w-1/2 ml-2">
+                <div class="mb-4">
+                    <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
+                    <input type="text" id="address" placeholder="Enter address" required
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                </div>
+
+                <div class="mb-4">
+                    <label for="emailAddress" class="block text-sm font-medium text-gray-700">Email Address</label>
+                    <input type="email" id="emailAddress" placeholder="Enter email address" required
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                </div>
+
+                <div class="mb-4">
+                    <label for="phoneNumber" class="block text-sm font-medium text-gray-700">Phone Number</label>
+                    <input type="text" id="phoneNumber" placeholder="Enter phone number" required
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                </div>
+
+                <div class="mb-4">
+                    <label for="birthDate" class="block text-sm font-medium text-gray-700">Birth Date</label>
+                    <input type="date" id="birthDate" required
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                </div>
+
+                <!-- <div class="mb-4">
+                    <label for="registerDate" class="block text-sm font-medium text-gray-700">Register Date</label>
+                    <input type="date" id="registerDate" required
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                </div> -->
+            </div>
+        </div>
+
+        <div class="flex justify-end space-x-4 mt-6">
+            <button id="cancel-button" type="button" onclick="close_form('staff-container', 'staff-update-form')"
+                class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400">Cancel</button>
+            <button id="submit-button" type="button" onclick="staffValidateForm(event)"
+                class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Update</button>
+        </div>
+    </form>
+</section>

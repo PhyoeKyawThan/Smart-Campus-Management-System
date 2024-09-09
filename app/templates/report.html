@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report</title>
+    <style>
+        * {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            font-size: 2em;
+            color: rgb(21, 114, 125);
+            margin: 0;
+            text-align: center;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td,
+        th {
+            border: 1px solid black;
+        }
+
+        .h-row {
+            border-bottom: 2px solid gray;
+        }
+
+        .h-row .col {
+            font-weight: bold;
+            font-size: 1.5em;
+        }
+
+        .col {
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .col img{
+            width: 60px;
+            height: 60px;
+        }
+        div{
+            text-align: center;
+        }
+        div img {
+            width: 100px;
+            height: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <div><img src="http://127.0.0.1:5000/static/images/default.png" alt="" srcset=""></div>
+    <h1>Rocky Rity Report for {{ report_date }}</h1>
+    <table class="data-container">
+        <thead class="h-row">
+            <th class="col">#</th>
+            <th class="col">IMAGE</th>
+            <th class="col">NAME</th>
+            <th class="col">IS_WHO</th>
+            <th class="col">IN_OUT</th>
+            <th class="col">TIME</th>
+        </thead>
+        <tbody class="d-row">
+            {% for time in times %}
+            <tr>
+                <td class="col">{{ loop.index }}</td>
+                <td class="col">
+                    <img src="http://127.0.0.1:5000/static/profiles/{{ time['who'] }}/{{ time['profile'] }}" alt="" srcset="">
+                </td>
+                <td class="col">{{ time["name"] }}</td>
+                <td class="col">{{ time["who"] }}</td>
+                <td class="col">{{ time["in_out"] }}</td>
+                <td class="col">{{ time["time"] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+
+</html>

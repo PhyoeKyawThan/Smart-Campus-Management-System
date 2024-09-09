@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script src="{{ url_for('static', filename='node_modules/socket.io-client/dist/socket.io.js' )}}"></script>
+    <script>
+        const socket = io("");
+        // socket.on('connected', (data)=> {
+            // console.log(data);
+        // });//     console.log(data);
+        // });
+
+        // // get update data
+        // socket.on("data-update", () => {
+            socket.on("pass_data", (data)=> {
+                data.data.forEach( data => console.log(data));
+                // console.log(typeof(data.data));
+            })
+        // })
+    </script>
+</body>
+
+</html>

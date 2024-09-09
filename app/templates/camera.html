@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Scanner</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        #video {
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: black;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <video id="video" autoplay></video>
+    <canvas id="canvas" hidden></canvas>
+    <div id="result">Initializing camera...</div>
+
+    <script src="{{ url_for('static', filename='node_modules/jsqr/dist/jsQR.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/camera.js')}}"></script>
+</body>
+</html>

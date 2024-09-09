@@ -1,0 +1,44 @@
+/* loader */
+.loader {
+    border-top-color: #3498db;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.bg-primary{
+    background-color: #36454F;
+}
+
+.color-primary{
+    color: #FAF3DD;
+}
+
+.bg-nav{
+    background-color: #FAF3DD;
+}
+
+.bg-secondary{
+    background-color: #92BCEA;
+}
+
+
+.bg-secondary-dash{
+    background-color: #19437a;
+}
+
+.bg-secondary-light{
+    background-color: #05458abb;
+}
+
+.dash_color{
+    color: black;
+}
