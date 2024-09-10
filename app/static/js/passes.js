@@ -95,7 +95,7 @@ async function search_by_date(event) {
   // if (response.ok) {
   // const data = await response.json();
   // console.log(data)
-  const datas = pass_datas.filter(pass => event.target.value === convert_date(pass.time));
+  const datas = pass_datas.filter(pass => event.target.value === convert_date(pass.date));
   // console.log(datas);
   if (datas.length === 0) {
     alert("Not Found");
@@ -106,8 +106,10 @@ async function search_by_date(event) {
 }
 
 function convert_date(date_) {
-  const date = new Date(date_);
-  return date.toISOString().split('T')[0];
+  // console.log(date_);
+  // const date = new Date(date_);
+  // return date.toISOString().split('T')[0];
+  return date_;z
 }
 
 // get report
