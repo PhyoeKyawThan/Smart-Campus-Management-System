@@ -42,3 +42,28 @@
 .dash_color{
     color: black;
 }
+
+.bg-sky-800{
+    background-color: rgb(7 89 133);
+}
+
+.text-slate-100{
+    color: rgb(241 245 249);
+}
+
+.back{
+    width: 50px;
+    height: 50px;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 50%;
+}
+
+.clock{
+    width: 50px;
+    height: 50px;
+}
+
+.bg-green-200{
+    background-color: rgba(0, 128, 0, 0.829);
+}

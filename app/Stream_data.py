@@ -6,7 +6,8 @@ from .viewModel import ViewModel
 @socket.on("connect")
 def connected():
     view = ViewModel()
-    passes  =view.get_passes_by_date()
+    from datetime import datetime
+    passes  =view.get_passes_by_date(datetime.now().date())
     emit("pass_data", {
         "data": passes
     })

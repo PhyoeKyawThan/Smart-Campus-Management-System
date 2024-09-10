@@ -261,13 +261,15 @@ class ViewModel():
             times += outtime.query.all() if not date else db.session.execute(db.select(OutTime).where(OutTime.time.like(f'%{date}%'))).all()
             # convert pure object when using db.session.execute return sqlalchemy.engine.row instance
             times = [time[0] if isinstance(time, Row) else time for time in times]
+            # for time in times:
+            #     print(time)
             tree = BST(times)
             tree.sort()
             times = tree.SORTED_DATA
             time_datas = []
             for time in times:
                 time_datas.append(self.__generate_formatted_time_data(time))
-            current_app.logger.info(time_datas)
+            # current_app.logger.info(time_datas)
             return time_datas
         except Exception as err:
             current_app.logger.error(err)

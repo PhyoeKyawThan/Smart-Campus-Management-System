@@ -183,7 +183,7 @@ def get_qr_token(who: str, id: int):
     from .data_generator import TokenGenerator
     token = TokenGenerator(who)
     token.generate(id)
-    # return jsonify(token.DICT_TOKEN)
+    return jsonify(token.DICT_TOKEN)
     token.get_qr_code(id)
     # print(current_app.config["QR_CODE_DIR"])
     return send_file(path.join("qrcodes/", path.basename(token.QR_CODE_PATH))) 
